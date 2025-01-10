@@ -1,0 +1,336 @@
+/* ======== Estilo General ======== */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* ======== Header ======== */
+.header {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    padding: 5px 0;
+    background: linear-gradient(135deg, #007bff, #00c6ff);
+    color: #fff;
+    margin-top: 3px;
+    margin-bottom: 5px; /* Reducir espacio */
+    height: 188px;
+}
+
+.logo {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: rotate(360deg) scale(1.1);
+}
+
+.site-title {
+    font-size: 1.6rem; /* Reducir tamaño */
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.highlight {
+    color: #ffcc00;
+    text-shadow: 2px 2px 10px rgba(255, 204, 0, 0.8);
+    font-style: italic;
+}
+
+/* Menú de navegación */
+.nav {
+    display: flex;
+    gap: 10px; /* Reducir espacio */
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 5px; /* Reducir espacio */
+}
+
+.nav-item {
+    list-style: none;
+}
+
+.nav-link {
+    color: #fff !important;
+    font-size: 0.9rem; /* Reducir tamaño */
+    font-weight: 400;
+    padding: 5px 12px; /* Reducir padding */
+    text-decoration: none;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #ff6b6b, #ffcc00);
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background: linear-gradient(135deg, #ffcc00, #ff6b6b);
+    color: #000;
+    transform: scale(1.1);
+}
+
+/* Contenedor principal */
+.container {
+    background-color: transparent;
+    padding: 30px; /* Reducir padding */
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    animation: slideIn 1s ease-out;
+    margin-bottom: 20px; /* Reducir espacio */
+}
+
+/* Título */
+.container h2 {
+    font-family: 'Permanent Marker', cursive, sans-serif;
+    color: #ff4081;
+    font-size: 2.2rem; /* Reducir tamaño */
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: bold;
+    margin-bottom: 15px; /* Reducir espacio */
+    text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.6);
+    animation: zoomIn 1s ease-out;
+}
+
+/* Párrafo */
+.container p {
+    font-family: 'Dosis', sans-serif;
+    color: #333;
+    font-size: 1.1rem; /* Reducir tamaño */
+    line-height: 1.6;
+    margin: 10px 0; /* Reducir espacio */
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+/* Efecto hover para el párrafo */
+.container p:hover {
+    color: #ff4081;
+    cursor: pointer;
+}
+
+/* Efecto hover en el llamado a la acción */
+.container p strong {
+    background: #ff4081;
+    padding: 8px 18px; /* Reducir padding */
+    border-radius: 30px;
+    color: #fff;
+    font-weight: bold;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.container p strong:hover {
+    background-color: #ff5722;
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Animación de entrada deslizante */
+@keyframes slideIn {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* Animación de zoom */
+@keyframes zoomIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ======== Botones Generales ======== */
+.btn {
+    font-size: 1rem; /* Reducir tamaño */
+    padding: 10px 20px; /* Reducir padding */
+    border-radius: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para el botón flotante de WhatsApp */
+.whatsapp-btn {
+  position: fixed;
+  bottom: 20px; /* Distancia desde el fondo */
+  right: 20px; /* Distancia desde el lado derecho */
+  background-color: #25d366; /* Color de fondo de WhatsApp */
+  color: #fff; /* Color del texto */
+  padding: 10px 20px;
+  border-radius: 50px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra para el botón */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  text-decoration: none; /* Elimina subrayado */
+  z-index: 9999; /* Asegura que el botón esté encima de otros elementos */
+  transition: all 0.3s ease;
+}
+
+.whatsapp-btn:hover {
+  background-color: #128c7e; /* Color más oscuro cuando se pasa el mouse */
+  transform: scale(1.1); /* Efecto de agrandar cuando se pasa el mouse */
+}
+
+.whatsapp-btn i {
+  margin-right: 10px; /* Espacio entre el icono y el texto */
+}
+
+
+/* ======== Botón Facebook ======== */
+.btn-primary {
+    background-color: #3b5998;
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 50px;
+    box-shadow: 0 4px 10px rgba(59, 89, 152, 0.4);
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary i {
+    font-size: 1.1rem; /* Reducir tamaño del icono */
+}
+
+.btn-primary:hover {
+    background-color: #2d4373;
+    box-shadow: 0 6px 15px rgba(45, 67, 115, 0.6);
+    transform: scale(1.05);
+}
+
+/* Asegura que todas las imágenes del carrusel tengan el mismo tamaño y se adapten bien */
+.carousel-inner {
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel-item {
+    height: 350px; /* Reducir altura del carrusel */
+}
+
+.carousel-item img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    transition: transform 0.5s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto de escala en las imágenes cuando se navega por el carrusel */
+.carousel-item img:hover {
+    transform: scale(1.05); /* Escala ligeramente la imagen */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Sombra para darle profundidad */
+}
+
+/* Botones de control del carrusel con símbolos <> */
+.carousel-control-prev, .carousel-control-next {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    padding: 8px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    color: #fff;
+    transition: background-color 0.3s ease;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.carousel-control-prev {
+    left: 15px;
+}
+
+.carousel-control-next {
+    right: 15px;
+}
+
+.carousel-control-prev:hover, .carousel-control-next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.carousel-item-next, .carousel-item-prev, .carousel-item.active {
+    transition: transform 0.5s ease-in-out;
+}
+
+/* ======== Sección de Contacto ======== */
+.contact-section {
+    background-color: #f1f1f1;
+    padding: 30px 0; /* Reducir padding */
+    text-align: center;
+}
+
+.contact-section a {
+    text-decoration: none;
+    color: #fff;
+}
+
+.contact-section a:hover {
+    color: #fff;
+    transform: scale(1.1);
+    transition: all 0.3s ease;
+}
+
+.contact-section a:active {
+    transform: scale(0.95);
+}
+
+/* ======== Responsividad ======== */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .nav {
+        flex-direction: column;
+        gap: 5px; /* Reducir espacio */
+    }
+
+    .btn-success, .btn-primary {
+        font-size: 1rem;
+        padding: 8px 16px;
+    }
+
+    .container h2 {
+        font-size: 1rem; /* Reducir tamaño */
+    }
+
+    .container p {
+        font-size: 1rem; /* Reducir tamaño */
+    }
+
+    .logo {
+        width: 50px;
+        height: 50px;
+    }
+}
