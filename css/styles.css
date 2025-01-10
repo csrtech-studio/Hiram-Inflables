@@ -19,8 +19,8 @@ body {
 }
 
 .logo {
-    width: 70px;
-    height: 70px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     object-fit: cover;
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
@@ -179,7 +179,7 @@ body {
   background-color: #25d366; /* Color de fondo de WhatsApp */
   color: #fff; /* Color del texto */
   padding: 10px 20px;
-  border-radius: 50px; /* Bordes redondeados */
+  border-radius: 30px; /* Bordes redondeados */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra para el botón */
   display: flex;
   align-items: center;
