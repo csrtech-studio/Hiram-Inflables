@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
   <header class="header bg-primary text-white py-3">
     <div class="container d-flex justify-content-between align-items-center">
@@ -15,7 +17,7 @@
         <img src="img/logo.png" alt="Logo Inflables Iram" class="logo me-3">
         <h1 class="site-title m-0">Inflables Hiram</h1>
       </div>
-  
+
       <!-- Menú -->
       <nav>
         <ul class="nav">
@@ -23,7 +25,7 @@
             <a class="nav-link btn-custom" href="index.html">Inicio</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link btn-custom" href="contactanos.html">Contáctanos</a>
+            <a class="nav-link btn-custom" href="contactanos.html">Resevar</a>
           </li>
           <li class="nav-item">
             <a class="nav-link btn-custom" href="admin.html">Administrador</a>
@@ -32,14 +34,104 @@
       </nav>
     </div>
   </header>
-
-  <div class="container mt-4">
-    <div class="row" id="productos-lista">
-      <!-- Los productos se cargarán aquí desde Firebase -->
-    </div>
+  <div class="productos-container">
+    <div class="productos-container">
+      <!-- Paquetes -->
+      <div class="categoria">
+          <h2>Paquetes:</h2>
+          <!-- Paquete 1 -->
+          <div class="producto">
+              <img src="img/paquete1.png" alt="Paquete 1" class="imagen-expandible">
+              <div class="detalles">
+                  <p><strong>PAQUETE 1</strong></p>
+                  <p><strong>Incluye:</strong> Sillas, mesas, decoración temática</p>
+                  <p><strong>Tiempo:</strong> 5 horas</p>
+                  <p><strong>Costo:</strong> $3,500 MXN</p>
+              </div>
+          </div>
+          <!-- Paquete 2 -->
+          <div class="producto">
+              <img src="img/paquete1.png" alt="Paquete 2" class="imagen-expandible">
+              <div class="detalles">
+                  <p><strong>PAQUETE 2</strong></p>
+                  <p><strong>Incluye:</strong> Sillas, mesas, música</p>
+                  <p><strong>Tiempo:</strong> 6 horas</p>
+                  <p><strong>Costo:</strong> $4,200 MXN</p>
+              </div>
+          </div>
+          <!-- Paquete 3 -->
+          <div class="producto">
+              <img src="paquete3.jpg" alt="Paquete 3" class="imagen-expandible">
+              <div class="detalles">
+                  <p><strong>PAQUETE 3</strong></p>
+                  <p><strong>Incluye:</strong> Comida, bebidas, decoración especial</p>
+                  <p><strong>Tiempo:</strong> 8 horas</p>
+                  <p><strong>Costo:</strong> $6,000 MXN</p>
+              </div>
+          </div>
+      </div>
+  
+      <!-- Inflables -->
+      <div class="categoria">
+          <h2>Inflables:</h2>
+          <!-- Inflable 1 -->
+          <div class="producto">
+              <img src="img/inf1.png" alt="Inflable 1" class="imagen-expandible">
+              <div class="detalles">
+                  <p><strong>Inflable mediano</strong></p>
+                  <p><strong>Tiempo:</strong> 4 horas</p>
+                  <p><strong>Costo:</strong> $1,800 MXN</p>
+              </div>
+          </div>
+          <!-- Inflable 2 -->
+          <div class="producto">
+              <img src="img/inf2.png" alt="Inflable 2" class="imagen-expandible">
+              <div class="detalles">
+                  <p><strong>Inflable grande</strong></p>
+                  <p><strong>Tiempo:</strong> 6 horas</p>
+                  <p><strong>Costo:</strong> $2,500 MXN</p>
+              </div>
+          </div>
+             <!-- Inflable 3 -->
+             <div class="producto">
+              <img src="img/inf3.png" alt="Inflable 2" class="imagen-expandible">
+              <div class="detalles">
+                  <p><strong>Inflable castillo</strong></p>
+                  <p><strong>Tiempo:</strong> 6 horas</p>
+                  <p><strong>Costo:</strong> $1,500 MXN</p>
+              </div>
+          </div>
+      </div>
+  
+      <!-- Maquinitas -->
+      <div class="categoria">
+          <h2>Maquinitas:</h2>
+          <!-- Maquinita 1 -->
+          <div class="producto">
+              <img src="img/maq1.png" alt="Maquinita 1" class="imagen-expandible">
+              <div class="detalles">
+                  <p><strong>Juego de arcade clásico</strong></p>
+                  <p><strong>Costo:</strong> $900 MXN</p>
+              </div>
+          </div>
+          <!-- Maquinita 2 -->
+          <div class="producto">
+              <img src="img/maq2.png" alt="Maquinita 2" class="imagen-expandible">
+              <div class="detalles">
+                  <p><strong>Juego de mesa electrónica</strong></p>
+                  <p><strong>Costo:</strong> $1,200 MXN</p>
+              </div>
+          </div>
+      </div>
   </div>
-
-  <script src="js/firebaseConfig.js"></script>
+  
+  <!-- Modal para mostrar imagen expandida -->
+  <div id="imagenModal" class="modal">
+      <span class="cerrar">&times;</span>
+      <img class="modal-contenido" id="img01">
+  </div>
+  
   <script src="js/main.js"></script>
 </body>
+
 </html>

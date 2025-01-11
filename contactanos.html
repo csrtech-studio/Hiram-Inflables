@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contáctanos - Inflables Iram</title>
+  <title>Reserva tu Fecha - Inflables Hiram</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
   <header class="header bg-primary text-white py-3">
     <div class="container d-flex justify-content-between align-items-center">
@@ -15,7 +17,7 @@
         <img src="img/logo.png" alt="Logo Inflables Iram" class="logo me-3">
         <h1 class="site-title m-0">Inflables Hiram</h1>
       </div>
-  
+
       <!-- Menú -->
       <nav>
         <ul class="nav">
@@ -33,31 +35,55 @@
     </div>
   </header>
 
-  <div class="container mt-5">
+  <div class="container mt-3">
+    <h2>Reserva tu Fecha</h2>
+    <p>Por favor, completa el siguiente formulario para realizar tu reservación de servicio de renta.</p>
     <form id="contact-form">
       <div class="mb-3">
         <label for="nombre" class="form-label">Nombre</label>
         <input type="text" class="form-control" id="nombre" required>
       </div>
       <div class="mb-3">
-        <label for="email" class="form-label">Correo</label>
-        <input type="email" class="form-control" id="email" required>
+        <label for="telefono" class="form-label">Teléfono</label>
+        <input type="text" class="form-control" id="telefono" required>
       </div>
       <div class="mb-3">
-        <label for="mensaje" class="form-label">Mensaje</label>
-        <textarea class="form-control" id="mensaje" rows="3" required></textarea>
+        <label for="fecha" class="form-label">Fecha del Evento</label>
+        <input type="date" class="form-control" id="fecha" required>
       </div>
-      <button type="submit" class="btn btn-primary">Enviar</button>
+      <div class="mb-3">
+        <label for="hora" class="form-label">Hora del Evento</label>
+        <input type="time" class="form-control" id="hora" required>
+      </div>
+      <div class="mb-3">
+        <label for="paquete" class="form-label">Selecciona tu Paquete</label>
+        <select class="form-control" id="paquete" required>
+          <option value="" disabled selected>Selecciona un paquete</option>
+          <option value="Paquete 1 - Sillas, mesas, decoración temática">Paquete 1 - Sillas, mesas, decoración temática
+          </option>
+          <option value="Paquete 2 - Sillas, mesas, música">Paquete 2 - Sillas, mesas, música</option>
+          <option value="Paquete 3 - Comida, bebidas, decoración especial">Paquete 3 - Comida, bebidas, decoración
+            especial</option>
+          <option value="Inflable mediano">Inflable mediano</option>
+          <option value="Inflable grande">Inflable grande</option>
+          <option value="Inflable con tobogán">Inflable con tobogán</option>
+          <option value="Inflable circular">Inflable circular</option>
+          <option value="Inflable de castillo">Inflable de castillo</option>
+          <option value="Inflable gigante">Inflable gigante</option>
+          <option value="Inflable con pista">Inflable con pista</option>
+          <option value="Inflable tipo tiburón">Inflable tipo tiburón</option>
+          <option value="Inflable con obstáculos">Inflable con obstáculos</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="direccion" class="form-label">Dirección del Evento</label>
+        <input type="text" class="form-control" id="direccion" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Reservar</button>
     </form>
-  </div>
 
-  <script>
-    document.getElementById('contact-form').addEventListener('submit', function(event) {
-      event.preventDefault();
-      const nombre = document.getElementById('nombre').value;
-      const mensaje = document.getElementById('mensaje').value;
-      window.location.href = `https://wa.me/tu_numero?text=Hola, soy ${nombre}. ${mensaje}`;
-    });
-  </script>
+  </div>
+  <script type="module" src="js/main.js"></script>
 </body>
+
 </html>

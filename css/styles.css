@@ -14,7 +14,8 @@ body {
     background: linear-gradient(135deg, #007bff, #00c6ff);
     color: #fff;
     margin-top: 3px;
-    margin-bottom: 5px; /* Reducir espacio */
+    margin-bottom: 5px;
+    /* Reducir espacio */
     height: 188px;
 }
 
@@ -31,13 +32,39 @@ body {
     transform: rotate(360deg) scale(1.1);
 }
 
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+        /* Posición inicial y final */
+    }
+
+    50% {
+        transform: translateY(-10px);
+        /* Salto hacia arriba */
+    }
+}
+
 .site-title {
-    font-size: 1.6rem; /* Reducir tamaño */
+    font-size: 2.1rem;
+    /* Reducir tamaño */
     font-family: 'Comic Sans MS', cursive, sans-serif;
     font-weight: bold;
     color: #fff;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    animation: bounce 1s ease-in-out infinite;
+    /* Aplica la animación */
+    animation-delay: 0s;
+    /* Sin retraso inicial */
 }
+
+/* Opcional: Pausar el efecto al pasar el mouse */
+.site-title:hover {
+    animation-play-state: paused;
+    /* Pausa la animación al interactuar */
+}
+
 
 .highlight {
     color: #ffcc00;
@@ -48,10 +75,12 @@ body {
 /* Menú de navegación */
 .nav {
     display: flex;
-    gap: 10px; /* Reducir espacio */
+    gap: 10px;
+    /* Reducir espacio */
     flex-wrap: wrap;
     justify-content: center;
-    margin-top: 5px; /* Reducir espacio */
+    margin-top: 5px;
+    /* Reducir espacio */
 }
 
 .nav-item {
@@ -60,9 +89,11 @@ body {
 
 .nav-link {
     color: #fff !important;
-    font-size: 0.9rem; /* Reducir tamaño */
+    font-size: 0.9rem;
+    /* Reducir tamaño */
     font-weight: 400;
-    padding: 5px 12px; /* Reducir padding */
+    padding: 5px 12px;
+    /* Reducir padding */
     text-decoration: none;
     border-radius: 25px;
     background: linear-gradient(135deg, #ff6b6b, #ffcc00);
@@ -78,25 +109,29 @@ body {
 /* Contenedor principal */
 .container {
     background-color: transparent;
-    padding: 30px; /* Reducir padding */
+    padding: 30px;
+    /* Reducir padding */
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     text-align: center;
     position: relative;
     overflow: hidden;
     animation: slideIn 1s ease-out;
-    margin-bottom: 20px; /* Reducir espacio */
+    margin-bottom: 20px;
+    /* Reducir espacio */
 }
 
 /* Título */
 .container h2 {
     font-family: 'Permanent Marker', cursive, sans-serif;
     color: #ff4081;
-    font-size: 2.2rem; /* Reducir tamaño */
+    font-size: 2.2rem;
+    /* Reducir tamaño */
     text-transform: uppercase;
     letter-spacing: 3px;
     font-weight: bold;
-    margin-bottom: 15px; /* Reducir espacio */
+    margin-bottom: 15px;
+    /* Reducir espacio */
     text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.6);
     animation: zoomIn 1s ease-out;
 }
@@ -105,9 +140,11 @@ body {
 .container p {
     font-family: 'Dosis', sans-serif;
     color: #333;
-    font-size: 1.1rem; /* Reducir tamaño */
+    font-size: 1.1rem;
+    /* Reducir tamaño */
     line-height: 1.6;
-    margin: 10px 0; /* Reducir espacio */
+    margin: 10px 0;
+    /* Reducir espacio */
     font-weight: 600;
     transition: color 0.3s ease;
 }
@@ -121,7 +158,8 @@ body {
 /* Efecto hover en el llamado a la acción */
 .container p strong {
     background: #ff4081;
-    padding: 8px 18px; /* Reducir padding */
+    padding: 8px 18px;
+    /* Reducir padding */
     border-radius: 30px;
     color: #fff;
     font-weight: bold;
@@ -140,6 +178,7 @@ body {
     0% {
         transform: translateX(100%);
     }
+
     100% {
         transform: translateX(0);
     }
@@ -151,6 +190,7 @@ body {
         transform: scale(0.8);
         opacity: 0;
     }
+
     100% {
         transform: scale(1);
         opacity: 1;
@@ -159,8 +199,10 @@ body {
 
 /* ======== Botones Generales ======== */
 .btn {
-    font-size: 1rem; /* Reducir tamaño */
-    padding: 10px 20px; /* Reducir padding */
+    font-size: 1rem;
+    /* Reducir tamaño */
+    padding: 10px 20px;
+    /* Reducir padding */
     border-radius: 30px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
@@ -173,30 +215,42 @@ body {
 
 /* Estilo para el botón flotante de WhatsApp */
 .whatsapp-btn {
-  position: fixed;
-  bottom: 20px; /* Distancia desde el fondo */
-  right: 20px; /* Distancia desde el lado derecho */
-  background-color: #25d366; /* Color de fondo de WhatsApp */
-  color: #fff; /* Color del texto */
-  padding: 10px 20px;
-  border-radius: 30px; /* Bordes redondeados */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Sombra para el botón */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  text-decoration: none; /* Elimina subrayado */
-  z-index: 9999; /* Asegura que el botón esté encima de otros elementos */
-  transition: all 0.3s ease;
+    position: fixed;
+    bottom: 20px;
+    /* Distancia desde el fondo */
+    right: 3px;
+    /* Distancia desde el lado derecho */
+    margin-bottom: 30px;
+    background-color: #25d366;
+    /* Color de fondo de WhatsApp */
+    color: #fff;
+    /* Color del texto */
+    padding: 10px 20px;
+    border-radius: 20px;
+    /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    /* Sombra para el botón */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    text-decoration: none;
+    /* Elimina subrayado */
+    z-index: 9999;
+    /* Asegura que el botón esté encima de otros elementos */
+    transition: all 0.3s ease;
 }
 
 .whatsapp-btn:hover {
-  background-color: #128c7e; /* Color más oscuro cuando se pasa el mouse */
-  transform: scale(1.1); /* Efecto de agrandar cuando se pasa el mouse */
+    background-color: #128c7e;
+    /* Color más oscuro cuando se pasa el mouse */
+    transform: scale(1.1);
+    /* Efecto de agrandar cuando se pasa el mouse */
 }
 
 .whatsapp-btn i {
-  margin-right: 10px; /* Espacio entre el icono y el texto */
+    margin-right: 10px;
+    /* Espacio entre el icono y el texto */
 }
 
 
@@ -215,7 +269,8 @@ body {
 }
 
 .btn-primary i {
-    font-size: 1.1rem; /* Reducir tamaño del icono */
+    font-size: 1.1rem;
+    /* Reducir tamaño del icono */
 }
 
 .btn-primary:hover {
@@ -225,16 +280,53 @@ body {
 }
 
 /* Asegura que todas las imágenes del carrusel tengan el mismo tamaño y se adapten bien */
-.carousel-inner {
-    position: relative;
+
+.carousel-container {
+    display: flex;
+    /* Activar Flexbox */
+    justify-content: center;
+    /* Centrar horizontalmente */
+    align-items: center;
+    /* Centrar verticalmente */
+    min-height: 200vh;
+    /* Altura mínima igual a la altura de la pantalla */
+    width: 100%;
+    /* Usar todo el ancho disponible */
+    margin: 0 auto;
+    /* Centrar el contenedor si tiene un ancho fijo */
+    max-width: 100px;
+    /* Reducir el ancho del carrusel */
+    padding: 0;
+    /* Eliminar padding */
+    box-sizing: border-box;
+    /* Consistencia */
     overflow: hidden;
+    /* Evitar desbordamientos */
 }
 
 .carousel-item {
-    height: 350px; /* Reducir altura del carrusel */
+
+    justify-content: center;
+    /* Centra el contenido horizontalmente */
+    align-items: center;
+    /* Centra el contenido verticalmente */
+    height: 350px;
+    /* Altura fija */
+    max-width: 100%;
+    /* Asegura que se ajuste al ancho máximo del contenedor */
 }
 
+
+.carousel-inner {
+    position: relative;
+    overflow: hidden;
+    align-items: center;
+
+}
+
+
 .carousel-item img {
+    justify-content: center;
     object-fit: cover;
     width: 100%;
     height: 100%;
@@ -242,14 +334,18 @@ body {
     transition: transform 0.5s ease, box-shadow 0.3s ease;
 }
 
+
 /* Efecto de escala en las imágenes cuando se navega por el carrusel */
 .carousel-item img:hover {
-    transform: scale(1.05); /* Escala ligeramente la imagen */
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Sombra para darle profundidad */
+    transform: scale(1.05);
+    /* Escala ligeramente la imagen */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    /* Sombra para darle profundidad */
 }
 
 /* Botones de control del carrusel con símbolos <> */
-.carousel-control-prev, .carousel-control-next {
+.carousel-control-prev,
+.carousel-control-next {
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 50%;
     padding: 8px;
@@ -274,18 +370,22 @@ body {
     right: 15px;
 }
 
-.carousel-control-prev:hover, .carousel-control-next:hover {
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
     background-color: rgba(0, 0, 0, 0.8);
 }
 
-.carousel-item-next, .carousel-item-prev, .carousel-item.active {
+.carousel-item-next,
+.carousel-item-prev,
+.carousel-item.active {
     transition: transform 0.5s ease-in-out;
 }
 
 /* ======== Sección de Contacto ======== */
 .contact-section {
     background-color: #f1f1f1;
-    padding: 30px 0; /* Reducir padding */
+    padding: 30px 0;
+    /* Reducir padding */
     text-align: center;
 }
 
@@ -313,24 +413,149 @@ body {
 
     .nav {
         flex-direction: column;
-        gap: 5px; /* Reducir espacio */
+        gap: 5px;
+        /* Reducir espacio */
     }
 
-    .btn-success, .btn-primary {
+    .btn-success,
+    .btn-primary {
         font-size: 1rem;
         padding: 8px 16px;
     }
 
     .container h2 {
-        font-size: 1rem; /* Reducir tamaño */
+        font-size: 1rem;
+        /* Reducir tamaño */
     }
 
     .container p {
-        font-size: 1rem; /* Reducir tamaño */
+        font-size: 1rem;
+        /* Reducir tamaño */
     }
 
     .logo {
-        width: 50px;
-        height: 50px;
+        width: 80px;
+        height: 80px;
+    }
+}
+
+/*Css de Productos*/
+.productos-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.categoria {
+    margin-bottom: 30px;
+}
+
+.categoria h2 {
+    font-size: 1.8rem;
+    color: #333;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+}
+
+.producto {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: #fff;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+}
+
+.producto img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #eee;
+}
+
+.detalles {
+    flex: 1;
+}
+
+.detalles p {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #555;
+}
+
+.detalles strong {
+    color: #333;
+}
+
+
+
+/* Modal: Fondo oscuro */
+.modal {
+    display: none; /* Escondido por defecto */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+    padding-top: 60px;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Imagen en el modal */
+.modal-contenido {
+    width: 80%;
+    max-width: 600px;
+    margin: auto;
+}
+
+/* Estilo de la X para cerrar */
+.cerrar {
+    position: absolute;
+    top: 10px;
+    right: 25px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+/* Efecto hover sobre la X */
+.cerrar:hover {
+    color: #f44336;
+}
+
+/* Estilo de la imagen que se puede agrandar */
+.imagen-expandible {
+    width: 100%;
+    max-width: 300px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Efecto de zoom cuando la imagen es clickeada */
+.imagen-expandible:hover {
+    transform: scale(1.05);
+}
+
+/* Cuando la imagen está en el modal */
+.imagen-expandible {
+    transition: 0.3s;
+}
+
+/* Media Queries para dispositivos móviles */
+@media screen and (max-width: 600px) {
+    .modal-contenido {
+        width: 90%;
     }
 }
