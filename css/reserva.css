@@ -1,0 +1,29 @@
+/* Estilos para mejorar la visibilidad en pantallas pequeñas */
+.table-responsive {
+    max-height: 500px;
+    overflow-y: auto;
+  }
+  
+  /* Ajuste de tamaños de las celdas */
+  .table th, .table td {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  
+  #contract-container {
+    max-height: 500px;
+    overflow-y: auto;
+  }
+
+  /* Ajuste de contenedor en móviles */
+  @media (max-width: 768px) {
+    .container {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    #contract-container {
+      width: 100%;
+      margin-top: 20px;
+    }
+  }

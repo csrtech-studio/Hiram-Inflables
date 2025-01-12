@@ -1,69 +1,28 @@
 // js/admin.js
+import { auth } from './firebaseConfig.js';
+import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 
-// Firebase Authentication
-const auth = firebase.auth();
-const db = firebase.database();
+document.addEventListener('DOMContentLoaded', function () {
+  const loginForm = document.getElementById('admin-login');
 
-// Manejar inicio de sesión
-document.getElementById('admin-login').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
+  if (loginForm) {
+    loginForm.addEventListener('submit', async function (event) {
+      event.preventDefault();
 
-  auth.signInWithEmailAndPassword(email, password)
-    .then(() => {
-      document.getElementById('login-form').classList.add('d-none');
-      document.getElementById('admin-panel').classList.remove('d-none');
-      cargarProductos();
-    })
-    .catch((error) => alert('Error: ' + error.message));
-});
+      // Obtener valores del formulario
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
 
-// Cargar productos
-function cargarProductos() {
-  db.ref('productos').on('value', (snapshot) => {
-    const productosLista = document.getElementById('productos-lista');
-    productosLista.innerHTML = '';
-    snapshot.forEach((childSnapshot) => {
-      const producto = childSnapshot.val();
-      const key = childSnapshot.key;
+      try {
+        // Iniciar sesión con Firebase Authentication
+        await signInWithEmailAndPassword(auth, email, password);
 
-      productosLista.innerHTML += `
-        <tr>
-          <td>${producto.nombre}</td>
-          <td>${producto.descripcion}</td>
-          <td>$${producto.precio}</td>
-          <td>
-            <button class="btn btn-danger" onclick="eliminarProducto('${key}')">Eliminar</button>
-          </td>
-        </tr>
-      `;
+        // Redirigir a la página de reservas
+        window.location.href = 'reservas.html';
+      } catch (error) {
+        console.error('Error al iniciar sesión:', error.message);
+        alert('Correo o contraseña incorrectos. Intenta nuevamente.');
+      }
     });
-  });
-}
-
-// Agregar producto
-document.getElementById('add-product-form').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const nombre = document.getElementById('nombre').value;
-  const descripcion = document.getElementById('descripcion').value;
-  const precio = document.getElementById('precio').value;
-  const imagen = document.getElementById('imagen').value;
-
-  const nuevoProducto = {
-    nombre,
-    descripcion,
-    precio,
-    imagen
-  };
-
-  db.ref('productos').push(nuevoProducto);
-  alert('Producto agregado correctamente');
-  document.getElementById('add-product-form').reset();
+  }
 });
-
-// Eliminar producto
-function eliminarProducto(key) {
-  db.ref('productos/' + key).remove();
-  alert('Producto eliminado correctamente');
-}
