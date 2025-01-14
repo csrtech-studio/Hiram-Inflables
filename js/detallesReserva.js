@@ -40,13 +40,17 @@ async function obtenerDetallesReserva(id) {
   }
 }
 
-// Función para cambiar el estado de la reserva
 async function cambiarEstadoReserva(nuevoEstado) {
   const reservaRef = doc(db, 'reservas', reservaId);
-  await updateDoc(reservaRef, {
-    estado: nuevoEstado
-  });
+  await updateDoc(reservaRef, { estado: nuevoEstado });
+
+  const reservaDoc = await getDoc(reservaRef);
+  const reservaData = reservaDoc.data();
+
+  const mensaje = `¡Hola ${reservaData.nombre}! Tu reserva ha sido confirmada. Por favor, revisa y acepta el contrato en el siguiente enlace: https://tu-dominio.com/contrato.html?id=${reservaId}`;
+  const urlWhatsApp = `https://wa.me/${reservaData.telefono}?text=${encodeURIComponent(mensaje)}`;
 
   alert(`Estado de la reserva actualizado a: ${nuevoEstado}`);
-  window.location.href = 'index.html'; // Redirigir al listado de reservas o página principal
+  window.open(urlWhatsApp, '_blank');
 }
+
