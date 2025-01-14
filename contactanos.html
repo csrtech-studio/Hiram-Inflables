@@ -38,7 +38,9 @@
   <div class="container mt-3">
     <h2>Reserva tu Fecha</h2>
     <p>Por favor, completa el siguiente formulario para realizar tu reservación de servicio de renta.</p>
+    
     <form id="contact-form">
+      <!-- Datos del cliente -->
       <div class="mb-3">
         <label for="nombre" class="form-label">Nombre</label>
         <input type="text" class="form-control" id="nombre" required>
@@ -55,36 +57,37 @@
         <label for="hora" class="form-label">Hora del Evento</label>
         <input type="time" class="form-control" id="hora" required>
       </div>
-      <div class="mb-3">
-        <label for="paquete" class="form-label">Selecciona tu Paquete</label>
-        <select class="form-control" id="paquete" required>
-          <option value="" disabled selected>Selecciona un paquete</option>
-          <option value="Paquete 1 - Sillas, mesas, decoración temática">Paquete 1 - Sillas, mesas, decoración temática
-          </option>
-          <option value="Paquete 2 - Sillas, mesas, música">Paquete 2 - Sillas, mesas, música</option>
-          <option value="Paquete 3 - Comida, bebidas, decoración especial">Paquete 3 - Comida, bebidas, decoración
-            especial</option>
-          <option value="Inflable mediano">Inflable mediano</option>
-          <option value="Inflable grande">Inflable grande</option>
-          <option value="Inflable con tobogán">Inflable con tobogán</option>
-          <option value="Inflable circular">Inflable circular</option>
-          <option value="Inflable de castillo">Inflable de castillo</option>
-          <option value="Inflable gigante">Inflable gigante</option>
-          <option value="Inflable con pista">Inflable con pista</option>
-          <option value="Inflable tipo tiburón">Inflable tipo tiburón</option>
-          <option value="Inflable con obstáculos">Inflable con obstáculos</option>
-        </select>
-      </div>
+  
+      <!-- Tabla de productos -->
+      <table class="table table-bordered" id="tabla-productos">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Los productos se añadirán aquí dinámicamente -->
+        </tbody>
+      </table>
+      
+      <div id="precio" class="mt-2">Total: $0</div>
+  
+      <!-- Dirección -->
       <div class="mb-3">
         <label for="direccion" class="form-label">Dirección del Evento</label>
         <input type="text" class="form-control" id="direccion" required>
       </div>
+      
       <button type="submit" class="btn btn-primary">Reservar</button>
     </form>
+  </div>
+  
 
   </div>
   <script src="js/firebaseConfig.js" type="module"></script>
-  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/contacto.js"></script>
 </body>
 
 </html>

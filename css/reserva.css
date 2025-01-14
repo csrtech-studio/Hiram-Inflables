@@ -1,29 +1,93 @@
-/* Estilos para mejorar la visibilidad en pantallas pequeñas */
-.table-responsive {
-    max-height: 500px;
-    overflow-y: auto;
-  }
-  
-  /* Ajuste de tamaños de las celdas */
-  .table th, .table td {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-  
-  #contract-container {
-    max-height: 500px;
-    overflow-y: auto;
+/* Estilo general */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #007bff;
+  color: white;
+  padding: 15px 0;
+  text-align: center;
+}
+
+.container {
+  margin-top: 20px;
+}
+
+h3 {
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Estilo para la tabla */
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+.table th, .table td {
+  border: 1px solid #dee2e6;
+  padding: 10px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table thead th {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.table tbody tr:hover {
+  background-color: #dfe6f3;
+}
+
+/* Estilo para resaltar conflictos (rojo claro con texto rojo) */
+.reserva-conflicto {
+  background-color: #ffb3b3 !important; /* Rojo claro */
+  color: red; /* Texto rojo */
+  font-weight: bold;
+}
+
+
+/* Estilo para mensajes de advertencia */
+.alert-warning {
+  color: #856404;
+  background-color: #fff3cd;
+  border-color: #ffeeba;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+
+
+/* Adaptabilidad */
+@media (max-width: 768px) {
+  .container {
+    padding: 15px;
   }
 
-  /* Ajuste de contenedor en móviles */
-  @media (max-width: 768px) {
-    .container {
-      padding-left: 10px;
-      padding-right: 10px;
-    }
-    #contract-container {
-      width: 100%;
-      margin-top: 20px;
-    }
+  h1 {
+    font-size: 2rem;
   }
+
+  .btn {
+    font-size: 0.9rem;
+    padding: 8px 16px;
+  }
+
+  label {
+    font-size: 1rem;
+  }
+}
