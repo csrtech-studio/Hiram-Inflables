@@ -4,23 +4,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Contrato de Renta</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/contrato.css">
 </head>
 <body>
-  <div id="contrato-detalles">
-    <h1>CONTRATO DE SERVICIO DE RENTA DE INFLABLES</h1>
-    <img src="logo.png" alt="Logo de Inflables Hiram" width="200">
-    <p id="cliente-info"></p>
-    <p>El presente contrato tiene como objetivo la renta de inflables para el evento mencionado.</p>
-    <ul>
-      <li>La empresa proveerá el inflable acordado y se encargará del transporte y montaje.</li>
-      <li>El cliente se compromete a mantener el inflable en condiciones adecuadas durante el evento.</li>
-      <li>En caso de daños al equipo, el cliente deberá hacerse responsable de los gastos de reparación.</li>
-      <li>La cancelación de la reserva debe hacerse con al menos 48 horas de anticipación.</li>
-    </ul>
-    <button id="aceptar">Aceptar Contrato</button>
-    <button id="rechazar">Rechazar Contrato</button>
+  <div id="contrato-detalles" class="contrato-contenedor">
+    <h1 class="contrato-titulo">CONTRATO DE SERVICIO DE RENTA DE INFLABLES</h1>
+    <img src="img/logo.png" alt="Logo de Inflables Hiram" width="200" class="contrato-logo">
+    <p id="cliente-info" class="contrato-cliente"></p>
+    <p>El presente contrato tiene como objetivo establecer los términos y condiciones de la renta de inflables proporcionados por <strong>Inflables Hiram</strong> para el evento mencionado a continuación.</p>
+    
+    <h2>Cláusulas</h2>
+    <ol>
+      <li><strong>Objeto del contrato:</strong> La empresa <strong>Inflables Hiram</strong> se compromete a proporcionar los inflables y servicios adicionales acordados, encargándose del transporte, montaje y desmontaje al finalizar el evento.</li>
+      <li><strong>Responsabilidad del cliente:</strong> El cliente se compromete a mantener el inflable en condiciones óptimas durante el evento y se responsabiliza de cualquier daño o pérdida ocasionada al equipo.</li>
+      <li><strong>Horas extra:</strong> En caso de requerir tiempo adicional al establecido en el contrato, el cliente acepta pagar $100 MXN por cada hora extra.</li>
+      <li><strong>Cancelaciones:</strong> La cancelación de la reserva debe realizarse con al menos 48 horas de anticipación. En caso contrario, el cliente acepta la pérdida del anticipo.</li>
+      <li><strong>Cláusula de daños:</strong> Cualquier daño al equipo será evaluado por <strong>Inflables Hiram</strong> y el cliente deberá cubrir los costos de reparación o reposición dentro de los cinco días hábiles posteriores al evento.</li>
+      <li><strong>Fuerza mayor:</strong> Ambas partes acuerdan que eventos fuera de su control (como fenómenos naturales) eximirán a las partes de sus obligaciones, sin penalización alguna.</li>
+    </ol>
+
+    <p><strong>Costo total del servicio:</strong> <span id="costo-total"></span></p>
+    <p id="adicionales-info"></p>
+
+    <p>
+      Al hacer clic en "Aceptar", el cliente declara haber leído y comprendido todas las cláusulas de este contrato, aceptándolas en su totalidad. Esta acción será considerada como una firma electrónica válida, conforme a las disposiciones legales aplicables en México.
+    </p>
+
+    <div class="firma-container">
+      <img src="img/firma.png" alt="Firma del Representante" class="firma-sobre-linea">
+      <p>_______________________________<br>
+      <em>Inflables Hiram</em>
+    </p><br>
+
+    <div class="botones-contrato">
+      <button id="aceptar" style="display: block;">Aceptar</button>
+      <button id="rechazar" style="display: block;">Rechazar</button>
+      <button id="descargar-pdf" style="display: none;">Descargar PDF</button>
+
+    </div>
   </div>
-  <script src="contrato.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+  <script type="module" src="js/contrato.js"></script>
 </body>
 </html>

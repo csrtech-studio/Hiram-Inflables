@@ -40,6 +40,7 @@ async function obtenerDetallesReserva(id) {
   }
 }
 
+// Función para cambiar el estado de la reserva y enviar mensaje de WhatsApp
 async function cambiarEstadoReserva(nuevoEstado) {
   const reservaRef = doc(db, 'reservas', reservaId);
   await updateDoc(reservaRef, { estado: nuevoEstado });
@@ -47,10 +48,14 @@ async function cambiarEstadoReserva(nuevoEstado) {
   const reservaDoc = await getDoc(reservaRef);
   const reservaData = reservaDoc.data();
 
-  const mensaje = `¡Hola ${reservaData.nombre}! Tu reserva ha sido confirmada. Por favor, revisa y acepta el contrato en el siguiente enlace: https://tu-dominio.com/contrato.html?id=${reservaId}`;
+  const mensaje = `¡Hola ${reservaData.nombre}! Tu reserva ha sido confirmada. Por favor, revisa y acepta el contrato en el siguiente enlace: https://csrtech-studio.github.io/Hiram-Inflables/contrato.html?id=${reservaId}`;
   const urlWhatsApp = `https://wa.me/${reservaData.telefono}?text=${encodeURIComponent(mensaje)}`;
 
   alert(`Estado de la reserva actualizado a: ${nuevoEstado}`);
   window.open(urlWhatsApp, '_blank');
 }
 
+// Conectar el botón "Aceptar" al evento
+document.getElementById('aceptar-reserva').addEventListener('click', () => {
+  cambiarEstadoReserva('Confirmado');
+});

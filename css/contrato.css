@@ -1,0 +1,82 @@
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    #contrato-detalles {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background: #f9f9f9;
+    }
+    img {
+        display: block;
+        margin: 0 auto 20px;
+        width: 100px; /* Tamaño de la imagen, ajusta según lo que necesites */
+        height: 100px; /* Tamaño de la imagen, ajusta según lo que necesites */
+        border-radius: 50%; /* Para hacerla redonda */
+        object-fit: cover; /* Asegura que la imagen se ajuste correctamente dentro del contenedor */
+      }
+      
+    h1 {
+      text-align: center;
+      font-size: 24px;
+      color: #333;
+    }
+    ul {
+      margin: 20px 0;
+    }
+    ul li {
+      margin-bottom: 10px;
+    }
+    .firma {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 14px;
+      color: #555;
+    }
+    .botones {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 30px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button#aceptar {
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    button#rechazar {
+      background: #f44336;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    .firma-container {
+        position: relative;
+        text-align: center;
+        margin-top: 20px;
+      }
+      
+      .firma-sobre-linea {
+        position: absolute;
+        top: -40px; /* Ajusta este valor para mover la firma sobre la línea */
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px; /* Tamaño de la firma */
+      }
+      
+      .firma-container p {
+        margin-top: 40px; /* Espacio para evitar que el texto se superponga */
+        font-size: 14px;
+      }
+      
+      
+      
