@@ -1,5 +1,15 @@
 import { db } from './firebaseConfig.js'; 
-import { collection, getDocs } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+import { collection, getDocs, doc, deleteDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js';
+
+// Verificar si el usuario está autenticado
+const auth = getAuth();
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    // Si no está autenticado, redirigir al admin.html
+    window.location.href = 'admin.html';
+  }
+});
 
 const reservasLista = document.getElementById('reservas-lista');
 const contractContainer = document.getElementById('contract-container');
@@ -13,6 +23,12 @@ async function cargarReservas() {
     reservas.push({ id: doc.id, ...data });
   });
 
+  // Ordenar las reservas por estado: Pendiente, Confirmado, Autorizado
+  reservas.sort((a, b) => {
+    const estados = ['Pendiente', 'Confirmado', 'Autorizado'];
+    return estados.indexOf(a.estado) - estados.indexOf(b.estado);
+  });
+
   mostrarReservas(reservas);
   verificarFechasCercanas(reservas); // Verificar fechas después de cargar las reservas
 }
@@ -21,12 +37,17 @@ function mostrarReservas(reservas) {
   reservasLista.innerHTML = '';
   reservas.forEach(reserva => {
     const row = document.createElement('tr');
+    // Comprobar si la reserva está cancelada
+    const botonAccion = reserva.estado === 'Cancelado' 
+      ? `<button class="btn btn-danger" onclick="eliminarReserva('${reserva.id}')">Eliminar</button>`
+      : `<a href="detallesReserva.html?id=${reserva.id}" class="btn btn-info">Ver</a>`;
+
     row.innerHTML = `
       <td>${reserva.nombre}</td>
       <td>${reserva.fecha}</td>
       <td>${reserva.hora}</td>
       <td>${reserva.estado}</td>
-      <td><a href="detallesReserva.html?id=${reserva.id}" class="btn btn-info">Ver</a></td>
+      <td>${botonAccion}</td>
     `;
     reservasLista.appendChild(row);
   });
@@ -77,33 +98,19 @@ function resaltarFilas(filasConflictivas) {
   });
 }
 
-// Llamar a cargarReservas al cargar la página
-cargarReservas();
+// Función para eliminar la reserva de Firebase
+window.eliminarReserva = async function(reservaId) {
+  const reservaRef = doc(db, 'reservas', reservaId);
 
-function marcarConflictos() {
-  const filas = document.querySelectorAll('#reservas-lista tr');
-  const conflictos = [];
-
-  filas.forEach((fila1, index1) => {
-    const fechaHora1 = fila1.dataset.fechaHora;
-    const [fecha1, hora1] = fechaHora1.split(' ');
-
-    filas.forEach((fila2, index2) => {
-      if (index1 !== index2) {
-        const fechaHora2 = fila2.dataset.fechaHora;
-        const [fecha2, hora2] = fechaHora2.split(' ');
-
-        if (fecha1 === fecha2 && Math.abs(new Date(`1970-01-01T${hora1}`) - new Date(`1970-01-01T${hora2}`)) <= 3600000) {
-          if (!conflictos.includes(fila1)) conflictos.push(fila1);
-          if (!conflictos.includes(fila2)) conflictos.push(fila2);
-        }
-      }
-    });
-  });
-
-  conflictos.forEach(fila => fila.classList.add('reserva-conflicto'));
+  try {
+    await deleteDoc(reservaRef);
+    alert("Reserva eliminada correctamente.");
+    cargarReservas(); // Volver a cargar las reservas después de la eliminación
+  } catch (error) {
+    console.error("Error al eliminar la reserva:", error);
+    alert("Hubo un error al intentar eliminar la reserva.");
+  }
 }
 
-// Ejecutar la función después de cargar la tabla
-marcarConflictos();
-
+// Llamar a cargarReservas al cargar la página
+cargarReservas();

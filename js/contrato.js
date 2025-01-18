@@ -1,6 +1,15 @@
 import { db } from './firebaseConfig.js';
 import { doc, getDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js';
 
+// Verificar si el usuario está autenticado
+const auth = getAuth();
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    // Si no está autenticado, redirigir al admin.html
+    window.location.href = 'admin.html';
+  }
+});
 // Obtener el ID de la reserva desde la URL
 const urlParams = new URLSearchParams(window.location.search);
 const reservaId = urlParams.get('id');
@@ -73,6 +82,7 @@ async function cargarContrato(id) {
         await updateDoc(reservaRef, { estado: 'Autorizado' });
         generarPDF(reservaData, horaTermino); // Pasar la hora de término
         alert('Contrato aceptado. ¡Gracias!');
+        location.reload();
       });
     }
 
@@ -98,35 +108,81 @@ function generarPDF(datos, horaTermino) {
 
   // Detalles del cliente en la misma línea
   doc.setFontSize(12);
-  doc.text(`Cliente: ${nombre}`, 20, 50);
-  doc.text(`Teléfono: ${telefono}`, 120, 50);
+  doc.setFont('helvetica', 'bold'); // Negrita para títulos
+  doc.text('Cliente:', 20, 50);
+  doc.setFont('helvetica', 'normal'); // Restaurar fuente normal
+  doc.text(`${nombre}`, 50, 50);
+
+  doc.setFont('helvetica', 'bold');
+  doc.text('Teléfono:', 120, 50);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`${telefono}`, 160, 50);
 
   // Fecha y hora en la misma línea
-  doc.text(`Fecha del evento: ${fecha}`, 20, 60);
-  doc.text(`Hora del evento: ${hora}`, 120, 60);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Fecha del evento:', 20, 60);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`${fecha}`, 60, 60);
+
+  doc.setFont('helvetica', 'bold');
+  doc.text('Hora del evento:', 120, 60);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`${hora}`, 160, 60);
 
   // Hora de término
-  doc.text(`Hora de término: ${horaTermino}`, 20, 70);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Hora de término:', 20, 70);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`${horaTermino}`, 60, 70);
 
   // Dirección
-  doc.text(`Dirección: ${direccion}`, 20, 80);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Dirección:', 20, 80);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`${direccion}`, 50, 80);
   
   // Costo total
-  doc.text(`Costo total: $${total}`, 20, 90);
+  doc.setFont('helvetica', 'bold');
+  doc.text('Costo total:', 20, 90);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`$${total}`, 60, 90);
 
-  // Servicios adicionales
+  // Servicios adicionales en columnas
   if (adicionales && adicionales.length > 0) {
+    doc.setFont('helvetica', 'bold');
     doc.text('Servicios solicitados:', 20, 100);
-    let yPosition = 110;
-    adicionales.forEach(servicio => {
-      doc.text(`- ${servicio.nombre}: $${servicio.precio}`, 20, yPosition);
-      yPosition += 10;
+    doc.setFont('helvetica', 'normal');
+    
+    let xPosition = 20; // Posición horizontal inicial
+    let yPosition = 110; // Posición vertical inicial
+    
+    // Configuración para las columnas (3 columnas)
+    const columnWidth = 50; // Ancho de cada columna
+    const rowHeight = 10;   // Espacio entre filas
+
+    // Crear una lista organizada en 3 columnas
+    let columnaIndex = 0;
+    adicionales.forEach((servicio, index) => {
+      // Si hemos alcanzado la tercera columna, pasamos a la siguiente fila
+      if (columnaIndex === 3) {
+        columnaIndex = 0;
+        yPosition += rowHeight; // Aumentamos la posición vertical para la siguiente fila
+        xPosition = 20; // Restablecemos la posición horizontal para la nueva fila
+      }
+
+      // Colocamos el servicio en la posición correspondiente
+      doc.text(`${servicio.nombre}: $${servicio.precio}`, xPosition, yPosition);
+      
+      // Avanzamos a la siguiente columna
+      columnaIndex++;
+      xPosition += columnWidth; // Ajustamos la posición horizontal para la siguiente columna
     });
   }
 
   // Cláusulas
-  doc.setFontSize(8);
+  doc.setFont('helvetica', 'bold');
   doc.text('Cláusulas:', 20, 125);
+  doc.setFont('helvetica', 'normal');
   
   const clausulas = [
     '1. Objeto del contrato: La empresa Inflables Hiram se compromete a proporcionar los inflables y servicios adicionales acordados, encargándose del transporte, montaje y desmontaje al finalizar el evento.',
@@ -156,7 +212,9 @@ function generarPDF(datos, horaTermino) {
   });
 
   // Firma
+  doc.setFont('helvetica', 'bold');
   doc.text('Firma de la empresa:', 20, yPosition + 10); 
+  doc.setFont('helvetica', 'normal');
   doc.addImage('img/firma.png', 'PNG', 20, yPosition + 15, 50, 15); 
   doc.text('_________________________________', 20, yPosition + 30);
   doc.text('Representante Legal', 20, yPosition + 40);
@@ -165,3 +223,4 @@ function generarPDF(datos, horaTermino) {
   // Guardar PDF
   doc.save(`Contrato_${nombre}.pdf`);
 }
+

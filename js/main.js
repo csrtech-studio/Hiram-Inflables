@@ -3,9 +3,9 @@ const modalConfirm = document.createElement('div');
 modalConfirm.className = 'modal-confirm';
 modalConfirm.innerHTML = `
   <div class="modal-content">
-    <p>Producto agregado. ¿Desea agregar más?</p>
+    <p>Producto agregado. ¿Desea agregar más productos?</p>
     <button class="btn btn-success" id="btnSi">Sí</button>
-    <button class="btn btn-danger" id="btnNo">No</button>
+    <button class="btn btn-danger" id="btnNo">No, Ir a Reservar</button>
   </div>
 `;
 
