@@ -439,13 +439,6 @@ body {
     }
 }
 
-/*Css de Productos*/
-.productos-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
 .categoria {
     margin-bottom: 30px;
 }
@@ -459,39 +452,139 @@ body {
     padding-bottom: 5px;
 }
 
-.producto {
+/* Estilos específicos para la clase 'producto-container' */
+.producto-container {
     display: flex;
     align-items: center;
     gap: 20px;
     background: #fff;
     padding: 15px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    max-width: 800px;
+    margin: auto;
 }
 
-.producto img {
-    width: 100px;
-    height: 100px;
+.producto-container:hover {
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Imagen del producto */
+.producto-container .imagen-expandible {
+    width: 120px;
+    height: 120px;
     object-fit: cover;
     border-radius: 8px;
-    border: 2px solid #eee;
+    cursor: pointer;
+    transition: transform 0.3s ease;
 }
 
-.detalles {
+.producto-container .imagen-expandible:hover {
+    transform: scale(1.05);
+}
+
+/* Contenedor de detalles */
+.producto-container .detalles {
     flex: 1;
+    text-align: left;
 }
 
-.detalles p {
+.producto-container .detalles p {
     margin: 5px 0;
-    font-size: 1rem;
-    color: #555;
-}
-
-.detalles strong {
+    font-size: 16px;
     color: #333;
 }
+
+/* Botón de reserva */
+.producto-container .reservar-btn {
+    background: #007bff;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background 0.3s ease;
+}
+
+.producto-container .reservar-btn:hover {
+    background: #0056b3;
+}
+
+/* Modo de imagen expandida */
+.producto-container .imagen-expandida {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.producto-container .imagen-expandida img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.producto-container .imagen-expandida img:hover {
+    transform: scale(1.02);
+}
+
+.producto-container .imagen-expandida .cerrar {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    font-size: 25px;
+    color: white;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 5px 10px;
+    border-radius: 50%;
+}
+
+/* Modal */
+#modalImagen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none;  /* Inicialmente oculto */
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Evitar que la imagen se salga de la pantalla */
+    z-index: 9999; /* Asegurar que esté por encima de otros elementos */
+}
+
+/* Imagen ampliada */
+#imagenAmpliada {
+    max-width: 90%;  /* Limitar el tamaño máximo en el contenedor */
+    max-height: 90%; /* Limitar el tamaño máximo en el contenedor */
+    object-fit: contain;  /* Mantener la proporción de la imagen */
+    cursor: zoom-in; /* Cambiar el cursor para indicar que se puede hacer zoom */
+}
+
+/* Botón de cerrar */
+.cerrar-modal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+}
+
 
 
 
@@ -700,26 +793,24 @@ body {
   
   /* Modal de confirmación */
   .modal-confirm {
-    display: none; /* Oculta el modal al iniciar */
+    display: none; /* Oculto por defecto */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
-    z-index: 1000;
   }
   
   .modal-content {
     background: white;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
     text-align: center;
-    width: 300px;
   }
+  
   
   .modal-content p {
     margin-bottom: 15px;

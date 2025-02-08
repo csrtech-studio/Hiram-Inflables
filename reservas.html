@@ -38,7 +38,66 @@
       </div>
     </div>
   </div>
+  <body>
+    <div class="container mt-4">
+    <h1>Administrar Productos</h1>
 
+    <form id="productoForm">
+        <label for="categoria">Categoría:</label>
+        <select id="categoria" required>
+          <option value="" disabled selected>Seleccione una categoría</option>
+          <option value="Paquetes">Paquetes</option>
+          <option value="Inflables">Inflables</option>
+          <option value="Maquinitas">Maquinitas</option>
+      </select>
+      
+
+        <div id="formCampos">
+            <!-- Los campos se generarán dinámicamente -->
+        </div>
+
+        <button type="submit">Guardar Producto</button>
+    </form>
+
+    <h2>Lista de Productos</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>categoria</th>
+                <th>Nombre</th>
+                <th>Descripción</th>
+                <th>Tiempo Hrs</th>
+                <th>Costo</th>
+                <th>Imagen</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tablaProductos">
+            <!-- Aquí se listarán los productos -->
+        </tbody>
+    </table>
+    <div class="container mt-4">
+    <h2>Agregar Imágenes al Carrusel</h2>
+
+    <!-- Formulario para ingresar URL de imagen -->
+    <form id="formImagen" class="mb-4">
+      <div class="form-group">
+        <label for="imagenURL">URL de la imagen:</label>
+        <input type="text" id="imagenURL" class="form-control" placeholder="https://ejemplo.com/imagen.jpg" required>
+      </div>
+      <button type="submit" class="btn btn-primary mt-3">Agregar Imagen</button>
+    </form>
+
+    <!-- Contenedor de imágenes añadidas -->
+    <div id="imagenes-container">
+      <h4>Imágenes añadidas:</h4>
+      <div class="row" id="imagenPreview"></div>
+    </div>
+
+
+  </div>
+
+  </div>
   <!-- Cargar reserva.js como módulo -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script type="module" src="js/reserva.js"></script>

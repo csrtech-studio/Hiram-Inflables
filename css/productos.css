@@ -1,0 +1,401 @@
+/* ======== Estilo General ======== */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* ======== Header ======== */
+.header {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    padding: 5px 0;
+    background: linear-gradient(135deg, #007bff, #00c6ff);
+    color: #fff;
+    margin-top: 3px;
+    margin-bottom: 5px;
+    /* Reducir espacio */
+    height: 160px;
+}
+
+.logo {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+    transition: transform 0.3s ease;
+}
+
+.logo:hover {
+    transform: rotate(360deg) scale(1.1);
+}
+
+@keyframes bounce {
+    0%,
+    100% {
+        transform: translateY(0);
+        /* Posición inicial y final */
+    }
+
+    50% {
+        transform: translateY(-10px);
+        /* Salto hacia arriba */
+    }
+}
+
+.site-title {
+    font-size: 1.8rem;
+    /* Reducir tamaño */
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    animation: bounce 1s ease-in-out infinite;
+    /* Aplica la animación */
+    animation-delay: 0s;
+    /* Sin retraso inicial */
+}
+
+/* Opcional: Pausar el efecto al pasar el mouse */
+.site-title:hover {
+    animation-play-state: paused;
+    /* Pausa la animación al interactuar */
+}
+
+.highlight {
+    color: #ffcc00;
+    text-shadow: 2px 2px 10px rgba(255, 204, 0, 0.8);
+    font-style: italic;
+}
+
+/* Menú de navegación */
+.nav {
+    display: flex;
+    gap: 8px;
+    /* Reducir espacio */
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 5px;
+    /* Reducir espacio */
+}
+
+.nav-item {
+    list-style: none;
+}
+
+.nav-link {
+    color: #fff !important;
+    font-size: 0.85rem;
+    /* Reducir tamaño */
+    font-weight: 400;
+    padding: 5px 10px;
+    /* Reducir padding */
+    text-decoration: none;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #ff6b6b, #ffcc00);
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background: linear-gradient(135deg, #ffcc00, #ff6b6b);
+    color: #000;
+    transform: scale(1.1);
+}
+
+/* Contenedor principal */
+.container {
+    background-color: transparent;
+    padding: 25px;
+    /* Reducir padding */
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    animation: slideIn 1s ease-out;
+    margin-bottom: 15px;
+    /* Reducir espacio */
+}
+
+/* Título */
+.container h2 {
+    font-family: 'Permanent Marker', cursive, sans-serif;
+    color: #ff4081;
+    font-size: 2rem;
+    /* Reducir tamaño */
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    /* Reducir espacio */
+    text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.6);
+    animation: zoomIn 1s ease-out;
+}
+
+/* Párrafo */
+.container p {
+    font-family: 'Dosis', sans-serif;
+    color: #333;
+    font-size: 1rem;
+    /* Reducir tamaño */
+    line-height: 1.6;
+    margin: 5px 0;
+    /* Reducir espacio */
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+/* Centrar solo el nombre del producto */
+.producto-container .nombre-producto {
+    text-align: center;
+    font-size: 16px;
+    /* Reducir tamaño */
+    font-weight: bold;
+}
+
+/* Animación de entrada deslizante */
+@keyframes slideIn {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* Animación de zoom */
+@keyframes zoomIn {
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ======== Botones Generales ======== */
+.btn {
+    font-size: 1rem;
+    /* Reducir tamaño */
+    padding: 8px 16px;
+    /* Reducir padding */
+    border-radius: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* ======== Responsividad ======== */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .nav {
+        flex-direction: column;
+        gap: 5px;
+        /* Reducir espacio */
+    }
+
+    .btn-success,
+    .btn-primary {
+        font-size: 1rem;
+        padding: 8px 16px;
+    }
+
+    .container h2 {
+        font-size: 1.2rem;
+        /* Reducir tamaño */
+    }
+
+    .container p {
+        font-size: 1rem;
+        /* Reducir tamaño */
+    }
+
+    .logo {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+.categoria {
+    margin-bottom: 20px;
+    /* Reducir espacio */
+}
+
+.categoria h2 {
+    font-size: 1.6rem;
+    color: #333;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 5px;
+}
+
+/* Estilos específicos para la clase 'producto-container' */
+.producto-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    /* Reducir espacio */
+    background: #fff;
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    max-width: 750px;
+    margin: auto;
+}
+
+.producto-container:hover {
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Imagen del producto */
+.producto-container .imagen-expandible {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.producto-container .imagen-expandible:hover {
+    transform: scale(1.05);
+}
+
+/* Contenedor de detalles */
+.producto-container .detalles {
+    flex: 1;
+    text-align: left;
+}
+
+.producto-container .detalles p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Botón de reserva */
+.producto-container .reservar-btn {
+    background: #007bff;
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: background 0.3s ease;
+}
+
+.producto-container .reservar-btn:hover {
+    background: #0056b3;
+}
+
+
+/* Animación de apertura */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+
+
+/* Estilo general del botón */
+#addOption {
+    background-color: #ff9800;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#addOption:hover {
+    background-color: #f57c00;
+}
+
+.categorias {
+    text-align: center;
+}
+
+/* Modal */
+#modalImagen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none;  /* Inicialmente oculto */
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Evitar que la imagen se salga de la pantalla */
+    z-index: 9999; /* Asegurar que esté por encima de otros elementos */
+}
+
+/* Contenedor del modal para hacer scroll */
+#modalImagen {
+    display: none;  /* Ocultar el modal inicialmente */
+    position: fixed;  /* Fijar el modal */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);  /* Fondo oscuro */
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Para ocultar el contenido extra */
+}
+
+/* Contenedor de la imagen */
+#contenedorImagen {
+    max-width: 90%;
+    max-height: 90%;
+    overflow: auto; /* Permitir scroll cuando la imagen es más grande que el contenedor */
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;  /* Indica que la imagen se puede mover */
+}
+
+/* Imagen ampliada */
+#imagenAmpliada {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+
+}
+
+
+/* Botón de cerrar */
+.cerrar-modal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+}
+

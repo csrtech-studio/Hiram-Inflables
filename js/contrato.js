@@ -1,15 +1,8 @@
 import { db } from './firebaseConfig.js';
 import { doc, getDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
-import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js';
 
-// Verificar si el usuario está autenticado
-const auth = getAuth();
-onAuthStateChanged(auth, (user) => {
-  if (!user) {
-    // Si no está autenticado, redirigir al admin.html
-    window.location.href = 'admin.html';
-  }
-});
+
+
 // Obtener el ID de la reserva desde la URL
 const urlParams = new URLSearchParams(window.location.search);
 const reservaId = urlParams.get('id');
