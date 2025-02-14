@@ -13,9 +13,7 @@ body {
     padding: 5px 0;
     background: linear-gradient(135deg, #007bff, #00c6ff);
     color: #fff;
-    margin-top: 3px;
-    margin-bottom: 5px;
-    /* Reducir espacio */
+    margin: 3px 0 5px 0;
     height: 160px;
 }
 
@@ -33,35 +31,21 @@ body {
 }
 
 @keyframes bounce {
-    0%,
-    100% {
-        transform: translateY(0);
-        /* Posición inicial y final */
-    }
-
-    50% {
-        transform: translateY(-10px);
-        /* Salto hacia arriba */
-    }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
 }
 
 .site-title {
     font-size: 1.8rem;
-    /* Reducir tamaño */
     font-family: 'Comic Sans MS', cursive, sans-serif;
     font-weight: bold;
     color: #fff;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     animation: bounce 1s ease-in-out infinite;
-    /* Aplica la animación */
-    animation-delay: 0s;
-    /* Sin retraso inicial */
 }
 
-/* Opcional: Pausar el efecto al pasar el mouse */
 .site-title:hover {
     animation-play-state: paused;
-    /* Pausa la animación al interactuar */
 }
 
 .highlight {
@@ -74,11 +58,9 @@ body {
 .nav {
     display: flex;
     gap: 8px;
-    /* Reducir espacio */
     flex-wrap: wrap;
     justify-content: center;
     margin-top: 5px;
-    /* Reducir espacio */
 }
 
 .nav-item {
@@ -88,10 +70,8 @@ body {
 .nav-link {
     color: #fff !important;
     font-size: 0.85rem;
-    /* Reducir tamaño */
     font-weight: 400;
     padding: 5px 10px;
-    /* Reducir padding */
     text-decoration: none;
     border-radius: 25px;
     background: linear-gradient(135deg, #ff6b6b, #ffcc00);
@@ -108,7 +88,6 @@ body {
 .container {
     background-color: transparent;
     padding: 25px;
-    /* Reducir padding */
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     text-align: center;
@@ -116,75 +95,46 @@ body {
     overflow: hidden;
     animation: slideIn 1s ease-out;
     margin-bottom: 15px;
-    /* Reducir espacio */
 }
 
-/* Título */
 .container h2 {
     font-family: 'Permanent Marker', cursive, sans-serif;
     color: #ff4081;
     font-size: 2rem;
-    /* Reducir tamaño */
     text-transform: uppercase;
     letter-spacing: 3px;
     font-weight: bold;
     margin-bottom: 10px;
-    /* Reducir espacio */
     text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.6);
     animation: zoomIn 1s ease-out;
 }
 
-/* Párrafo */
 .container p {
     font-family: 'Dosis', sans-serif;
     color: #333;
     font-size: 1rem;
-    /* Reducir tamaño */
     line-height: 1.6;
     margin: 5px 0;
-    /* Reducir espacio */
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
-/* Centrar solo el nombre del producto */
+/* Producto */
 .producto-container .nombre-producto {
     text-align: center;
     font-size: 16px;
-    /* Reducir tamaño */
     font-weight: bold;
 }
 
-/* Animación de entrada deslizante */
 @keyframes slideIn {
-    0% {
-        transform: translateX(100%);
-    }
-
-    100% {
-        transform: translateX(0);
-    }
-}
-
-/* Animación de zoom */
-@keyframes zoomIn {
-    0% {
-        transform: scale(0.8);
-        opacity: 0;
-    }
-
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(0); }
 }
 
 /* ======== Botones Generales ======== */
 .btn {
     font-size: 1rem;
-    /* Reducir tamaño */
     padding: 8px 16px;
-    /* Reducir padding */
     border-radius: 30px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
@@ -201,38 +151,30 @@ body {
         flex-direction: column;
         text-align: center;
     }
-
     .nav {
         flex-direction: column;
         gap: 5px;
-        /* Reducir espacio */
     }
-
     .btn-success,
     .btn-primary {
         font-size: 1rem;
         padding: 8px 16px;
     }
-
     .container h2 {
         font-size: 1.2rem;
-        /* Reducir tamaño */
     }
-
     .container p {
         font-size: 1rem;
-        /* Reducir tamaño */
     }
-
     .logo {
         width: 60px;
         height: 60px;
     }
 }
 
+/* ======== Sección de Categorías y Productos ======== */
 .categoria {
     margin-bottom: 20px;
-    /* Reducir espacio */
 }
 
 .categoria h2 {
@@ -244,12 +186,10 @@ body {
     padding-bottom: 5px;
 }
 
-/* Estilos específicos para la clase 'producto-container' */
 .producto-container {
     display: flex;
     align-items: center;
     gap: 15px;
-    /* Reducir espacio */
     background: #fff;
     padding: 12px;
     border-radius: 10px;
@@ -263,7 +203,6 @@ body {
     box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Imagen del producto */
 .producto-container .imagen-expandible {
     width: 110px;
     height: 110px;
@@ -277,7 +216,6 @@ body {
     transform: scale(1.05);
 }
 
-/* Contenedor de detalles */
 .producto-container .detalles {
     flex: 1;
     text-align: left;
@@ -289,7 +227,6 @@ body {
     color: #333;
 }
 
-/* Botón de reserva */
 .producto-container .reservar-btn {
     background: #007bff;
     color: white;
@@ -307,16 +244,13 @@ body {
     background: #0056b3;
 }
 
-
 /* Animación de apertura */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
 }
 
-
-
-/* Estilo general del botón */
+/* Botón adicional */
 #addOption {
     background-color: #ff9800;
     color: white;
@@ -336,66 +270,147 @@ body {
     text-align: center;
 }
 
-/* Modal */
+/* ======== Modal de Imagen a Pantalla Completa ======== */
 #modalImagen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    display: none;  /* Oculto inicialmente */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    overflow: hidden;
+}
+
+/* Contenedor para la imagen o carrusel dentro del modal */
+#contenedorImagen,
+#carouselModal {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Si se utiliza carrusel, que ocupe todo el espacio */
+#carouselModal .carousel-inner {
+    width: 100%;
+    height: 100%;
+}
+
+/* Imagen ampliada o del carrusel */
+#imagenAmpliada,
+#carouselModal .carousel-item img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    margin: auto;
+}
+
+/* ======== Flechas del Carrusel ======== */
+#carouselModal .carousel-control-prev,
+#carouselModal .carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: background 0.3s ease;
+}
+
+#carouselModal .carousel-control-prev:hover,
+#carouselModal .carousel-control-next:hover {
+    background: rgba(255, 255, 255, 0.8);
+}
+
+#carouselModal .carousel-control-prev-icon,
+#carouselModal .carousel-control-next-icon {
+    filter: invert(1);
+    width: 25px;
+    height: 25px;
+}
+
+#carouselModal .carousel-control-prev {
+    left: 20px;
+}
+
+#carouselModal .carousel-control-next {
+    right: 20px;
+}
+
+/* Botón de cerrar el modal */
+.cerrar-modal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2rem;
+    color: #fff;
+    cursor: pointer;
+    z-index: 10000;
+}
+
+/* Ajustes responsivos para el modal */
+@media (max-width: 768px) {
+    .cerrar-modal {
+        top: 10px;
+        right: 10px;
+        font-size: 1.5rem;
+    }
+}
+
+/* ======== Modal de Confirmación ======== */
+.modal-confirm {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: none;  /* Inicialmente oculto */
+    background-color: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
-    overflow: hidden; /* Evitar que la imagen se salga de la pantalla */
-    z-index: 9999; /* Asegurar que esté por encima de otros elementos */
+    z-index: 1000;
 }
 
-/* Contenedor del modal para hacer scroll */
-#modalImagen {
-    display: none;  /* Ocultar el modal inicialmente */
-    position: fixed;  /* Fijar el modal */
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);  /* Fondo oscuro */
-    justify-content: center;
-    align-items: center;
-    overflow: hidden; /* Para ocultar el contenido extra */
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    width: 300px;
 }
 
-/* Contenedor de la imagen */
-#contenedorImagen {
-    max-width: 90%;
-    max-height: 90%;
-    overflow: auto; /* Permitir scroll cuando la imagen es más grande que el contenedor */
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: grab;  /* Indica que la imagen se puede mover */
+.modal-content p {
+    margin-bottom: 15px;
+    font-size: 18px;
 }
 
-/* Imagen ampliada */
-#imagenAmpliada {
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-    transition: transform 0.3s ease;
-
-}
-
-
-/* Botón de cerrar */
-.cerrar-modal {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    color: white;
-    font-size: 30px;
+.modal-content button {
+    margin: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
     cursor: pointer;
 }
 
+.btn-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}

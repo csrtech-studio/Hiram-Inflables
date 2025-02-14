@@ -1,5 +1,6 @@
 import { db } from './firebaseConfig.js';
-import { collection, getDocs, doc, deleteDoc, setDoc, updateDoc, addDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+import { collection, getDocs, doc, deleteDoc, setDoc, updateDoc, addDoc, getDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js';
 
 // 📌 Verificar autenticación del usuario
@@ -10,7 +11,6 @@ onAuthStateChanged(auth, (user) => {
     }
 });
 
-// 📌 Selección de elementos del DOM
 const categoriaSelect = document.getElementById("categoria");
 const formCampos = document.getElementById("formCampos");
 const productoForm = document.getElementById("productoForm");
@@ -20,110 +20,169 @@ const reservasLista = document.getElementById("reservas-lista");
 
 // 📌 Actualizar formulario según la categoría seleccionada
 categoriaSelect.addEventListener("change", () => {
-    formCampos.innerHTML = `
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" required>
-        
-        <label for="descripcion">Descripción:</label>
-        <input type="text" id="descripcion" required>
-        
-        <label for="tiempo">Tiempo:</label>
-        <input type="text" id="tiempo" required>
-        
-        <label for="costo">Costo:</label>
-        <input type="number" id="costo" required>
-        
-        <label for="imagen">Imagen (URL):</label>
-        <input type="text" id="imagen" placeholder="https://ejemplo.com/imagen.jpg" required>
-    `;
+  formCampos.innerHTML = `
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" required>
+      
+      <label for="descripcion">Descripción:</label>
+      <input type="text" id="descripcion" required>
+      
+      <label for="tiempo">Tiempo:</label>
+      <input type="text" id="tiempo" required>
+      
+      <label for="costo">Costo:</label>
+      <input type="number" id="costo" required>
+      
+      <label>Imágenes (URLs):</label>
+      <div id="imagenesContainer">
+          <div class="imagen-input">
+              <input type="text" class="imagen-url" placeholder="https://ejemplo.com/imagen.jpg" required>
+              <button type="button" class="agregar-imagen">+</button>
+          </div>
+      </div>
+  `;
+
+  // Agregar más campos de imagen al hacer clic en "+"
+  document.querySelector(".agregar-imagen").addEventListener("click", () => {
+      const contenedor = document.getElementById("imagenesContainer");
+      const nuevoInput = document.createElement("div");
+      nuevoInput.classList.add("imagen-input");
+      nuevoInput.innerHTML = `
+          <input type="text" class="imagen-url" placeholder="https://ejemplo.com/imagen.jpg" required>
+          <button type="button" class="eliminar-imagen">x</button>
+      `;
+      contenedor.appendChild(nuevoInput);
+
+      // Botón para eliminar un campo de imagen
+      nuevoInput.querySelector(".eliminar-imagen").addEventListener("click", () => {
+          nuevoInput.remove();
+      });
+  });
 });
 
-// 📌 Guardar producto en Firebase
+// 📌 Guardar o editar producto en Firebase
 productoForm.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  
-  const categoria = categoriaSelect.value;
-  const nombre = document.getElementById("nombre").value;
-  const descripcion = document.getElementById("descripcion").value;
-  const tiempo = document.getElementById("tiempo").value;
-  const costo = document.getElementById("costo").value;
-  const imagen = document.getElementById("imagen").value;
+    e.preventDefault();
 
-  try {
-      await addDoc(collection(db, "productos"), { // 🟢 Ahora todos los productos están en la colección "productos"
-          categoria, // 🟢 Se guarda la categoría como un campo
-          nombre,
-          descripcion,
-          tiempo,
-          costo,
-          imagen
-      });
-      productoForm.reset();
-      cargarProductos();
-  } catch (error) {
-      console.error("Error al agregar producto:", error);
-  }
+    const categoria = categoriaSelect.value;
+    const nombre = document.getElementById("nombre").value;
+    const descripcion = document.getElementById("descripcion").value;
+    const tiempo = document.getElementById("tiempo").value;
+    const costo = document.getElementById("costo").value;
+    const imagenes = Array.from(document.querySelectorAll(".imagen-url")).map(input => input.value);
+
+    const productoData = { categoria, nombre, descripcion, tiempo, costo, imagenes };
+
+    try {
+        if (productoForm.dataset.editingId) {
+            // Si se está editando, actualizar en Firebase
+            const productoId = productoForm.dataset.editingId;
+            await updateDoc(doc(db, "productos", productoId), productoData);
+
+            // Restablecer el estado del botón a "Guardar"
+            delete productoForm.dataset.editingId;
+            const submitButton = document.querySelector("#productoForm button[type='submit']");
+            if (submitButton) {
+                submitButton.textContent = "Guardar";
+            }
+        } else {
+            // Si es un nuevo producto, agregarlo a Firebase
+            await addDoc(collection(db, "productos"), productoData);
+        }
+
+        productoForm.reset();
+        cargarProductos();
+    } catch (error) {
+        console.error("Error al guardar producto:", error);
+    }
 });
 
 // 📌 Cargar productos desde Firebase
 async function cargarProductos() {
-  tablaProductos.innerHTML = "";
-  
-  const productosSnapshot = await getDocs(collection(db, "productos")); // 🟢 Se cargan todos los productos de la colección "productos"
-  productosSnapshot.forEach((doc) => {
-      const producto = doc.data();
-      const key = doc.id;
+    tablaProductos.innerHTML = "";
 
-      const fila = document.createElement("tr");
-      fila.innerHTML = `
-          <td>${producto.categoria}</td> 
-          <td>${producto.nombre}</td>
-          <td>${producto.descripcion}</td>
-          <td>${producto.tiempo}</td>
-          <td>${producto.costo}</td>
-          <td><img src="${producto.imagen}" alt="Imagen" style="width: 100px; height: 100px;"></td>
-          <td>
-              <button onclick="editarProducto('${key}', '${producto.categoria}', '${producto.nombre}', '${producto.descripcion}', '${producto.tiempo}', '${producto.costo}', '${producto.imagen}')">Editar</button>
-              <button onclick="eliminarProducto('${key}')">Eliminar</button>
-          </td>
-      `;
-      tablaProductos.appendChild(fila);
-  });
+    const productosSnapshot = await getDocs(collection(db, "productos"));
+    productosSnapshot.forEach((doc) => {
+        const producto = doc.data();
+        const key = doc.id;
+
+        const fila = document.createElement("tr");
+        fila.innerHTML = `
+            <td>${producto.categoria}</td> 
+            <td>${producto.nombre}</td>
+            <td>${producto.descripcion}</td>
+            <td>${producto.tiempo}</td>
+            <td>${producto.costo}</td>
+            <td><img src="${producto.imagenes?.[0] || ''}" alt="Imagen" style="width: 100px; height: 100px;"></td>
+            <td>
+                <button onclick="editarProducto('${key}')">Editar</button>
+                <button onclick="eliminarProducto('${key}')">Eliminar</button>
+            </td>
+        `;
+        tablaProductos.appendChild(fila);
+    });
 }
 
 // 📌 Eliminar un producto
 window.eliminarProducto = async function (key) {
-  if (confirm("¿Seguro que deseas eliminar este producto?")) {
-      await deleteDoc(doc(db, "productos", key)); // 🟢 Ahora se usa "productos" como colección única
-      cargarProductos();
-  }
+    if (confirm("¿Seguro que deseas eliminar este producto?")) {
+        await deleteDoc(doc(db, "productos", key));
+        cargarProductos();
+    }
 };
+
+
 
 // 📌 Editar un producto
-window.editarProducto = function (key, categoria, nombre, descripcion, tiempo, costo, imagen) {
-  document.getElementById("categoria").value = categoria;
-  document.getElementById("nombre").value = nombre;
-  document.getElementById("descripcion").value = descripcion;
-  document.getElementById("tiempo").value = tiempo;
-  document.getElementById("costo").value = costo;
-  document.getElementById("imagen").value = imagen;
+window.editarProducto = async function (key) {
+  try {
+      const productoRef = doc(db, "productos", key);
+      const productoSnap = await getDoc(productoRef);
 
-  productoForm.onsubmit = async function (e) {
-      e.preventDefault();
-      await updateDoc(doc(db, "productos", key), { // 🟢 Se usa "productos" como colección única
-          categoria: document.getElementById("categoria").value,
-          nombre: document.getElementById("nombre").value,
-          descripcion: document.getElementById("descripcion").value,
-          tiempo: document.getElementById("tiempo").value,
-          costo: document.getElementById("costo").value,
-          imagen: document.getElementById("imagen").value
+      if (!productoSnap.exists()) {
+          console.error("El producto no existe");
+          return;
+      }
+
+      const productoData = productoSnap.data();
+
+      // Cargar los datos en el formulario
+      document.getElementById("categoria").value = productoData.categoria;
+      document.getElementById("nombre").value = productoData.nombre;
+      document.getElementById("descripcion").value = productoData.descripcion;
+      document.getElementById("tiempo").value = productoData.tiempo;
+      document.getElementById("costo").value = productoData.costo;
+
+      // Cargar imágenes
+      const imagenesContainer = document.getElementById("imagenesContainer");
+      imagenesContainer.innerHTML = ""; // Limpiar el contenedor
+
+      productoData.imagenes.forEach((url) => {
+          const nuevoInput = document.createElement("div");
+          nuevoInput.classList.add("imagen-input");
+          nuevoInput.innerHTML = `
+              <input type="text" class="imagen-url" value="${url}" required>
+              <button type="button" class="eliminar-imagen">x</button>
+          `;
+          imagenesContainer.appendChild(nuevoInput);
+
+          nuevoInput.querySelector(".eliminar-imagen").addEventListener("click", () => {
+              nuevoInput.remove();
+          });
       });
-      productoForm.reset();
-      cargarProductos();
-      productoForm.onsubmit = productoForm.submit;
-  };
-};
 
+      // Cambiar el botón de "Guardar" a "Actualizar"
+      const submitButton = document.querySelector("#productoForm button[type='submit']");
+      if (submitButton) {
+          submitButton.textContent = "Actualizar";
+      }
+
+      // Guardar el ID del producto para actualizarlo luego
+      productoForm.dataset.editingId = key;
+  } catch (error) {
+      console.error("Error al cargar el producto:", error);
+  }
+};
 
 
 
