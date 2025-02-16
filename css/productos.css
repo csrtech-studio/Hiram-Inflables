@@ -196,7 +196,7 @@ body {
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease-in-out;
     max-width: 750px;
-    margin: auto;
+    margin: 10px;
 }
 
 .producto-container:hover {
@@ -414,3 +414,71 @@ body {
     background-color: #dc3545;
     color: white;
 }
+
+
+.imagen-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .video-icon {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 2px 17px;
+    border-radius: 8px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #b40808, #e63939);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  }
+  
+  .video-icon:hover {
+    background: linear-gradient(135deg, #e63939, #b40808);
+    transform: translateX(-50%) scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  }
+  
+  .video-icon i {
+    color: #f7f4f4;
+    font-size: 22px;
+    vertical-align: middle;
+  }
+    
+  .video-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .video-modal-content {
+    position: relative;
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    max-width: 90%;
+    max-height: 90%;
+  }
+  
+  .close-video-modal {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  
+  video {
+    max-width: 100%;
+    max-height: 80vh;
+  }
+  

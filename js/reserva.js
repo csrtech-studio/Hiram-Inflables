@@ -17,8 +17,7 @@ const productoForm = document.getElementById("productoForm");
 const tablaProductos = document.getElementById("tablaProductos");
 const reservasLista = document.getElementById("reservas-lista");
 
-
-// 📌 Actualizar formulario según la categoría seleccionada
+// 📌 Generar formulario según la categoría seleccionada (incluye campo de video)
 categoriaSelect.addEventListener("change", () => {
   formCampos.innerHTML = `
       <label for="nombre">Nombre:</label>
@@ -40,6 +39,9 @@ categoriaSelect.addEventListener("change", () => {
               <button type="button" class="agregar-imagen">+</button>
           </div>
       </div>
+      
+      <label for="video">Video (opcional):</label>
+      <input type="text" id="video" placeholder="https://ejemplo.com/video.mp4">
   `;
 
   // Agregar más campos de imagen al hacer clic en "+"
@@ -70,8 +72,9 @@ productoForm.addEventListener("submit", async (e) => {
     const tiempo = document.getElementById("tiempo").value;
     const costo = document.getElementById("costo").value;
     const imagenes = Array.from(document.querySelectorAll(".imagen-url")).map(input => input.value);
+    const video = document.getElementById("video").value; // Nuevo campo de video
 
-    const productoData = { categoria, nombre, descripcion, tiempo, costo, imagenes };
+    const productoData = { categoria, nombre, descripcion, tiempo, costo, imagenes, video };
 
     try {
         if (productoForm.dataset.editingId) {
@@ -113,7 +116,10 @@ async function cargarProductos() {
             <td>${producto.descripcion}</td>
             <td>${producto.tiempo}</td>
             <td>${producto.costo}</td>
-            <td><img src="${producto.imagenes?.[0] || ''}" alt="Imagen" style="width: 100px; height: 100px;"></td>
+            <td>
+                <img src="${producto.imagenes?.[0] || ''}" alt="Imagen" style="width: 100px; height: 100px;">
+                ${producto.video ? `<br><a href="${producto.video}" target="_blank">Ver Video</a>` : ""}
+            </td>
             <td>
                 <button onclick="editarProducto('${key}')">Editar</button>
                 <button onclick="eliminarProducto('${key}')">Eliminar</button>
@@ -131,8 +137,6 @@ window.eliminarProducto = async function (key) {
     }
 };
 
-
-
 // 📌 Editar un producto
 window.editarProducto = async function (key) {
   try {
@@ -146,25 +150,52 @@ window.editarProducto = async function (key) {
 
       const productoData = productoSnap.data();
 
-      // Cargar los datos en el formulario
+      // Actualizar el formulario con los datos del producto
       document.getElementById("categoria").value = productoData.categoria;
       document.getElementById("nombre").value = productoData.nombre;
       document.getElementById("descripcion").value = productoData.descripcion;
       document.getElementById("tiempo").value = productoData.tiempo;
       document.getElementById("costo").value = productoData.costo;
+      document.getElementById("video").value = productoData.video || "";
 
       // Cargar imágenes
       const imagenesContainer = document.getElementById("imagenesContainer");
       imagenesContainer.innerHTML = ""; // Limpiar el contenedor
 
-      productoData.imagenes.forEach((url) => {
+      if (productoData.imagenes && productoData.imagenes.length > 0) {
+          productoData.imagenes.forEach((url) => {
+              const nuevoInput = document.createElement("div");
+              nuevoInput.classList.add("imagen-input");
+              nuevoInput.innerHTML = `
+                  <input type="text" class="imagen-url" value="${url}" required>
+                  <button type="button" class="eliminar-imagen">x</button>
+              `;
+              imagenesContainer.appendChild(nuevoInput);
+
+              nuevoInput.querySelector(".eliminar-imagen").addEventListener("click", () => {
+                  nuevoInput.remove();
+              });
+          });
+      }
+
+      // Agregar un campo para nuevas imágenes (con botón "+")
+      const plusDiv = document.createElement("div");
+      plusDiv.classList.add("imagen-input");
+      plusDiv.innerHTML = `
+          <input type="text" class="imagen-url" placeholder="https://ejemplo.com/imagen.jpg">
+          <button type="button" class="agregar-imagen">+</button>
+      `;
+      imagenesContainer.appendChild(plusDiv);
+
+      plusDiv.querySelector(".agregar-imagen").addEventListener("click", () => {
+          const contenedor = document.getElementById("imagenesContainer");
           const nuevoInput = document.createElement("div");
           nuevoInput.classList.add("imagen-input");
           nuevoInput.innerHTML = `
-              <input type="text" class="imagen-url" value="${url}" required>
+              <input type="text" class="imagen-url" placeholder="https://ejemplo.com/imagen.jpg" required>
               <button type="button" class="eliminar-imagen">x</button>
           `;
-          imagenesContainer.appendChild(nuevoInput);
+          contenedor.appendChild(nuevoInput);
 
           nuevoInput.querySelector(".eliminar-imagen").addEventListener("click", () => {
               nuevoInput.remove();

@@ -106,7 +106,7 @@ async function cargarProductos() {
   }
 }
 
-function renderProductos() {
+function renderProductos() { 
   productosContainer.innerHTML = "";
   Object.keys(productosPorCategoria).forEach(categoria => {
     if (productosPorCategoria[categoria].length > 0) {
@@ -114,8 +114,17 @@ function renderProductos() {
       productosPorCategoria[categoria].forEach(producto => {
         categoriaHTML += `
           <div class="producto-container">
-            <img src="${producto.imagenes?.[0] || ''}" alt="${producto.nombre}" 
-                 class="imagen-expandible" data-producto-id="${producto.id}">
+            <div class="imagen-wrapper">
+              <img src="${producto.imagenes?.[0] || ''}" alt="${producto.nombre}" 
+                   class="imagen-expandible" data-producto-id="${producto.id}">
+              ${
+                producto.video && producto.video.trim() !== ""
+                  ? `<div class="video-icon" onclick="openVideoModal('${producto.video}')" title="Ver video">
+                       <i class="fa fa-play-circle"></i>
+                     </div>`
+                  : ""
+              }
+            </div>
             <div class="detalles">
               <p class="nombre-producto"><strong>${producto.nombre}</strong></p>
               <p><strong>Descripción:</strong> ${producto.descripcion}</p>
@@ -134,6 +143,33 @@ function renderProductos() {
     }
   });
 }
+
+function openVideoModal(videoUrl) {
+  const modal = document.createElement('div');
+  modal.classList.add('video-modal');
+  modal.innerHTML = `
+    <div class="video-modal-content">
+      <span class="close-video-modal">&times;</span>
+      <video controls autoplay>
+        <source src="${videoUrl}" type="video/mp4">
+        Tu navegador no soporta el elemento de video.
+      </video>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  // Cerrar el modal al hacer clic en la "x"
+  modal.querySelector('.close-video-modal').addEventListener('click', () => modal.remove());
+  // Cerrar el modal al hacer clic fuera del contenido
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.remove();
+    }
+  });
+}
+
+// Asignar la función al objeto global para que sea accesible desde el HTML (soluciona el warning de TS)
+window.openVideoModal = openVideoModal;
 
 /* ====================================================
    Delegación de eventos para Reservar y Modal de Imagen
