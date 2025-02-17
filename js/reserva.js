@@ -1,6 +1,5 @@
 import { db } from './firebaseConfig.js';
 import { collection, getDocs, doc, deleteDoc, setDoc, updateDoc, addDoc, getDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
-
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js';
 
 // 📌 Verificar autenticación del usuario
@@ -224,11 +223,17 @@ async function cargarReservas() {
 
     reservasSnapshot.forEach((doc) => {
         const reserva = doc.data();
-        const row = document.createElement('tr');
-        const botonAccion = reserva.estado === 'Cancelado' 
-            ? `<button class="btn btn-danger" onclick="eliminarReserva('${doc.id}')">Eliminar</button>`
-            : `<a href="detallesReserva.html?id=${doc.id}" class="btn btn-info">Ver</a>`;
+        let botonAccion = '';
 
+        if (reserva.estado === 'Cancelado') {
+            botonAccion = `<button class="btn btn-danger" onclick="eliminarReserva('${doc.id}')">Eliminar</button>`;
+        } else if (reserva.estado === 'Confirmado') {
+            botonAccion = `<button class="btn btn-success" onclick="concluirReserva('${doc.id}', '${encodeURIComponent(JSON.stringify(reserva))}')">Concluir</button>`;
+        } else {
+            botonAccion = `<a href="detallesReserva.html?id=${doc.id}" class="btn btn-info">Ver</a>`;
+        }
+
+        const row = document.createElement('tr');
         row.innerHTML = `
             <td>${reserva.nombre}</td>
             <td>${reserva.fecha}</td>
@@ -239,6 +244,29 @@ async function cargarReservas() {
         reservasLista.appendChild(row);
     });
 }
+
+// 📌 Hacer la función accesible globalmente
+window.concluirReserva = async function (reservaId, reservaDataStr) {
+    try {
+        const reservaData = JSON.parse(decodeURIComponent(reservaDataStr));
+
+        // Guardar en la colección 'reservasTerminadas'
+        await setDoc(doc(db, 'reservasTerminadas', reservaId), reservaData);
+
+        // Eliminar de la colección 'reservas'
+        await deleteDoc(doc(db, 'reservas', reservaId));
+
+        alert("Reserva concluida y archivada.");
+        cargarReservas(); // Recargar lista
+    } catch (error) {
+        console.error("Error al concluir la reserva:", error);
+        alert("Hubo un error al concluir la reserva.");
+    }
+};
+
+
+
+
 
 // 📌 Verificar reservas cercanas en el tiempo
 function verificarFechasCercanas(reservas) {

@@ -257,3 +257,13 @@ document.addEventListener("DOMContentLoaded", () => {
   cargarImagenesCarrusel();
   cargarProductos();
 });
+
+window.addEventListener("scroll", () => {
+  const header = document.querySelector('.header');
+  // Si el scroll vertical es mayor a la mitad de la altura de la ventana...
+  if (window.scrollY > window.innerHeight / 2) {
+    header.classList.add("small-header");
+  } else {
+    header.classList.remove("small-header");
+  }
+});

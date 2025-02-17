@@ -6,14 +6,13 @@ import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/
 const auth = getAuth();
 onAuthStateChanged(auth, (user) => {
   if (!user) {
-    // Si no está autenticado, redirigir al admin.html
     window.location.href = 'admin.html';
   }
 });
 
 document.addEventListener('DOMContentLoaded', () => {
   const urlParams = new URLSearchParams(window.location.search);
-  const reservaId = urlParams.get('id'); // Obtenemos el ID de la reserva de la URL
+  const reservaId = urlParams.get('id'); 
 
   if (reservaId) {
     obtenerDetallesReserva(reservaId);
@@ -26,83 +25,80 @@ document.addEventListener('DOMContentLoaded', () => {
     const reservaDoc = await getDoc(reservaRef);
 
     if (reservaDoc.exists()) {
-      const reservaData = reservaDoc.data();
+        const reservaData = reservaDoc.data();
+        const reservaDetalles = document.getElementById('reserva-detalles');
+        
+        reservaDetalles.innerHTML = `
+            <h2><strong>Cliente:</strong> ${reservaData.nombre}</h2>
+            <p><strong>Teléfono:</strong> ${reservaData.telefono}</p>
+            <p><strong>Fecha:</strong> ${reservaData.fecha}</p>
+            <p><strong>Hora:</strong> ${reservaData.hora}</p>
+            <p><strong>Dirección:</strong> ${reservaData.direccion}</p>
+            <h5>Paquetes Seleccionados:</h5>
+            <ul>
+                ${reservaData.adicionales.map(adicional => `
+                    <li>${adicional.nombre} - $${adicional.precio}</li>
+                `).join('')}
+            </ul>
+            <p><strong>Total:</strong> $${reservaData.total}</p>
+            <p><strong>Estado:</strong> ${reservaData.estado}</p>
+        `;
 
-      const reservaDetalles = document.getElementById('reserva-detalles');
-      reservaDetalles.innerHTML = `
-        <h2><strong>Cliente:</strong> ${reservaData.nombre}</h2>
-        <p><strong>Teléfono:</strong> ${reservaData.telefono}</p>
-        <p><strong>Fecha:</strong> ${reservaData.fecha}</p>
-        <p><strong>Hora:</strong> ${reservaData.hora}</p>
-        <p><strong>Dirección:</strong> ${reservaData.direccion}</p>
-        <h5>Paquetes Seleccionados:</h5>
-        <ul>
-          ${reservaData.adicionales.map(adicional => `
-            <li>${adicional.nombre} - $${adicional.precio}</li>
-          `).join('')}
-        </ul>
-        <p><strong>Total:</strong> $${reservaData.total}</p>
-        <p><strong>Estado:</strong> ${reservaData.estado}</p>
-      `;
+        const aceptarBtn = document.getElementById('aceptar-reserva');
+        const rechazarBtn = document.getElementById('rechazar');
 
-      // Asegurarse de que el botón "Aceptar" esté bien asignado
-      const aceptarBtn = document.getElementById('aceptar-reserva');
-      console.log('Botón Aceptar:', aceptarBtn);  // Verificar que el botón exista
-      if (aceptarBtn) {
-        aceptarBtn.addEventListener('click', (event) => {
-          event.preventDefault();  // Evitar comportamiento por defecto (redirección inmediata)
-          console.log('Botón Aceptar presionado');
-          cambiarEstadoReserva(reservaId, 'Confirmado', 'aceptado').then(() => {
-            window.location.href = 'reservas.html';  // Redirigir después de ejecutar la lógica
-          });
-        });
-      }
+        if (reservaData.estado === 'Confirmado') {
+            // Si la reserva está confirmada, cambiar el botón a "Concluir Reserva"
+            aceptarBtn.textContent = "Concluir Reserva";
+            rechazarBtn.style.display = "none"; // Ocultar botón de cancelar
 
-      // Asignar evento al botón "Rechazar"
-      const rechazarBtn = document.getElementById('rechazar');
-      if (rechazarBtn) {
-        rechazarBtn.addEventListener('click', async () => {
-          await cambiarEstadoReserva(reservaId, 'Cancelado', 'rechazado');
-          window.location.href = 'reservas.html';  // Redirigir después de ejecutar la lógica
-        });
-      }
+            aceptarBtn.addEventListener('click', async () => {
+                await concluirReserva(reservaDoc.id, reservaData);
+                window.location.href = 'reservas.html';
+            });
+        } else {
+            // Asignar el evento para aceptar la reserva
+            aceptarBtn.addEventListener('click', async () => {
+                await cambiarEstadoReserva(reservaDoc.id, 'Confirmado', 'aceptado');
+                window.location.href = 'reservas.html';
+            });
+
+            rechazarBtn.addEventListener('click', async () => {
+                await cambiarEstadoReserva(reservaDoc.id, 'Cancelado', 'rechazado');
+                window.location.href = 'reservas.html';
+            });
+        }
     } else {
-      alert("No se encontraron detalles de la reserva.");
+        alert("No se encontraron detalles de la reserva.");
     }
-  }
+}
 
-  // Función para cambiar el estado de la reserva y enviar el mensaje de WhatsApp
+
+// 📌 Concluir reserva (Mover a 'reservasTerminadas' y eliminar de 'reservas')
+async function concluirReserva(reservaId, reservaData) {
+    const reservaTerminadaRef = doc(db, 'reservasTerminadas', reservaId);
+    await setDoc(reservaTerminadaRef, reservaData);
+    await deleteDoc(doc(db, 'reservas', reservaId));
+
+    alert("Reserva concluida y archivada.");
+}
+
   async function cambiarEstadoReserva(reservaId, nuevoEstado, tipoMensaje) {
     const reservaRef = doc(db, 'reservas', reservaId);
     await updateDoc(reservaRef, { estado: nuevoEstado });
 
     const reservaDoc = await getDoc(reservaRef);
     const reservaData = reservaDoc.data();
-
     let mensaje = '';
 
     if (tipoMensaje === 'aceptado') {
-      mensaje = `¡Hola ${reservaData.nombre}! Inflables Hiram le informa que su reserva ha sido confirmada. Por favor, revisa y acepta el contrato en el siguiente enlace: https://csrtech-studio.github.io/Hiram-Inflables/contrato.html?id=${reservaId}`;
+      mensaje = `¡Hola ${reservaData.nombre}! Su reserva ha sido confirmada. Revise el contrato en: https://csrtech-studio.github.io/Hiram-Inflables/contrato.html?id=${reservaId}`;
     } else if (tipoMensaje === 'rechazado') {
-      mensaje = `
-        Estimado/a ${reservaData.nombre},
-
-        Inflables Hiram lamenta informarle que por el momento no podemos ofrecerle el servicio de renta solicitado. Las razones pueden ser las siguientes:
-        - La fecha solicitada ya se encuentra reservada para otro cliente.
-        - No contamos con el inflable o la máquina solicitada en inventario.
-
-        Le pedimos una disculpa por los inconvenientes causados. Si desea más información o tiene alguna consulta adicional, no dude en contactarnos a este mismo número.
-
-        Atentamente,
-        Inflables Hiram
-      `;
+      mensaje = `Estimado/a ${reservaData.nombre}, lamentamos informarle que no podemos procesar su reserva en este momento.`;
     }
 
     const urlWhatsApp = `https://wa.me/${reservaData.telefono}?text=${encodeURIComponent(mensaje)}`;
-    console.log('URL WhatsApp:', urlWhatsApp);  // Verificar el enlace de WhatsApp generado
-
     window.open(urlWhatsApp, '_blank');
-
     alert(`Estado de la reserva actualizado a: ${nuevoEstado}`);
   }
 });

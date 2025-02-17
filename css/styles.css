@@ -8,63 +8,52 @@ body {
 }
 
 /* ======== Header ======== */
-.header {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    padding: 5px 0;
-    background: linear-gradient(135deg, #007bff, #00c6ff);
-    color: #fff;
-    margin-top: 3px;
-    margin-bottom: 5px;
-    /* Reducir espacio */
-    height: 188px;
-}
-
-.logo {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
+  /* Elementos dentro del header */
+  .header .logo {
+    margin-left: 10px;
+    width: 120px;
+    height: 100px;
+    border-radius: 40px;
     object-fit: cover;
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-    transition: transform 0.3s ease;
-}
+    transition: all 0.3s ease;
+  }
+  
+  .header .site-title {
+    font-size: 2.8rem;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+  }
 
 .logo:hover {
     transform: rotate(360deg) scale(1.1);
 }
 
 @keyframes bounce {
-
-    0%,
-    100% {
+    0%, 100% { 
         transform: translateY(0);
-        /* Posición inicial y final */
     }
-
     50% {
         transform: translateY(-10px);
-        /* Salto hacia arriba */
     }
 }
 
 .site-title {
     font-size: 2.1rem;
-    /* Reducir tamaño */
     font-family: 'Comic Sans MS', cursive, sans-serif;
     font-weight: bold;
     color: #fff;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     animation: bounce 1s ease-in-out infinite;
-    /* Aplica la animación */
     animation-delay: 0s;
-    /* Sin retraso inicial */
 }
 
-/* Opcional: Pausar el efecto al pasar el mouse */
 .site-title:hover {
     animation-play-state: paused;
-    /* Pausa la animación al interactuar */
 }
-
 
 .highlight {
     color: #ffcc00;
@@ -74,13 +63,12 @@ body {
 
 /* Menú de navegación */
 .nav {
+    margin-left: 10px;
     display: flex;
     gap: 10px;
-    /* Reducir espacio */
     flex-wrap: wrap;
     justify-content: center;
     margin-top: 5px;
-    /* Reducir espacio */
 }
 
 .nav-item {
@@ -89,11 +77,9 @@ body {
 
 .nav-link {
     color: #fff !important;
-    font-size: 0.9rem;
-    /* Reducir tamaño */
+    font-size: 1.9rem;
     font-weight: 400;
     padding: 5px 12px;
-    /* Reducir padding */
     text-decoration: none;
     border-radius: 25px;
     background: linear-gradient(135deg, #ff6b6b, #ffcc00);
@@ -110,7 +96,6 @@ body {
 .container {
     background-color: transparent;
     padding: 30px;
-    /* Reducir padding */
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     text-align: center;
@@ -118,48 +103,38 @@ body {
     overflow: hidden;
     animation: slideIn 1s ease-out;
     margin-bottom: 20px;
-    /* Reducir espacio */
 }
 
-/* Título */
 .container h2 {
     font-family: 'Permanent Marker', cursive, sans-serif;
     color: #ff4081;
     font-size: 2.2rem;
-    /* Reducir tamaño */
     text-transform: uppercase;
     letter-spacing: 3px;
     font-weight: bold;
     margin-bottom: 15px;
-    /* Reducir espacio */
     text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.6);
     animation: zoomIn 1s ease-out;
 }
 
-/* Párrafo */
 .container p {
     font-family: 'Dosis', sans-serif;
     color: #333;
     font-size: 1.1rem;
-    /* Reducir tamaño */
     line-height: 1.6;
     margin: 10px 0;
-    /* Reducir espacio */
     font-weight: 600;
     transition: color 0.3s ease;
 }
 
-/* Efecto hover para el párrafo */
 .container p:hover {
     color: #ff4081;
     cursor: pointer;
 }
 
-/* Efecto hover en el llamado a la acción */
 .container p strong {
     background: #ff4081;
     padding: 8px 18px;
-    /* Reducir padding */
     border-radius: 30px;
     color: #fff;
     font-weight: bold;
@@ -173,36 +148,20 @@ body {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
-/* Animación de entrada deslizante */
 @keyframes slideIn {
-    0% {
-        transform: translateX(100%);
-    }
-
-    100% {
-        transform: translateX(0);
-    }
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(0); }
 }
 
-/* Animación de zoom */
 @keyframes zoomIn {
-    0% {
-        transform: scale(0.8);
-        opacity: 0;
-    }
-
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
 }
 
 /* ======== Botones Generales ======== */
 .btn {
     font-size: 1rem;
-    /* Reducir tamaño */
     padding: 10px 20px;
-    /* Reducir padding */
     border-radius: 30px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: transform 0.3s, box-shadow 0.3s;
@@ -213,48 +172,36 @@ body {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* Estilo para el botón flotante de WhatsApp */
+/* Botón flotante de WhatsApp */
 .whatsapp-btn {
     position: fixed;
     bottom: 20px;
-    /* Distancia desde el fondo */
     right: 3px;
-    /* Distancia desde el lado derecho */
     margin-bottom: 30px;
     background-color: #25d366;
-    /* Color de fondo de WhatsApp */
     color: #fff;
-    /* Color del texto */
     padding: 10px 20px;
     border-radius: 20px;
-    /* Bordes redondeados */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    /* Sombra para el botón */
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 2rem;
     text-decoration: none;
-    /* Elimina subrayado */
     z-index: 9999;
-    /* Asegura que el botón esté encima de otros elementos */
     transition: all 0.3s ease;
 }
 
 .whatsapp-btn:hover {
     background-color: #128c7e;
-    /* Color más oscuro cuando se pasa el mouse */
     transform: scale(1.1);
-    /* Efecto de agrandar cuando se pasa el mouse */
 }
 
 .whatsapp-btn i {
     margin-right: 10px;
-    /* Espacio entre el icono y el texto */
 }
 
-
-/* ======== Botón Facebook ======== */
+/* Botón Facebook */
 .btn-primary {
     background-color: #3b5998;
     border: none;
@@ -270,7 +217,6 @@ body {
 
 .btn-primary i {
     font-size: 1.1rem;
-    /* Reducir tamaño del icono */
 }
 
 .btn-primary:hover {
@@ -279,54 +225,46 @@ body {
     transform: scale(1.05);
 }
 
-/* Asegura que todas las imágenes del carrusel tengan el mismo tamaño y se adapten bien */
-
+/* ======== Carrusel ======== */
 .carousel-container {
     display: flex;
-    /* Activar Flexbox */
     justify-content: center;
-    /* Centrar horizontalmente */
     align-items: center;
-    /* Centrar verticalmente */
-    min-height: 200vh;
-    /* Altura mínima igual a la altura de la pantalla */
+    min-height: 200vh; /* Puede ajustarse si es necesario */
     width: 100%;
-    /* Usar todo el ancho disponible */
     margin: 0 auto;
-    /* Centrar el contenedor si tiene un ancho fijo */
-    max-width: 100px;
-    /* Reducir el ancho del carrusel */
+    /* Para móvil se redujo, en desktop se ampliará con media query */
+    max-width: 100px; 
     padding: 0;
-    /* Eliminar padding */
     box-sizing: border-box;
-    /* Consistencia */
     overflow: hidden;
-    /* Evitar desbordamientos */
 }
 
 .carousel-item {
-
+    display: flex;
     justify-content: center;
-    /* Centra el contenido horizontalmente */
     align-items: center;
-    /* Centra el contenido verticalmente */
-    height: 350px;
-    /* Altura fija */
     max-width: 100%;
-    /* Asegura que se ajuste al ancho máximo del contenedor */
-}
+    /* No fijamos una altura rígida para que el contenedor se adapte al contenido */
+    height: auto;
+  }
+  
+  .carousel-item img {
+    max-width: 68%;
+    max-height: 700px; /* Ajusta este valor para definir el tamaño máximo de la imagen */
+    object-fit: contain; /* Asegura que la imagen se muestre completa sin recortes */
+    margin: 0 auto;
+  }
+  
 
 
 .carousel-inner {
     position: relative;
     overflow: hidden;
     align-items: center;
-
 }
 
-
 .carousel-item img {
-    justify-content: center;
     object-fit: cover;
     width: 100%;
     height: 100%;
@@ -334,16 +272,11 @@ body {
     transition: transform 0.5s ease, box-shadow 0.3s ease;
 }
 
-
-/* Efecto de escala en las imágenes cuando se navega por el carrusel */
 .carousel-item img:hover {
     transform: scale(1.05);
-    /* Escala ligeramente la imagen */
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    /* Sombra para darle profundidad */
 }
 
-/* Botones de control del carrusel con símbolos <> */
 .carousel-control-prev,
 .carousel-control-next {
     background-color: rgba(0, 0, 0, 0.5);
@@ -385,7 +318,6 @@ body {
 .contact-section {
     background-color: #f1f1f1;
     padding: 30px 0;
-    /* Reducir padding */
     text-align: center;
 }
 
@@ -404,256 +336,7 @@ body {
     transform: scale(0.95);
 }
 
-/* ======== Responsividad ======== */
-@media (max-width: 768px) {
-    .header {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .nav {
-        flex-direction: column;
-        gap: 5px;
-        /* Reducir espacio */
-    }
-
-    .btn-success,
-    .btn-primary {
-        font-size: 1rem;
-        padding: 8px 16px;
-    }
-
-    .container h2 {
-        font-size: 1rem;
-        /* Reducir tamaño */
-    }
-
-    .container p {
-        font-size: 1rem;
-        /* Reducir tamaño */
-    }
-
-    .logo {
-        width: 80px;
-        height: 80px;
-    }
-}
-
-.categoria {
-    margin-bottom: 30px;
-}
-
-.categoria h2 {
-    font-size: 1.8rem;
-    color: #333;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    border-bottom: 2px solid #ccc;
-    padding-bottom: 5px;
-}
-
-/* Estilos específicos para la clase 'producto-container' */
-.producto-container {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    background: #fff;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in-out;
-    max-width: 800px;
-    margin: auto;
-}
-
-.producto-container:hover {
-    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
-}
-
-/* Imagen del producto */
-.producto-container .imagen-expandible {
-    width: 120px;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.producto-container .imagen-expandible:hover {
-    transform: scale(1.05);
-}
-
-/* Contenedor de detalles */
-.producto-container .detalles {
-    flex: 1;
-    text-align: left;
-}
-
-.producto-container .detalles p {
-    margin: 5px 0;
-    font-size: 16px;
-    color: #333;
-}
-
-/* Botón de reserva */
-.producto-container .reservar-btn {
-    background: #007bff;
-    color: white;
-    padding: 8px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    text-transform: uppercase;
-    transition: background 0.3s ease;
-}
-
-.producto-container .reservar-btn:hover {
-    background: #0056b3;
-}
-
-/* Modo de imagen expandida */
-.producto-container .imagen-expandida {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-}
-
-.producto-container .imagen-expandida img {
-    max-width: 90%;
-    max-height: 90%;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
-    transition: transform 0.3s ease;
-}
-
-.producto-container .imagen-expandida img:hover {
-    transform: scale(1.02);
-}
-
-.producto-container .imagen-expandida .cerrar {
-    position: absolute;
-    top: 20px;
-    right: 30px;
-    font-size: 25px;
-    color: white;
-    cursor: pointer;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 5px 10px;
-    border-radius: 50%;
-}
-
-/* Modal */
-#modalImagen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    display: none;  /* Inicialmente oculto */
-    justify-content: center;
-    align-items: center;
-    overflow: hidden; /* Evitar que la imagen se salga de la pantalla */
-    z-index: 9999; /* Asegurar que esté por encima de otros elementos */
-}
-
-/* Imagen ampliada */
-#imagenAmpliada {
-    max-width: 90%;  /* Limitar el tamaño máximo en el contenedor */
-    max-height: 90%; /* Limitar el tamaño máximo en el contenedor */
-    object-fit: contain;  /* Mantener la proporción de la imagen */
-    cursor: zoom-in; /* Cambiar el cursor para indicar que se puede hacer zoom */
-}
-
-/* Botón de cerrar */
-.cerrar-modal {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    color: white;
-    font-size: 30px;
-    cursor: pointer;
-}
-
-
-
-
-/* Modal: Fondo oscuro */
-.modal {
-    display: none; /* Escondido por defecto */
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    overflow: hidden;
-    padding-top: 60px;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Imagen en el modal */
-.modal-contenido {
-    width: 80%;
-    max-width: 600px;
-    margin: auto;
-}
-
-/* Estilo de la X para cerrar */
-.cerrar {
-    position: absolute;
-    top: 10px;
-    right: 25px;
-    color: #fff;
-    font-size: 40px;
-    font-weight: bold;
-    transition: 0.3s;
-    cursor: pointer;
-}
-
-/* Efecto hover sobre la X */
-.cerrar:hover {
-    color: #f44336;
-}
-
-/* Estilo de la imagen que se puede agrandar */
-.imagen-expandible {
-    width: 100%;
-    max-width: 300px;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-/* Efecto de zoom cuando la imagen es clickeada */
-.imagen-expandible:hover {
-    transform: scale(1.05);
-}
-
-/* Cuando la imagen está en el modal */
-.imagen-expandible {
-    transition: 0.3s;
-}
-
-/* Media Queries para dispositivos móviles */
-@media screen and (max-width: 600px) {
-    .modal-contenido {
-        width: 90%;
-    }
-}
-
-/* Estilo general del botón */
+/* ======== Formularios, Modal y Botones Adicionales ======== */
 #addOption {
     background-color: #ff9800;
     color: white;
@@ -664,45 +347,30 @@ body {
     cursor: pointer;
     transition: transform 0.3s ease, background-color 0.3s ease;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Efecto al pasar el mouse */
-  #addOption:hover {
+}
+
+#addOption:hover {
     background-color: #f57c00;
     transform: scale(1.1);
-  }
-  
-  /* Animación de salto */
-  @keyframes saltar {
-    0% {
-      transform: translateY(0);
-    }
-    25% {
-      transform: translateY(-10px);
-    }
-    50% {
-      transform: translateY(0);
-    }
-    75% {
-      transform: translateY(-5px);
-    }
-    100% {
-      transform: translateY(0);
-    }
-  }
-  
-  /* Activar la animación de salto */
-  #addOption:active {
+}
+
+@keyframes saltar {
+    0% { transform: translateY(0); }
+    25% { transform: translateY(-10px); }
+    50% { transform: translateY(0); }
+    75% { transform: translateY(-5px); }
+    100% { transform: translateY(0); }
+}
+
+#addOption:active {
     animation: saltar 0.5s ease;
-  }
-  
-  /* Estilo adicional cuando el botón está en foco */
-  #addOption:focus {
+}
+
+#addOption:focus {
     outline: none;
     box-shadow: 0 0 10px #ff9800;
-  }
-  
-  /* Estilo general del formulario */
+}
+
 #contact-form {
     max-width: 600px;
     margin: 0 auto;
@@ -710,90 +378,36 @@ body {
     background-color: #f8f9fa;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Estilo para las etiquetas */
-  .form-label {
+}
+
+.form-label {
     font-size: 16px;
     font-weight: bold;
     color: #333;
-  }
-  
-  /* Estilo para los inputs y select */
-  .form-control {
+}
+
+.form-control {
     padding: 10px;
     font-size: 14px;
     border-radius: 5px;
     border: 1px solid #ccc;
     width: 100%;
-    margin-top: 5px;
-    margin-bottom: 15px;
-  }
-  
-  /* Estilo para el botón de agregar */
-  #addOption {
-    background-color: #ff9800;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  /* Efecto al pasar el ratón sobre el botón */
-  #addOption:hover {
-    background-color: #f57c00;
-  }
-  
-  /* Estilo para el texto total */
-  #precio {
-    font-size: 18px;
-    font-weight: bold;
-    color: #4caf50;
-  }
-  
-  /* Estilo para la estructura del formulario */
-  .mt-2 {
-    margin-top: 10px;
-  }
-  
-  .mb-3 {
-    margin-bottom: 20px;
-  }
-  
-  button:focus, input:focus, select:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(255, 152, 0, 0.7);
-  }
-  
-  /* Estilo para el campo de dirección */
-  #direccion {
-    margin-top: 5px;
-    margin-bottom: 15px;
+    margin: 5px 0 15px 0;
+}
+
+#direccion {
+    margin: 5px 0 15px 0;
     padding: 10px;
     font-size: 14px;
     border-radius: 5px;
     border: 1px solid #ccc;
     width: 100%;
     display: block;
-  }
-  
-  @media (max-width: 768px) {
-    /* Ajustes para pantallas más pequeñas */
-    #contact-form {
-      padding: 15px;
-    }
-  
-    .form-control {
-      font-size: 14px;
-    }
-  }
-  
-  /* Modal de confirmación */
-  .modal-confirm {
-    display: none; /* Oculto por defecto */
+}
+
+/* Modal de confirmación */
+.modal-confirm {
+    display: none;
     position: fixed;
     top: 0;
     left: 0;
@@ -802,37 +416,114 @@ body {
     background: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
-  }
-  
-  .modal-content {
+}
+
+.modal-content {
     background: white;
     padding: 20px;
     border-radius: 10px;
     text-align: center;
-  }
-  
-  
-  .modal-content p {
+}
+
+.modal-content p {
     margin-bottom: 15px;
     font-size: 18px;
-  }
-  
-  .modal-content button {
+}
+
+.modal-content button {
     margin: 5px;
     padding: 10px 20px;
     font-size: 16px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-  }
-  
-  .btn-success {
+}
+
+.btn-success {
     background-color: #28a745;
     color: white;
-  }
-  
-  .btn-danger {
+}
+
+.btn-danger {
     background-color: #dc3545;
     color: white;
-  }
-  
+}
+
+/* Para dispositivos de escritorio (min-width: 769px) */
+@media (min-width: 769px) {
+    /* Ajustar el header para aprovechar más espacio */
+    .header {
+        height: 188px;
+        padding: 10px 30px;
+    }
+    
+    /* Cambiar el logo a forma rectangular y moverlo a la derecha */
+    .logo {
+        width: 120px;
+        height: 80px;
+        border-radius: 8px; /* Esquinas menos redondeadas para el formato rectangular */
+        margin-left: auto;
+        display: block;
+    }
+    
+    .site-title {
+        font-size: 2.5rem;
+    }
+    
+    .nav {
+        gap: 15px;
+    }
+    
+    .container {
+        padding: 40px;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    /* Ajustar el carrusel para usar el ancho completo disponible */
+    .carousel-container {
+        max-width: 100%;
+        min-height: 100vh;
+    }
+}
+
+/* ======== Media Queries para Celulares ======== */
+@media screen and (max-width: 768px) {
+    .header .logo {
+        width: 70px;
+        height: 70px;
+    }
+
+    .header .site-title {
+        font-size: 6vw;
+    }
+
+    .nav {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .nav-link {
+        font-size: 1.2rem;
+        padding: 6px 10px;
+    }
+
+    .container {
+        padding: 15px;
+    }
+
+    .container h2 {
+        font-size: 5vw;
+    }
+
+    .container p {
+        font-size: 3.5vw;
+    }
+
+    .whatsapp-btn {
+        font-size: 1.5rem;
+        padding: 10px;
+        bottom: 10px;
+        right: 10px;
+    }
+}

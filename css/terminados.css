@@ -1,0 +1,127 @@
+/* body general */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #343a40;
+    margin: 0;
+    padding: 0;
+}
+
+/* Contenedor principal */
+.container {
+    max-width: 1200px;
+    margin-top: 50px;
+}
+
+/* Título de la página */
+h2 {
+    font-size: 36px;
+    color: #007bff;
+    margin-bottom: 30px;
+    font-weight: 700;
+}
+
+/* Navegación */
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    color: #007bff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+nav ul li a:hover,
+nav ul li a:focus {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+/* Tabla de reservas */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.table thead {
+    background-color: #007bff;
+    color: white;
+}
+
+.table thead th {
+    padding: 12px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.table tbody {
+    background-color: #ffffff;
+}
+
+.table tbody td {
+    padding: 12px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.table-striped tbody tr:nth-child(odd) {
+    background-color: #f1f1f1;
+}
+
+.table-striped tbody tr:nth-child(even) {
+    background-color: #ffffff;
+}
+
+.table tfoot {
+    background-color: #f1f1f1;
+}
+
+.table tfoot td {
+    font-weight: 700;
+    font-size: 16px;
+}
+
+/* Botón personalizado */
+.btn-custom {
+    font-size: 16px;
+    padding: 8px 16px;
+    border-radius: 5px;
+    color: #ffffff;
+    background-color: #007bff;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-custom:hover,
+.btn-custom:focus {
+    background-color: #0056b3;
+}
+
+/* Resaltar filas */
+.table tbody tr:hover {
+    background-color: #d6e9f7;
+}
+
+/* Estilo adicional */
+footer {
+    text-align: center;
+    padding: 30px 0;
+    background-color: #007bff;
+    color: #ffffff;
+    font-size: 14px;
+}
