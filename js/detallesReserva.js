@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Función para inicializar el cliente de Google API
   function initClient() {
     gapi.client.init({
-      apiKey: 'AIzaSyC2GUYmf7kovfIEnUh5nJAaZ4AnaQTUTnI',         // Reemplaza con tu API Key
+      apiKey: 'AIzaSyCG3Jbz5ArQ2NkyU1qbpy5vUwsEWab6ty4',         // Reemplaza con tu API Key
       clientId: '695618008216-tfedsgsp7j8d8mnlq5hu0t0pes0u6i2h.apps.googleusercontent.com',       // Reemplaza con tu Client ID
       discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
       scope: "https://www.googleapis.com/auth/calendar.events"
