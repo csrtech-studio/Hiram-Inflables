@@ -110,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function initClient() {
     gapi.client.init({
       apiKey: 'AIzaSyCG3Jbz5ArQ2NkyU1qbpy5vUwsEWab6ty4',         // Reemplaza con tu API Key
-      clientId: '695618008216-tfedsgsp7j8d8mnlq5hu0t0pes0u6i2h.apps.googleusercontent.com',       // Reemplaza con tu Client ID
+      clientId: '511457956407-jrl7c2adt3nvctuv77k0mocu9o7i961n.apps.googleusercontent.com',       // Reemplaza con tu Client ID
       discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
       scope: "https://www.googleapis.com/auth/calendar.events"
     }).then(() => {
