@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   gapi.load('client:auth2', initClient);
 
   const urlParams = new URLSearchParams(window.location.search);
-  const reservaId = urlParams.get('id'); 
+  const reservaId = urlParams.get('id');
 
   if (reservaId) {
     obtenerDetallesReserva(reservaId);
@@ -28,10 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const reservaDoc = await getDoc(reservaRef);
 
     if (reservaDoc.exists()) {
-        const reservaData = reservaDoc.data();
-        const reservaDetalles = document.getElementById('reserva-detalles');
-        
-        reservaDetalles.innerHTML = `
+      const reservaData = reservaDoc.data();
+      const reservaDetalles = document.getElementById('reserva-detalles');
+
+      reservaDetalles.innerHTML = `
             <h2><strong>Cliente:</strong> ${reservaData.nombre}</h2>
             <p><strong>Teléfono:</strong> ${reservaData.telefono}</p>
             <p><strong>Fecha:</strong> ${reservaData.fecha}</p>
@@ -44,41 +44,89 @@ document.addEventListener('DOMContentLoaded', () => {
                 `).join('')}
             </ul>
             <p><strong>Total:</strong> $${reservaData.total}</p>
-            <p><strong>Estado:</strong> ${reservaData.estado}</p>
+            <p id="estadoReserva"><strong>Estado:</strong> ${reservaData.estado}</p>
         `;
 
-        const aceptarBtn = document.getElementById('aceptar-reserva');
-        const rechazarBtn = document.getElementById('rechazar');
+      const aceptarBtn = document.getElementById('aceptar-reserva');
+      const rechazarBtn = document.getElementById('rechazar');
+      const buttonsContainer = document.getElementById('buttons-container');
 
-        if (reservaData.estado === 'Confirmado') {
-            // Si la reserva está confirmada, cambiar el botón a "Concluir Reserva"
-            aceptarBtn.textContent = "Concluir Reserva";
-            rechazarBtn.style.display = "none"; // Ocultar botón de cancelar
+      if (reservaData.estado === 'Confirmado') {
+        // Cambiar el texto del botón a "Regresar" y ocultar el botón de rechazar
+        aceptarBtn.textContent = "Regresar";
+        rechazarBtn.style.display = "none";
 
-            aceptarBtn.addEventListener('click', async () => {
-                await concluirReserva(reservaDoc.id, reservaData);
-                window.location.href = 'reservas.html';
-            });
-        } else {
-            // Asignar el evento para aceptar la reserva y crear el evento en Google Calendar
-            aceptarBtn.addEventListener('click', async () => {
-              // Cambia el estado de la reserva a 'Confirmado'
-              await cambiarEstadoReserva(reservaDoc.id, 'Confirmado', 'aceptado');
-              // Crea el evento en Google Calendar usando los datos de la reserva
-              createGoogleCalendarEvent(reservaData);
-              window.location.href = 'reservas.html';
-      
-            
-            });
-
-            rechazarBtn.addEventListener('click', async () => {
-                await cambiarEstadoReserva(reservaDoc.id, 'Cancelado', 'rechazado');
-                window.location.href = 'reservas.html';
-            });
+        // Agregar un label al lado del estado que indique "Esperando autorización del cliente"
+        const estadoReservaEl = document.getElementById("estadoReserva");
+        if (estadoReservaEl) {
+          const label = document.createElement("span");
+          label.textContent = " Esperando autorización del cliente";
+          label.style.fontSize = "18px";
+          label.style.color = "red";
+          label.style.marginLeft = "10px";
+          estadoReservaEl.appendChild(label);
         }
-    } else {
-        alert("No se encontraron detalles de la reserva.");
+
+        // Agregar el botón "Reenviar Contrato" si no existe
+        let reenviarBtn = document.getElementById("reenviarContrato");
+        if (!reenviarBtn) {
+          reenviarBtn = document.createElement("button");
+          reenviarBtn.id = "reenviarContrato";
+          reenviarBtn.textContent = "Reenviar Contrato";
+          reenviarBtn.style.marginLeft = "10px";
+          buttonsContainer.appendChild(reenviarBtn);
+
+          reenviarBtn.addEventListener("click", () => {
+            reenviarContrato(id, reservaData);
+          });
+        }
+
+        // Redirigir a reservas.html al hacer clic en "Regresar"
+        aceptarBtn.addEventListener('click', () => {
+          window.location.href = 'reservas.html';
+        });
+
+      } else if (reservaData.estado === 'Autorizado') {
+        // Cambiar el botón a "Concluir Reserva" y ocultar el botón de rechazar
+        aceptarBtn.textContent = "Concluir Reserva";
+        rechazarBtn.style.display = "none";
+
+        // Eliminar el botón "Reenviar Contrato" si existe
+        const reenviarBtn = document.getElementById("reenviarContrato");
+        if (reenviarBtn) {
+          reenviarBtn.remove();
+        }
+
+        aceptarBtn.addEventListener('click', async () => {
+          await concluirReserva(reservaDoc.id, reservaData);
+          window.location.href = 'reservas.html';
+        });
+
+      } else {
+        // Otros estados (reserva no confirmada)
+        aceptarBtn.addEventListener('click', async () => {
+          await cambiarEstadoReserva(reservaDoc.id, 'Confirmado', 'aceptado');
+          createGoogleCalendarEvent(reservaData);
+          window.location.href = 'reservas.html';
+        });
+
+        rechazarBtn.addEventListener('click', async () => {
+          await cambiarEstadoReserva(reservaDoc.id, 'Cancelado', 'rechazado');
+          window.location.href = 'reservas.html';
+        });
+      }
     }
+
+
+    // Función para reenviar el contrato
+    function reenviarContrato(reservaId, reservaData) {
+      console.log("Reenviando contrato a:", reservaData.telefono);
+      const mensaje = `¡Hola ${reservaData.nombre}! Su reserva ha sido confirmada. Revise el contrato en: https://csrtech-studio.github.io/Hiram-Inflables/contrato.html?id=${reservaId}`;
+      const urlWhatsApp = `https://wa.me/${reservaData.telefono}?text=${encodeURIComponent(mensaje)}`;
+      window.open(urlWhatsApp, '_blank');
+      alert("Contrato reenviado.");
+    }
+
   }
 
   // 📌 Concluir reserva (Mover a 'reservasTerminadas' y eliminar de 'reservas')
@@ -125,8 +173,8 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error("Error al inicializar gapi client", error);
     });
   }
-  
-  
+
+
 
   // Función para crear un evento en Google Calendar
   function createGoogleCalendarEvent(reservaData) {
@@ -134,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const startDateTime = new Date(`${reservaData.fecha}T${reservaData.hora}:00`);
     // Suponemos una duración de 1 hora para el evento (ajusta según necesites)
     const endDateTime = new Date(startDateTime.getTime() + 60 * 60 * 1000);
-    
+
     // Configuramos el objeto del evento
     const event = {
       summary: 'Reserva - ' + reservaData.nombre, // Aquí se guarda el nombre del cliente
@@ -150,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
         timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
       }
     };
-  
+
     // Inserta el evento en el calendario principal del usuario
     gapi.client.calendar.events.insert({
       calendarId: 'primary',
@@ -160,5 +208,5 @@ document.addEventListener('DOMContentLoaded', () => {
     }).catch((error) => {
       console.error("Error al crear el evento en Google Calendar", error);
     });
-  }  
+  }
 });

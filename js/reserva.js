@@ -227,10 +227,9 @@ async function cargarReservas() {
 
         if (reserva.estado === 'Cancelado') {
             botonAccion = `<button class="btn btn-danger" onclick="eliminarReserva('${doc.id}')">Eliminar</button>`;
-        } else if (reserva.estado === 'Confirmado') {
-            botonAccion = `<button class="btn btn-success" onclick="concluirReserva('${doc.id}', '${encodeURIComponent(JSON.stringify(reserva))}')">Concluir</button>`;
+        
         } else {
-            botonAccion = `<a href="detallesReserva.html?id=${doc.id}" class="btn btn-info">Ver</a>`;
+            botonAccion = `<a href="detallesReserva.html?id=${doc.id}" class="btn btn-info">Ver Reserva</a>`;
         }
 
         const row = document.createElement('tr');
