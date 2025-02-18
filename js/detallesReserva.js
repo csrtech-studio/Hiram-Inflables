@@ -62,10 +62,13 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             // Asignar el evento para aceptar la reserva y crear el evento en Google Calendar
             aceptarBtn.addEventListener('click', async () => {
-                await cambiarEstadoReserva(reservaDoc.id, 'Confirmado', 'aceptado');
-                // Crear evento en Google Calendar con los datos de la reserva
-                createGoogleCalendarEvent(reservaData);
-                window.location.href = 'reservas.html';
+              // Cambia el estado de la reserva a 'Confirmado'
+              await cambiarEstadoReserva(reservaDoc.id, 'Confirmado', 'aceptado');
+              // Crea el evento en Google Calendar usando los datos de la reserva
+              createGoogleCalendarEvent(reservaData);
+              window.location.href = 'reservas.html';
+      
+            
             });
 
             rechazarBtn.addEventListener('click', async () => {
@@ -109,12 +112,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Función para inicializar el cliente de Google API
   function initClient() {
     gapi.client.init({
-      apiKey: 'AIzaSyCG3Jbz5ArQ2NkyU1qbpy5vUwsEWab6ty4',         // Reemplaza con tu API Key
-      clientId: '511457956407-jrl7c2adt3nvctuv77k0mocu9o7i961n.apps.googleusercontent.com',       // Reemplaza con tu Client ID
+      apiKey: 'AIzaSyA8qmHB5tR3EhU4fL1bz7hvpDiz_yCFiHg',
+      clientId: '511457956407-jrl7c2adt3nvctuv77k0mocu9o7i961n.apps.googleusercontent.com',
       discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"],
       scope: "https://www.googleapis.com/auth/calendar.events"
     }).then(() => {
-      // Si el usuario no está autenticado en Google, solicitar inicio de sesión
+      // Si el usuario aún no ha iniciado sesión, se le solicita hacerlo.
       if (!gapi.auth2.getAuthInstance().isSignedIn.get()) {
         gapi.auth2.getAuthInstance().signIn();
       }
@@ -122,35 +125,40 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error("Error al inicializar gapi client", error);
     });
   }
+  
+  
 
   // Función para crear un evento en Google Calendar
   function createGoogleCalendarEvent(reservaData) {
-    // Combina la fecha y hora de la reserva para crear el objeto Date
+    // Combina la fecha y hora de la reserva para crear el objeto Date de inicio
     const startDateTime = new Date(`${reservaData.fecha}T${reservaData.hora}:00`);
-    // Suponemos una duración de 1 hora para el evento (puedes ajustar según tus necesidades)
+    // Suponemos una duración de 1 hora para el evento (ajusta según necesites)
     const endDateTime = new Date(startDateTime.getTime() + 60 * 60 * 1000);
     
+    // Configuramos el objeto del evento
     const event = {
-      'summary': 'Reserva - ' + reservaData.nombre,
-      'description': 'Reserva confirmada.\nTeléfono: ' + reservaData.telefono + '\nDirección: ' + reservaData.direccion,
-      'start': {
-        'dateTime': startDateTime.toISOString(),
-        'timeZone': Intl.DateTimeFormat().resolvedOptions().timeZone
+      summary: 'Reserva - ' + reservaData.nombre, // Aquí se guarda el nombre del cliente
+      description: `Reserva confirmada.
+  Teléfono: ${reservaData.telefono}
+  Dirección: ${reservaData.direccion}`, // Puedes agregar más detalles si lo deseas
+      start: {
+        dateTime: startDateTime.toISOString(),
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
       },
-      'end': {
-        'dateTime': endDateTime.toISOString(),
-        'timeZone': Intl.DateTimeFormat().resolvedOptions().timeZone
+      end: {
+        dateTime: endDateTime.toISOString(),
+        timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
       }
     };
-
+  
+    // Inserta el evento en el calendario principal del usuario
     gapi.client.calendar.events.insert({
-      'calendarId': 'primary',
-      'resource': event
+      calendarId: 'primary',
+      resource: event
     }).then((response) => {
       console.log('Evento creado en Google Calendar:', response);
     }).catch((error) => {
       console.error("Error al crear el evento en Google Calendar", error);
     });
-  }
-
+  }  
 });
