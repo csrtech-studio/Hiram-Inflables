@@ -145,3 +145,21 @@ body {
     }
   }
   
+  #reenviarContrato {
+    background-color: #28a745; /* Verde */
+    color: white; /* Texto blanco */
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#reenviarContrato:hover {
+    background-color: #218838; /* Verde más oscuro al pasar el mouse */
+}
+
+#reenviarContrato:active {
+    background-color: #1e7e34; /* Verde aún más oscuro al hacer clic */
+}

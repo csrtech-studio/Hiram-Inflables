@@ -37,7 +37,8 @@ modalConfirm.querySelector('#btnNo').addEventListener('click', () => {
 const productosPorCategoria = {
   "Paquetes": [],
   "Inflables": [],
-  "Maquinitas": []
+  "Maquinitas": [],
+  "Adicionales": []
 };
 
 /* ====================================================
