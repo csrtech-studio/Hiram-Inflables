@@ -58,22 +58,6 @@
         <label for="hora" class="form-label">Hora del Evento</label>
         <input type="time" class="form-control" id="hora" required>
       </div>
-
-      <!-- Tabla de productos -->
-      <table class="table table-bordered" id="tabla-productos">
-        <thead>
-          <tr>
-            <th>Producto</th>
-            <th>Precio</th>
-            <th>Acción</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Los productos se añadirán aquí dinámicamente -->
-        </tbody>
-      </table>
-
-      <div id="precio" class="mt-2">Total: $0</div>
       <!-- Municipio -->
       <div class="mb-3">
         <label for="municipio" class="form-label">Municipio</label>
@@ -93,11 +77,26 @@
         <input type="text" class="form-control" id="direccion" required>
       </div>
 
+  
+
+      <!-- Tabla de productos -->
+      <table class="table table-bordered" id="tabla-productos">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Precio</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Los productos se añadirán aquí dinámicamente -->
+        </tbody>
+      </table>
+
+      <div id="precio" class="mt-2">Total: $0</div>
       <button type="submit" class="btn btn-primary">Reservar</button>
     </form>
   </div>
-
-
   </div>
   <script src="js/firebaseConfig.js" type="module"></script>
   <script type="module" src="js/contacto.js"></script>
