@@ -39,7 +39,7 @@
   <div class="container mt-3">
     <h2>Reserva tu Fecha</h2>
     <p>Por favor, completa el siguiente formulario para realizar tu reservación de servicio de renta.</p>
-    
+
     <form id="contact-form">
       <!-- Datos del cliente -->
       <div class="mb-3">
@@ -58,7 +58,7 @@
         <label for="hora" class="form-label">Hora del Evento</label>
         <input type="time" class="form-control" id="hora" required>
       </div>
-  
+
       <!-- Tabla de productos -->
       <table class="table table-bordered" id="tabla-productos">
         <thead>
@@ -72,19 +72,31 @@
           <!-- Los productos se añadirán aquí dinámicamente -->
         </tbody>
       </table>
-      
+
       <div id="precio" class="mt-2">Total: $0</div>
-  
+      <!-- Municipio -->
+      <div class="mb-3">
+        <label for="municipio" class="form-label">Municipio</label>
+        <select class="form-control" id="municipio" required>
+          <option value="Santacatarina" selected>Santa Catarina (Flete Gratis)</option>
+          <option value="Otro">Otro Municipio(+ costo de flete)</option>
+        </select>
+      </div>
+      <div class="mb-3" id="municipioOtro" style="display:none;">
+        <label for="municipioPersonalizado" class="form-label">Especifique Municipio</label>
+        <input type="text" class="form-control" id="municipioPersonalizado">
+      </div>
+
       <!-- Dirección -->
       <div class="mb-3">
         <label for="direccion" class="form-label">Dirección del Evento</label>
         <input type="text" class="form-control" id="direccion" required>
       </div>
-      
+
       <button type="submit" class="btn btn-primary">Reservar</button>
     </form>
   </div>
-  
+
 
   </div>
   <script src="js/firebaseConfig.js" type="module"></script>

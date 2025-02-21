@@ -8,6 +8,17 @@ document.addEventListener('DOMContentLoaded', function () {
   setupDateRestriction();
   setupFormularioHandler();
   cargarProductosEnTabla();
+
+  // Mostrar/Ocultar campo de municipio personalizado
+  const municipioSelect = document.getElementById('municipio');
+  municipioSelect.addEventListener('change', function(){
+    const municipioOtroDiv = document.getElementById('municipioOtro');
+    if (this.value === 'Otro') {
+      municipioOtroDiv.style.display = 'block';
+    } else {
+      municipioOtroDiv.style.display = 'none';
+    }
+  });
 });
 
 // Función para establecer la restricción de fecha mínima
@@ -67,12 +78,25 @@ function setupFormularioHandler() {
   });
 }
 
-// Obtiene los datos del formulario
+// Obtiene los datos del formulario (actualizado para incluir municipio)
 function obtenerDatosFormulario() {
   const nombre = document.getElementById('nombre').value.trim();
   const telefono = document.getElementById('telefono').value.trim();
   const fecha = document.getElementById('fecha').value;
   const hora = document.getElementById('hora').value;
+  
+  // Recoger municipio
+  const municipioSelect = document.getElementById('municipio').value;
+  let municipio = municipioSelect;
+  if (municipioSelect === 'Otro') {
+    const municipioPersonalizado = document.getElementById('municipioPersonalizado').value.trim();
+    if (!municipioPersonalizado) {
+      alert('Por favor, ingresa el municipio.');
+      return null;
+    }
+    municipio = municipioPersonalizado;
+  }
+  
   const direccion = document.getElementById('direccion').value.trim();
 
   if (!nombre || !telefono || !fecha || !hora || !direccion) {
@@ -80,15 +104,16 @@ function obtenerDatosFormulario() {
     return null;
   }
 
-  return { nombre, telefono, fecha, hora, direccion };
+  return { nombre, telefono, fecha, hora, municipio, direccion };
 }
 
-// Envía el mensaje a WhatsApp
-function enviarMensajeWhatsApp({ nombre, telefono, fecha, hora, direccion, adicionales, total }) {
+// Envía el mensaje a WhatsApp (se agrega el municipio al mensaje)
+function enviarMensajeWhatsApp({ nombre, telefono, fecha, hora, municipio, direccion, adicionales, total }) {
   let mensaje = `*Hola Hiram Inflables, soy ${nombre}.*\n\n`;
   mensaje += `Me gustaría reservar el servicio de renta de inflables para el evento el *${fecha}* a las *${hora}*.\n\n`;
   mensaje += `*Mis datos son los siguientes:*\n`;
   mensaje += `- *Teléfono:* ${telefono}\n`;
+  mensaje += `- *Municipio:* ${municipio}\n`;
   mensaje += `- *Dirección del evento:* ${direccion}\n`;
 
   if (adicionales.length > 0) {
