@@ -17,7 +17,7 @@ if (reservaId) {
 function calcularFechaTermino(horaInicio) {
   const [hora, minuto] = horaInicio.split(':').map(Number); // Separar la hora y el minuto
   const fecha = new Date();
-  fecha.setHours(hora + 4, minuto, 0, 0); // Sumar 4 horas
+  fecha.setHours(hora + 6, minuto, 0, 0); // Sumar 4 horas
   const horaTermino = fecha.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); // Formato HH:MM
   return horaTermino;
 }
@@ -38,6 +38,7 @@ async function cargarContrato(id) {
       <strong>Fecha del evento:</strong> ${reservaData.fecha}<br>
       <strong>Hora del evento:</strong> ${reservaData.hora}<br>
       <strong>Hora de término:</strong> ${horaTermino}<br>
+      <strong>Municipio:</strong> ${reservaData.municipio}<br>
       <strong>Dirección:</strong> ${reservaData.direccion}<br>
       <strong>Costo total:</strong> $${reservaData.total}<br>
     `;
