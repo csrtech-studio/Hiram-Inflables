@@ -184,6 +184,10 @@ function cargarProductosEnTabla() {
     }
 
     totalPrecio.textContent = `Total: $${total}`;
+totalPrecio.style.fontSize = "1.8em"; // Ajusta el tamaño según necesites
+totalPrecio.style.fontWeight = "bold"; // Negritas
+
+    totalPrecio.textContent = `Total: $${total}`;
     sessionStorage.setItem('sumaTotal', total); // Actualizar total en sessionStorage
   }
 

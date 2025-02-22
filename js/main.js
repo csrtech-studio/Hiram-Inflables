@@ -36,7 +36,8 @@ modalConfirm.querySelector('#btnNo').addEventListener('click', () => {
 ==================================================== */
 const productosPorCategoria = {
   "Paquetes": [],
-  "Inflables": [],
+  "Inflables Secos": [],
+  "Inflables Acuaticos" :[],
   "Maquinitas": [],
   "Adicionales": []
 };
@@ -116,6 +117,7 @@ function renderProductos() {
         categoriaHTML += `
           <div class="producto-container">
             <div class="imagen-wrapper">
+              <div class="tipo-producto"><strong>${producto.tipo || ''}</strong></div>
               <img src="${producto.imagenes?.[0] || ''}" alt="${producto.nombre}" 
                    class="imagen-expandible" data-producto-id="${producto.id}">
               ${
