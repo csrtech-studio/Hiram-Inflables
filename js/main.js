@@ -179,15 +179,6 @@ window.openVideoModal = openVideoModal;
 ==================================================== */
 productosContainer.addEventListener("click", (e) => {
   // --- Manejo de "Reservar"
-  if (e.target.classList.contains("reservar-btn")) {
-    const { nombre, precio, id } = e.target.dataset;
-    const precioProducto = parseInt(precio, 10);
-    const productosSeleccionados = JSON.parse(sessionStorage.getItem('productosSeleccionados')) || [];
-    productosSeleccionados.push({ id, nombre, precio: precioProducto });
-    sessionStorage.setItem('productosSeleccionados', JSON.stringify(productosSeleccionados));
-    modalConfirm.style.display = 'flex';
-    return; // Salir si se hizo clic en "Reservar"
-  }
 
   // --- Manejo de clic en imagen expandible (para mostrar el modal)
   if (e.target.classList.contains("imagen-expandible")) {
@@ -202,7 +193,7 @@ productosContainer.addEventListener("click", (e) => {
     if (imagenes.length > 0) {
       const carouselHTML = imagenes.map((imagen, index) => `
         <div class="carousel-item ${index === 0 ? 'active' : ''}">
-          <img src="${imagen}" class="d-block w-100" alt="Imagen ampliada">
+          <img src="${imagen}" class="d-block w-300" alt="Infables Hiram">
         </div>
       `).join('');
 
@@ -268,5 +259,39 @@ window.addEventListener("scroll", () => {
     header.classList.add("small-header");
   } else {
     header.classList.remove("small-header");
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const reservarBtn = document.querySelector(".nav-link.btn-custom");
+  actualizarContadorReservas(); // Inicializa el contador al cargar la página
+
+  document.addEventListener("click", (e) => {
+      if (e.target.classList.contains("reservar-btn")) {
+          const { nombre, precio, id } = e.target.dataset;
+          const precioProducto = parseInt(precio, 10);
+          let productosSeleccionados = JSON.parse(sessionStorage.getItem('productosSeleccionados')) || [];
+
+          productosSeleccionados.push({ id, nombre, precio: precioProducto });
+          sessionStorage.setItem('productosSeleccionados', JSON.stringify(productosSeleccionados));
+          modalConfirm.style.display = 'flex';
+          actualizarContadorReservas(); // Actualizar contador en botón
+      }
+
+      if (e.target.classList.contains("eliminar-btn")) {
+          const id = e.target.dataset.id;
+          let productosSeleccionados = JSON.parse(sessionStorage.getItem('productosSeleccionados')) || [];
+
+          productosSeleccionados = productosSeleccionados.filter(producto => producto.id !== id);
+          sessionStorage.setItem('productosSeleccionados', JSON.stringify(productosSeleccionados));
+
+          actualizarContadorReservas(); // Actualizar contador en botón
+      }
+  });
+
+  function actualizarContadorReservas() {
+      const productosSeleccionados = JSON.parse(sessionStorage.getItem('productosSeleccionados')) || [];
+      const cantidad = productosSeleccionados.length;
+      reservarBtn.textContent = cantidad > 0 ? `Reservar (${cantidad})` : "Reservar";
   }
 });

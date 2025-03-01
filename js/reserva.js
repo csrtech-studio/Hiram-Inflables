@@ -295,20 +295,32 @@ async function cargarReservas() {
     reservasLista.innerHTML = "";
     const reservasSnapshot = await getDocs(collection(db, 'reservas'));
     const reservasArray = [];
-    let index = 0;
 
+    // Recopilar reservas
     reservasSnapshot.forEach((docSnap) => {
         const reserva = docSnap.data();
         reserva.id = docSnap.id;
         reservasArray.push(reserva);
+    });
 
-        // Formatear la fecha
+    // Ordenar reservas: primero pendientes, luego autorizadas, confirmadas, concluidas
+    const order = ['pendientes', 'autorizadas', 'confirmadas', 'concluidas'];
+    reservasArray.sort((a, b) => {
+        const aIndex = order.indexOf(a.estado.toLowerCase());
+        const bIndex = order.indexOf(b.estado.toLowerCase());
+        // Si no se encuentra en el orden definido, se ubica al final
+        return (aIndex === -1 ? Infinity : aIndex) - (bIndex === -1 ? Infinity : bIndex);
+    });
+
+    // Crear filas de la tabla
+    let index = 0;
+    reservasArray.forEach((reserva) => {
         const fechaFormateada = formatearFecha(reserva.fecha);
         const row = document.createElement('tr');
         row.setAttribute('data-index', index);
-        const botonAccion = reserva.estado === 'Cancelado' 
-            ? `<button class="btn btn-danger" onclick="eliminarReserva('${docSnap.id}')">Eliminar</button>`
-            : `<a href="detallesReserva.html?id=${docSnap.id}" class="btn btn-info">Ver Reserva</a>`;
+        const botonAccion = reserva.estado === 'Cancelado'
+            ? `<button class="btn btn-danger" onclick="eliminarReserva('${reserva.id}')">Eliminar</button>`
+            : `<a href="detallesReserva.html?id=${reserva.id}" class="btn btn-info">Ver Reserva</a>`;
 
         row.innerHTML = `
             <td>${reserva.nombre}</td>
@@ -348,8 +360,9 @@ function verificarFechasCercanas(reservas) {
             const fecha2 = new Date(`${reservas[j].fecha}T${reservas[j].hora}`);
             const diferencia = Math.abs(fecha1 - fecha2) / (1000 * 60); // en minutos
 
-            if (reservas[i].fecha === reservas[j].fecha && diferencia < 60) {
-                advertencias.push(`Atención: Las reservas de ${reservas[i].nombre} y ${reservas[j].nombre} están a menos de una hora de diferencia.`);
+            // Si es la misma fecha y la diferencia es menor a 300 minutos (5 horas)
+            if (reservas[i].fecha === reservas[j].fecha && diferencia < 300) {
+                advertencias.push(`Atención: Las reservas de ${reservas[i].nombre} y ${reservas[j].nombre} están a menos de 5 horas de diferencia.`);
                 filasConflictivas.add(i);
                 filasConflictivas.add(j);
             }
@@ -371,6 +384,7 @@ function mostrarAdvertencias(advertencias) {
         advertenciaContainer.appendChild(label);
     });
 }
+
 
 // ── Eliminar reserva ──
 window.eliminarReserva = async function(reservaId) {

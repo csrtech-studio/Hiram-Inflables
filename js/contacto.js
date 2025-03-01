@@ -201,3 +201,4 @@ totalPrecio.style.fontWeight = "bold"; // Negritas
 
   actualizarTabla();
 }
+

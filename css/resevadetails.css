@@ -163,3 +163,35 @@ body {
 #reenviarContrato:active {
     background-color: #1e7e34; /* Verde aún más oscuro al hacer clic */
 }
+
+.guardar-btn {
+  background-color: #28a745;  /* Verde */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 4px 2px;
+}
+
+.guardar-btn:hover {
+  background-color: #218838;
+}
+
+.actualizarBtn{
+  background-color: #f74702;  /* Verde */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin: 4px 2px;
+}
+
+.actualizarBtn:hover {
+  background-color: #c26d0b;
+}

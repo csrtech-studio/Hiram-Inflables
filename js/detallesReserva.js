@@ -1,6 +1,7 @@
-import { db } from './firebaseConfig.js';
-import { doc, getDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+// Agrega las importaciones necesarias (asegúrate de que estas líneas estén al inicio de tu archivo)
+import { doc, getDoc, updateDoc, deleteDoc, addDoc, collection } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
 import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js';
+import { db } from './firebaseConfig.js';
 
 // Verificar si el usuario está autenticado
 const auth = getAuth();
@@ -56,20 +57,18 @@ async function obtenerDetallesReserva(id) {
       <p>
         <strong>Descuento (%):</strong> <input type="number" id="descuentoInput" placeholder="Descuento (%)" style="width:100px;" value="0"/>
       </p>
-    <p style="font-size: 1.5em; font-weight: bold;">
-  <strong>Total:</strong> $<span id="totalValue">${reservaData.total}</span>
-</p>
-<p id="estadoReserva" style="font-size: 1em; font-weight: bold;">
-  <strong>Estado:</strong> ${reservaData.estado}
-</p>
-
+      <p style="font-size: 1.5em; font-weight: bold;">
+        <strong>Total:</strong> $<span id="totalValue">${reservaData.total}</span>
+      </p>
+      <p id="estadoReserva" style="font-size: 1em; font-weight: bold;">
+        <strong>Estado:</strong> ${reservaData.estado}
+      </p>
     `;
 
     // Lógica para actualizar el total en tiempo real
     const descuentoInput = document.getElementById("descuentoInput");
     const fleteInput = document.getElementById("fleteInput");
     const totalSpan = document.getElementById("totalValue");
-    // Se utiliza el total base que ya viene en la reserva
     let baseTotal = parseFloat(reservaData.total);
 
     function actualizarTotal() {
@@ -111,7 +110,7 @@ async function actualizarUI(reservaId, reservaData, baseTotal) {
   // Actualiza el texto del estado
   estadoReservaP.textContent = `Estado de la reserva: ${reservaData.estado}`;
 
-  // Limpieza opcional: clonar botones para remover listeners previos
+  // Clonar botones para remover listeners previos
   if (aceptarBtn && rechazarBtn) {
     const newAceptarBtn = aceptarBtn.cloneNode(true);
     const newRechazarBtn = rechazarBtn.cloneNode(true);
@@ -119,20 +118,17 @@ async function actualizarUI(reservaId, reservaData, baseTotal) {
     rechazarBtn.parentNode.replaceChild(newRechazarBtn, rechazarBtn);
   }
 
-  // Vuelve a obtener los botones clonados
   const nuevoAceptarBtn = document.getElementById("aceptarBtn");
   const nuevoRechazarBtn = document.getElementById("rechazarBtn");
 
   if (reservaData.estado === 'Confirmado') {
-    console.log('Estado Confirmado: asignando eventos para Regresar');
     nuevoAceptarBtn.textContent = "Regresar";
     nuevoAceptarBtn.addEventListener("click", () => {
-      console.log('Botón Regresar clickeado');
       window.location.href = 'reservas.html';
     });
     nuevoRechazarBtn.style.display = "none";
 
-    // Agregar etiqueta "Esperando autorización del cliente"
+    // Agrega etiqueta "Esperando autorización del cliente"
     if (!document.getElementById("labelAutorizacion")) {
       const label = document.createElement("span");
       label.id = "labelAutorizacion";
@@ -140,83 +136,103 @@ async function actualizarUI(reservaId, reservaData, baseTotal) {
       label.style.color = "orange";
       label.style.marginLeft = "10px";
       estadoReservaP.appendChild(label);
-      console.log('Etiqueta "Esperando autorización del cliente" agregada');
     }
 
-    // Agregar botón "Reenviar Contrato" si no existe
+    // Agrega botón "Reenviar Contrato" si no existe
     if (buttonsContainer && !document.getElementById("reenviarContrato")) {
       const reenviarBtn = document.createElement("button");
       reenviarBtn.id = "reenviarContrato";
       reenviarBtn.textContent = "Reenviar Contrato";
       reenviarBtn.style.marginLeft = "10px";
       buttonsContainer.appendChild(reenviarBtn);
-      console.log('Botón "Reenviar Contrato" agregado');
       reenviarBtn.addEventListener("click", () => {
-        console.log('Botón Reenviar Contrato clickeado');
         reenviarContrato(reservaId, reservaData);
       });
     }
 
+    // Agrega botón "Cancelar Reserva" con la nueva lógica de cancelación
+    if (!document.getElementById("cancelarReservaBtn")) {
+      const cancelarBtn = document.createElement("button");
+      cancelarBtn.id = "cancelarReservaBtn";
+      cancelarBtn.textContent = "Cancelar Reserva";
+      cancelarBtn.style.marginLeft = "10px";
+      cancelarBtn.style.backgroundColor = "red";
+      cancelarBtn.style.color = "white";
+      buttonsContainer.appendChild(cancelarBtn);
+
+      cancelarBtn.addEventListener("click", () => {
+        showCancellationModal(reservaId);
+      });
+    }
   } else if (reservaData.estado === 'Autorizado') {
-    console.log('Estado Autorizado: asignando eventos para Guardar Reserva');
-    nuevoAceptarBtn.textContent = "Guardar Reserva";
+    nuevoAceptarBtn.textContent = "Reseva pagada y Concluida";
     nuevoAceptarBtn.addEventListener("click", async () => {
-      console.log('Botón Guardar Reserva (Autorizado) clickeado');
       await concluirReserva(reservaId, reservaData);
       window.location.href = 'reservas.html';
     });
     nuevoRechazarBtn.style.display = "none";
 
-    // Eliminar botón "Reenviar Contrato" si existe
+    // Remueve botón "Reenviar Contrato" si existe
     const reenviarBtn = document.getElementById("reenviarContrato");
     if (reenviarBtn) {
       reenviarBtn.remove();
-      console.log('Botón "Reenviar Contrato" removido');
     }
-
   } else if (reservaData.estado === 'Concluido') {
-    console.log('Estado Concluido: asignando eventos para Guardar Reserva');
-    nuevoAceptarBtn.textContent = "Guardar Reserva";
+    nuevoAceptarBtn.textContent = "Regresar";
     nuevoAceptarBtn.addEventListener("click", () => {
-      console.log('Botón Guardar Reserva (Concluido) clickeado');
       window.location.href = 'reservas.html';
     });
     nuevoRechazarBtn.style.display = "none";
-
     const reenviarBtn = document.getElementById("reenviarContrato");
     if (reenviarBtn) {
       reenviarBtn.remove();
-      console.log('Botón "Reenviar Contrato" removido (Concluido)');
+    }
+    // Agrega el nuevo botón "Guardar Reserva" junto al botón "Regresar"
+    if (buttonsContainer) {
+      const guardarBtn = document.createElement("button");
+      guardarBtn.textContent = "Guardar Reserva";
+      guardarBtn.classList.add("guardar-btn");
+      guardarBtn.style.marginLeft = "10px";
+      buttonsContainer.appendChild(guardarBtn);
+
+
+      guardarBtn.addEventListener("click", async () => {
+        await guardarReservaTerminada(reservaId);
+      });
     }
 
   } else if (reservaData.estado === 'Pendiente') {
-    console.log('Estado Pendiente: asignando eventos para Aceptar, Rechazar y Actualizar Cambios');
-
-    // Botón Aceptar cambia el estado a "Confirmado" y envía el mensaje de WhatsApp
     nuevoAceptarBtn.textContent = "Aceptar Reserva";
     nuevoAceptarBtn.style.display = "inline-block";
     nuevoAceptarBtn.addEventListener("click", async () => {
-      console.log('Botón Aceptar Reserva (Pendiente) clickeado');
       await cambiarEstadoReserva(reservaId, 'Confirmado', 'aceptado');
-      
     });
 
-    // Botón Rechazar cambia el estado a "Cancelado" y envía el mensaje de WhatsApp
     nuevoRechazarBtn.textContent = "Rechazar Reserva";
     nuevoRechazarBtn.style.display = "inline-block";
     nuevoRechazarBtn.addEventListener("click", async () => {
-      console.log('Botón Rechazar Reserva (Pendiente) clickeado');
       await cambiarEstadoReserva(reservaId, 'Cancelado', 'rechazado');
       window.location.href = 'reservas.html';
     });
 
-    // Agregar botón "Actualizar cambios" para actualizar flete, descuento y total en Firebase
+    // Agrega botón "Actualizar cambios" para modificar flete, descuento y total en Firebase
     let actualizarBtn = document.createElement("button");
     actualizarBtn.id = "actualizarCambiosBtn";
     actualizarBtn.textContent = "Actualizar cambios";
     actualizarBtn.style.display = "inline-block";
     actualizarBtn.style.marginTop = "10px";
+    actualizarBtn.classList.add("actualizarBtn");
     buttonsContainer.appendChild(actualizarBtn);
+    const aceptarBtn = document.getElementById("aceptarBtn");
+
+    if (aceptarBtn) {
+      // Inserta el botón "Actualizar cambios" antes del botón "Confirmar"
+      buttonsContainer.insertBefore(actualizarBtn, aceptarBtn);
+    } else {
+      // Si no se encuentra el botón Confirmar, lo agrega al final
+      buttonsContainer.appendChild(actualizarBtn);
+    }
+
 
     actualizarBtn.addEventListener("click", async () => {
       let flete = document.getElementById("fleteInput") ? parseFloat(document.getElementById("fleteInput").value) || 0 : 0;
@@ -227,7 +243,7 @@ async function actualizarUI(reservaId, reservaData, baseTotal) {
       const reservaRef = doc(db, 'reservas', reservaId);
       await updateDoc(reservaRef, {
         flete: flete,
-        descuento: descuento, // descuento en porcentaje
+        descuento: descuento,
         total: newTotal
       });
       alert("Cambios actualizados Correctamente.");
@@ -237,41 +253,157 @@ async function actualizarUI(reservaId, reservaData, baseTotal) {
   }
 }
 
-function abrirGoogleCalendar(reservaData) {
-  const titulo = encodeURIComponent(`Reserva con ${reservaData.nombre}`);
-  const descripcion = encodeURIComponent(
-    `Teléfono: ${reservaData.telefono}\nDirección: ${reservaData.direccion}\nMunicipio: ${reservaData.municipio}\nTotal: $${reservaData.total}`
-  );
-  const fecha = reservaData.fecha.replace(/-/g, '');
-  const horaInicio = reservaData.hora.replace(':', '') + '00'; // Formato HHmmss
-  const horaFin = (parseInt(reservaData.hora.substring(0, 2)) + 1).toString().padStart(2, '0') + reservaData.hora.substring(2) + '00';
-  
-  const calendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${titulo}&details=${descripcion}&dates=${fecha}T${horaInicio}/${fecha}T${horaFin}`;
+// Modal para cancelar reserva de forma profesional
+function showCancellationModal(reservaId) {
+  // Crea el overlay del modal
+  const modalOverlay = document.createElement('div');
+  modalOverlay.style.position = 'fixed';
+  modalOverlay.style.top = '0';
+  modalOverlay.style.left = '0';
+  modalOverlay.style.width = '100%';
+  modalOverlay.style.height = '100%';
+  modalOverlay.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+  modalOverlay.style.display = 'flex';
+  modalOverlay.style.alignItems = 'center';
+  modalOverlay.style.justifyContent = 'center';
+  modalOverlay.style.zIndex = '1000';
 
-  window.open(calendarUrl, '_blank');
+  // Crea el contenido del modal
+  const modalContent = document.createElement('div');
+  modalContent.style.backgroundColor = '#fff';
+  modalContent.style.padding = '20px';
+  modalContent.style.borderRadius = '8px';
+  modalContent.style.boxShadow = '0 2px 8px rgba(0,0,0,0.3)';
+  modalContent.style.maxWidth = '400px';
+  modalContent.style.width = '100%';
+
+  modalContent.innerHTML = `
+    <h3>Cancelar Reserva</h3>
+    <p>Seleccione el motivo de cancelación:</p>
+    <select id="motivoSelect" style="width:100%; padding:8px; margin-bottom:10px;">
+      <option value="Cliente canceló">Cliente canceló</option>
+      <option value="Error en la reserva">Error en la reserva</option>
+      <option value="Otro motivo">Otro motivo</option>
+    </select>
+    <input type="text" id="otroMotivo" placeholder="Especifique otro motivo" style="width:100%; padding:8px; margin-bottom:10px; display:none;">
+    <div style="text-align:right;">
+      <button id="cancelarModalBtn" style="margin-right:10px;">Cancelar</button>
+      <button id="confirmarCancelacionBtn">Confirmar</button>
+    </div>
+  `;
+
+  modalOverlay.appendChild(modalContent);
+  document.body.appendChild(modalOverlay);
+
+  const motivoSelect = modalContent.querySelector('#motivoSelect');
+  const otroMotivoInput = modalContent.querySelector('#otroMotivo');
+
+  // Mostrar campo adicional si se selecciona "Otro motivo"
+  motivoSelect.addEventListener('change', () => {
+    if (motivoSelect.value === 'Otro motivo') {
+      otroMotivoInput.style.display = 'block';
+    } else {
+      otroMotivoInput.style.display = 'none';
+    }
+  });
+
+  // Botón para cancelar el modal
+  modalContent.querySelector('#cancelarModalBtn').addEventListener('click', () => {
+    document.body.removeChild(modalOverlay);
+  });
+
+  // Botón para confirmar la cancelación
+  modalContent.querySelector('#confirmarCancelacionBtn').addEventListener('click', async () => {
+    let motivo = motivoSelect.value;
+    if (motivo === 'Otro motivo') {
+      motivo = otroMotivoInput.value.trim();
+      if (!motivo) {
+        alert('Por favor, especifique el motivo de cancelación.');
+        return;
+      }
+    }
+    await procesarCancelacion(reservaId, motivo);
+    document.body.removeChild(modalOverlay);
+  });
+}
+
+// Función para mover la reserva a la colección "reservasTerminadas"
+async function guardarReservaTerminada(reservaId) {
+  try {
+    // Obtén la reserva desde la colección "reservas"
+    const reservaRef = doc(db, 'reservas', reservaId);
+    const reservaDoc = await getDoc(reservaRef);
+    
+    if (reservaDoc.exists()) {
+      const reservaData = reservaDoc.data();
+      
+      // Prepara la data para guardar en "reservasTerminadas"
+      const terminadoData = {
+        ...reservaData,
+        fechaGuardado: new Date().toISOString(), // Marca de tiempo
+        estado: 'Terminada'
+      };
+      
+      // Guarda en la colección "reservasTerminadas"
+      await addDoc(collection(db, 'reservasTerminadas'), terminadoData);
+      
+      // Elimina la reserva original de la colección "reservas"
+      await deleteDoc(reservaRef);
+      
+      alert("Reserva guardada en Reservas Terminadas.");
+      window.location.href = 'reservas.html';
+    } else {
+      alert("No se encontró la reserva.");
+    }
+  } catch (error) {
+    console.error("Error al guardar la reserva terminada:", error);
+    alert("Hubo un error al guardar la reserva terminada.");
+  }
 }
 
 
+// Función para procesar la cancelación: guarda en 'eventosCancelados' y elimina la reserva original
+async function procesarCancelacion(reservaId, motivo) {
+  try {
+    const reservaRef = doc(db, 'reservas', reservaId);
+    const reservaDoc = await getDoc(reservaRef);
+    if (reservaDoc.exists()) {
+      const reservaData = reservaDoc.data();
+      const cancelData = {
+        ...reservaData,
+        motivoCancelacion: motivo,
+        fechaCancelacion: new Date().toISOString(),
+        estado: 'Cancelado'
+      };
+      // Guarda en la colección 'eventosCancelados'
+      await addDoc(collection(db, 'eventosCancelados'), cancelData);
+      // Elimina la reserva original
+      await deleteDoc(reservaRef);
+      alert("Reserva cancelada y guardada en eventos cancelados.");
+      window.location.href = 'reservas.html';
+    } else {
+      alert("No se encontró la reserva.");
+    }
+  } catch (error) {
+    console.error("Error al cancelar la reserva:", error);
+    alert("Hubo un error al cancelar la reserva.");
+  }
+}
 
 function reenviarContrato(reservaId, reservaData) {
-  console.log("Ejecutando reenviarContrato para reservaId:", reservaId);
   const mensaje = `¡Hola ${reservaData.nombre}! Su reserva ha sido confirmada. Revise el contrato en: https://csrtech-studio.github.io/Hiram-Inflables/contrato.html?id=${reservaId}`;
   const urlWhatsApp = `https://wa.me/${reservaData.telefono}?text=${encodeURIComponent(mensaje)}`;
-  console.log('URL WhatsApp para reenviar contrato:', urlWhatsApp);
   window.open(urlWhatsApp, '_blank');
   alert("Contrato reenviado.");
 }
 
 async function concluirReserva(reservaId, reservaData) {
-  console.log('Ejecutando concluirReserva para reservaId:', reservaId);
   const reservaRef = doc(db, 'reservas', reservaId);
   await updateDoc(reservaRef, { estado: 'Concluido' });
-  console.log('Reserva actualizada a Concluido');
-  alert("Reserva guardada con éxito.");
+  alert("Reserva Concluida y Pagada con Exito.");
 }
 
 async function cambiarEstadoReserva(reservaId, nuevoEstado, tipoMensaje) {
-  console.log(`Ejecutando cambiarEstadoReserva para reservaId: ${reservaId}, nuevoEstado: ${nuevoEstado}, tipoMensaje: ${tipoMensaje}`);
   const reservaRef = doc(db, 'reservas', reservaId);
   await updateDoc(reservaRef, { estado: nuevoEstado });
 
@@ -282,21 +414,11 @@ async function cambiarEstadoReserva(reservaId, nuevoEstado, tipoMensaje) {
   if (tipoMensaje === 'aceptado') {
     mensaje = `¡Hola ${reservaData.nombre}! Inflables Hiram le informa que su reserva ha sido confirmada. Por favor, revisa y acepta el contrato en el siguiente enlace: https://csrtech-studio.github.io/Hiram-Inflables/contrato.html?id=${reservaId}`;
   } else if (tipoMensaje === 'rechazado') {
-    mensaje = `Estimado/a ${reservaData.nombre},
-
-Inflables Hiram lamenta informarle que por el momento no podemos ofrecerle el servicio de renta solicitado. Las razones pueden ser las siguientes:
-- La fecha solicitada ya se encuentra reservada para otro cliente.
-- No contamos con el inflable o la máquina solicitada en inventario.
-
-Le pedimos una disculpa por los inconvenientes causados. Si desea más información o tiene alguna consulta adicional, no dude en contactarnos a este mismo número.
-
-Atentamente,
-Inflables Hiram`;
+    mensaje = `Estimado/a ${reservaData.nombre},\n\nInflables Hiram lamenta informarle que por el momento no podemos ofrecerle el servicio solicitado.\n\nAtentamente,\nInflables Hiram`;
   }
 
   const urlWhatsApp = `https://wa.me/${reservaData.telefono}?text=${encodeURIComponent(mensaje)}`;
-  console.log('URL WhatsApp (cambiarEstadoReserva):', urlWhatsApp);
   window.open(urlWhatsApp, '_blank');
-  alert(`Estado de la reserva actualizado a: ${nuevoEstado} Abriendo Google Calendario`);
-  abrirGoogleCalendar(reservaData);
+  alert(`Estado de la reserva actualizado a: ${nuevoEstado}. Abriendo Google Calendario`);
+  // Puedes invocar la función para abrir Google Calendar si lo deseas
 }

@@ -60,3 +60,27 @@ document.addEventListener("DOMContentLoaded", () => {
   cargarImagenesCarrusel();
 
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const reservarBtn = document.querySelector(".nav-link.btn-custom");
+  actualizarContadorReservas(); // Inicializa el contador al cargar la página
+
+  document.addEventListener("click", (e) => {
+ 
+      if (e.target.classList.contains("eliminar-btn")) {
+          const id = e.target.dataset.id;
+          let productosSeleccionados = JSON.parse(sessionStorage.getItem('productosSeleccionados')) || [];
+
+          productosSeleccionados = productosSeleccionados.filter(producto => producto.id !== id);
+          sessionStorage.setItem('productosSeleccionados', JSON.stringify(productosSeleccionados));
+
+          actualizarContadorReservas(); // Actualizar contador en botón
+      }
+  });
+
+  function actualizarContadorReservas() {
+      const productosSeleccionados = JSON.parse(sessionStorage.getItem('productosSeleccionados')) || [];
+      const cantidad = productosSeleccionados.length;
+      reservarBtn.textContent = cantidad > 0 ? `Reservar (${cantidad})` : "Reservar";
+  }
+});
