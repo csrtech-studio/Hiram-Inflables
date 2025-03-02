@@ -1,14 +1,37 @@
 import { db } from './firebaseConfig.js';
 import { collection, getDocs, doc, deleteDoc, setDoc, updateDoc, addDoc, getDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
-import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js';
+import { auth } from './firebaseConfig.js';
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+import { signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 
-// 📌 Verificar autenticación del usuario
-const auth = getAuth();
-onAuthStateChanged(auth, (user) => {
+document.addEventListener('DOMContentLoaded', function () {
+  // Verificar si el usuario está autenticado
+  onAuthStateChanged(auth, user => {
     if (!user) {
-        window.location.href = 'admin.html'; // Redirige si no está autenticado
+      // Si el usuario no está autenticado, redirigir a la página de inicio
+      window.location.href = 'no-autenticado.html';
     }
+  });
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const logoutButton = document.getElementById('logout-button');
+  
+    if (logoutButton) {
+      logoutButton.addEventListener('click', async function () {
+        try {
+          // Cerrar sesión
+          await signOut(auth);
+          console.log('Sesión cerrada');
+          
+          // Redirigir al inicio (index.html) o a la página que desees
+          window.location.href = 'index.html';
+        } catch (error) {
+          console.error('Error al cerrar sesión:', error.message);
+        }
+      });
+    }
+  });
 
 const categoriaSelect = document.getElementById("categoria");
 const formCampos = document.getElementById("formCampos");
@@ -166,8 +189,9 @@ async function cargarProductos() {
                 ${producto.video ? `<br><a href="${producto.video}" target="_blank">Ver Video</a>` : ""}
             </td>
             <td>
-                <button onclick="editarProducto('${producto.id}')">Editar</button>
-                <button onclick="eliminarProducto('${producto.id}')">Eliminar</button>
+             <button class="editar" onclick="editarProducto('${producto.id}')">Editar</button>
+             <button class="eliminar" onclick="eliminarProducto('${producto.id}')">Eliminar</button>
+
             </td>
         `;
         tablaProductos.appendChild(fila);
@@ -304,7 +328,7 @@ async function cargarReservas() {
     });
 
     // Ordenar reservas: primero pendientes, luego autorizadas, confirmadas, concluidas
-    const order = ['pendientes', 'autorizadas', 'confirmadas', 'concluidas'];
+    const order = ['Pendiente', 'Autorizado', 'Confirmado', 'Concluido'];
     reservasArray.sort((a, b) => {
         const aIndex = order.indexOf(a.estado.toLowerCase());
         const bIndex = order.indexOf(b.estado.toLowerCase());
@@ -318,25 +342,92 @@ async function cargarReservas() {
         const fechaFormateada = formatearFecha(reserva.fecha);
         const row = document.createElement('tr');
         row.setAttribute('data-index', index);
-        const botonAccion = reserva.estado === 'Cancelado'
-            ? `<button class="btn btn-danger" onclick="eliminarReserva('${reserva.id}')">Eliminar</button>`
-            : `<a href="detallesReserva.html?id=${reserva.id}" class="btn btn-info">Ver Reserva</a>`;
-
+        
+        // Botón para ver la reserva
+        const botonVerReserva = reserva.estado.toLowerCase() === 'cancelado'
+          ? `<button class="btn btn-danger" onclick="eliminarReserva('${reserva.id}')">Eliminar</button>`
+          : `<a href="detallesReserva.html?id=${reserva.id}" class="btn btn-info">Ver Reserva</a>`;
+        
+        // Si la reserva está autorizada, agregamos el botón "Agregar al Calendario"
+        const botonAgregarCalendario = reserva.estado.toLowerCase() === 'autorizado'
+          ? `<button class="btn btn-success" onclick='agregarAlCalendario(${JSON.stringify(reserva)})'>Agregar al Calendario</button>`
+          : "";
+        
         row.innerHTML = `
             <td>${reserva.nombre}</td>
             <td>${fechaFormateada}</td>
             <td>${reserva.municipio}</td>
             <td>${reserva.hora}</td>
-            <td>${reserva.estado}</td>
-            <td>${botonAccion}</td>
+            <td class="estado-reserva">${reserva.estado}</td>
+            <td>${botonVerReserva} </td><td>${botonAgregarCalendario}</td>
         `;
         reservasLista.appendChild(row);
         index++;
     });
-
+    
     // Verificar conflictos de fechas y resaltar filas conflictivas
     verificarFechasCercanas(reservasArray);
 }
+
+function calcularFechaTermino(fecha, horaInicio) {
+    let [horas, minutos] = horaInicio.split(":").map(Number);
+    let fechaTermino = new Date(fecha);
+
+    horas += 6; // Sumar 6 horas a la hora de inicio
+
+    if (horas >= 24) {
+        horas -= 24;
+        fechaTermino.setDate(fechaTermino.getDate() + 1);
+    }
+
+    let fechaISO = fechaTermino.toISOString().split("T")[0];
+    let horaTermino24H = horas.toString().padStart(2, "0") + ":" + minutos.toString().padStart(2, "0");
+
+    return { fecha: fechaISO, hora: horaTermino24H };
+}
+
+function convertirA12Horas(hora24) {
+    let [horas, minutos] = hora24.split(":").map(Number);
+    let periodo = horas >= 12 ? "PM" : "AM";
+    horas = horas % 12 || 12; // Convertir 0 a 12 para formato AM/PM
+
+    return `${horas}:${minutos.toString().padStart(2, "0")} ${periodo}`;
+}
+
+function formatearFechaHoraParaGoogle(fecha, hora) {
+    let [horas, minutos] = hora.split(":").map(Number);
+    
+    // Asegurar que la zona horaria sea correcta (ajustar si es necesario)
+    return `${fecha.replace(/-/g, "")}T${horas.toString().padStart(2, "0")}${minutos.toString().padStart(2, "0")}00`;
+}
+
+function agregarAlCalendario(reserva) {
+    const { fecha: fechaTermino, hora: horaTermino24H } = calcularFechaTermino(reserva.fecha, reserva.hora);
+
+    const horaInicio12H = convertirA12Horas(reserva.hora);
+    const horaTermino12H = convertirA12Horas(horaTermino24H);
+
+    const startDateTime = formatearFechaHoraParaGoogle(reserva.fecha, reserva.hora);
+    const endDateTime = formatearFechaHoraParaGoogle(fechaTermino, horaTermino24H);
+
+    const title = encodeURIComponent(`Reserva para ${reserva.nombre}`);
+    const details = encodeURIComponent(`Cliente: ${reserva.nombre}\nFecha: ${reserva.fecha}\nHora: ${horaInicio12H} - ${horaTermino12H}\nDirección: ${reserva.direccion}`);
+    const location = encodeURIComponent(reserva.direccion);
+
+    const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDateTime}/${endDateTime}&details=${details}&location=${location}`;
+
+    window.open(url, '_blank');
+}
+
+
+
+  
+  // Hacer que la función esté disponible en el ámbito global
+  window.agregarAlCalendario = agregarAlCalendario;
+  
+  
+
+
 
 // ── Función para resaltar filas conflictivas ──
 function resaltarFilas(indices) {
@@ -424,24 +515,35 @@ formImagen.addEventListener('submit', async (e) => {
 });
 
 function mostrarImagen(url) {
-  const imagenDiv = document.createElement('div');
-  imagenDiv.classList.add('col-3', 'mb-3', 'position-relative');
-
-  const imagen = document.createElement('img');
-  imagen.src = url;
-  imagen.classList.add('img-fluid', 'border');
-  imagen.style.height = '150px';
-
-  const botonEliminar = document.createElement('button');
-  botonEliminar.classList.add('btn', 'btn-danger', 'position-absolute', 'top-0', 'end-0', 'm-2');
-  botonEliminar.innerHTML = 'X';
-  botonEliminar.addEventListener('click', () => eliminarImagen(url, imagenDiv));
-
-  imagenDiv.appendChild(imagen);
-  imagenDiv.appendChild(botonEliminar);
-  imagenPreview.appendChild(imagenDiv);
-}
-
+    // Crear un contenedor para la imagen y el botón con fondo negro
+    const imagenDiv = document.createElement('div');
+    imagenDiv.classList.add('col-3', 'mb-3', 'position-relative');
+    imagenDiv.style.border = '2px solid rgba(0, 0, 0, 0.3)';  // Contorno negro alrededor de cada imagen
+    imagenDiv.style.borderRadius = '8px';  // Opcional: Bordes redondeados
+    imagenDiv.style.overflow = 'hidden';  // Evita que la imagen se salga del contenedor
+    imagenDiv.style.position = 'relative';
+  
+    // Crear la etiqueta de la imagen
+    const imagen = document.createElement('img');
+    imagen.src = url;
+    imagen.classList.add('img-fluid');
+    imagen.style.height = '150px';
+    imagen.style.objectFit = 'cover';  // Asegura que la imagen se ajuste bien al contenedor
+  
+    // Crear el botón de eliminar dentro de la imagen
+    const botonEliminar = document.createElement('button');
+    botonEliminar.classList.add('btn', 'btn-danger', 'position-absolute', 'top-0', 'end-0', 'm-1');
+    botonEliminar.innerHTML = 'X';
+    botonEliminar.addEventListener('click', () => eliminarImagen(url, imagenDiv));
+  
+    // Añadir la imagen y el botón de eliminar al contenedor
+    imagenDiv.appendChild(imagen);
+    imagenDiv.appendChild(botonEliminar);
+  
+    // Añadir el contenedor de imagen al contenedor principal
+    imagenPreview.appendChild(imagenDiv);
+  }
+  
 async function eliminarImagen(url, imagenDiv) {
   if (confirm('¿Seguro que quieres eliminar esta imagen del carrusel?')) {
     const querySnapshot = await getDocs(collection(db, 'imagenes'));

@@ -117,26 +117,26 @@ async function cargarContrato(id) {
   }
 }
 
-function enviarCorreo(reserva, fechaFormateada, horaTermino) {
-  const emailParams = {
-    to_name: reserva.nombre,
-    fecha: fechaFormateada,
-    hora: reserva.hora,
-    hora_termino: horaTermino,
-    direccion: reserva.direccion,
-    total: reserva.total
-  };
+  function enviarCorreo(reserva, fechaFormateada, horaTermino) {
+    const emailParams = {
+      to_name: reserva.nombre,
+      fecha: fechaFormateada,
+      hora: reserva.hora,
+      hora_termino: horaTermino,
+      direccion: reserva.direccion,
+      total: reserva.total
+    };
 
-  console.log("Enviando correo con parámetros:", emailParams);
+    console.log("Enviando correo con parámetros:", emailParams);
 
-  emailjs.send("service_f2yvtv4", "template_5ayvdj9", emailParams)
-    .then((response) => {
-      console.log("Correo enviado correctamente:", response);
-    })
-    .catch((error) => {
-      console.error("Error enviando correo:", error);
-    });
-}
+    emailjs.send("service_f2yvtv4", "template_5ayvdj9", emailParams)
+      .then((response) => {
+        console.log("Correo enviado correctamente:", response);
+      })
+      .catch((error) => {
+        console.error("Error enviando correo:", error);
+      });
+  }
 
 
 

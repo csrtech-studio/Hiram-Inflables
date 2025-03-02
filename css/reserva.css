@@ -58,13 +58,13 @@ body {
 
   0%,
   100% {
-      transform: translateY(0);
-      /* Posición inicial y final */
+    transform: translateY(0);
+    /* Posición inicial y final */
   }
 
   50% {
-      transform: translateY(-10px);
-      /* Salto hacia arriba */
+    transform: translateY(-10px);
+    /* Salto hacia arriba */
   }
 }
 
@@ -164,7 +164,7 @@ table {
   overflow: hidden;
 }
 
-th, 
+th,
 td {
   padding: 12px;
   text-align: center;
@@ -227,6 +227,81 @@ button.eliminar:hover {
   background-color: #c82333;
 }
 
+/* Clase para aplicar negritas y cursiva */
+.estado-reserva {
+  font-weight: bold;
+  /* Negritas */
+  font-style: italic;
+  /* Cursiva */
+}
+
+.estado-pendiente {
+  color: #FFA500;
+  /* Naranja para Pendiente */
+  font-weight: bold;
+  font-style: italic;
+}
+
+.estado-confirmado {
+  color: #28a745;
+  /* Verde para Confirmado */
+  font-weight: bold;
+  font-style: italic;
+}
+
+.estado-autorizado {
+  color: #007bff;
+  /* Azul para Autorizado */
+  font-weight: bold;
+  font-style: italic;
+}
+
+.estado-concluido {
+  color: #6c757d;
+  /* Gris para Concluido */
+  font-weight: bold;
+  font-style: italic;
+}
+
+.elegant-button {
+  background-color: #4CAF50;
+  /* Verde */
+  color: white;
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  border-radius: 8px;
+  /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* Sombra suave */
+  transition: all 0.3s ease-in-out;
+  /* Transición suave */
+}
+
+.elegant-button:hover {
+  background-color: #45a049;
+  /* Cambio de color al pasar el mouse */
+  transform: translateY(-3px);
+  /* Efecto de elevación al pasar el mouse */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  /* Aumenta la sombra al pasar el mouse */
+}
+
+.elegant-button:active {
+  background-color: #3e8e41;
+  /* Color más oscuro al hacer clic */
+  transform: translateY(1px);
+  /* Efecto de presión */
+}
+
+
+
+
 /* ================================
    Mensajes de Advertencia
 ================================ */
@@ -283,28 +358,28 @@ select:focus {
   .container {
     padding: 15px;
   }
-  
+
   header {
     font-size: 1.8rem;
   }
-  
+
   table {
     display: block;
     overflow-x: auto;
     white-space: nowrap;
   }
-  
-  th, 
+
+  th,
   td {
     padding: 10px;
     font-size: 14px;
   }
-  
+
   button {
     font-size: 12px;
     padding: 6px 10px;
   }
-  
+
   form {
     width: 100%;
   }

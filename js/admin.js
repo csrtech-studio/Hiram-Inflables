@@ -1,9 +1,9 @@
-// js/admin.js
 import { auth } from './firebaseConfig.js';
-import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+import { signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 
 document.addEventListener('DOMContentLoaded', function () {
   const loginForm = document.getElementById('admin-login');
+
 
   if (loginForm) {
     loginForm.addEventListener('submit', async function (event) {

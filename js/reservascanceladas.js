@@ -1,5 +1,38 @@
 import { db } from './firebaseConfig.js';
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
+import { auth } from './firebaseConfig.js';
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+import { signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Verificar si el usuario está autenticado
+  onAuthStateChanged(auth, user => {
+    if (!user) {
+      // Si el usuario no está autenticado, redirigir a la página de inicio
+      window.location.href = 'no-autenticado.html';
+    }
+  });
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+    const logoutButton = document.getElementById('logout-button');
+  
+    if (logoutButton) {
+      logoutButton.addEventListener('click', async function () {
+        try {
+          // Cerrar sesión
+          await signOut(auth);
+          console.log('Sesión cerrada');
+          
+          // Redirigir al inicio (index.html) o a la página que desees
+          window.location.href = 'index.html';
+        } catch (error) {
+          console.error('Error al cerrar sesión:', error.message);
+        }
+      });
+    }
+  });
+
 
 async function cargareventosCancelados() {
     const listaReservas = document.getElementById("eventosCanceladosLista");
