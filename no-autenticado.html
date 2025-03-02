@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>No Autenticado</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #2d2d2d;
+      color: white;
+      text-align: center;
+      margin-top: 100px;
+      padding: 0;
+      margin: 0;
+    }
+    h1 {
+      color: #ff6347;
+      font-size: 3rem;
+    }
+    p {
+      color: #ccc;
+      font-size: 20px;
+      margin-top: 20px;
+      line-height: 1.6;
+    }
+    .devil-face {
+      font-size: 80px;
+      color: red;
+      margin-top: 30px;
+    }
+    button {
+      background-color: #ff6347;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 18px;
+      cursor: pointer;
+      border-radius: 8px;
+      margin-top: 30px;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background-color: #ff4500;
+      transform: scale(1.1);
+    }
+    button:active {
+      background-color: #cc3700;
+    }
+  </style>
+</head>
+<body>
+  <h1>¡Oh no! ¡Te has metido en un lío! 😈</h1>
+  <p>No debes estar aquí en este momento. ¡Tu acceso ha sido bloqueado y estoy rastreando tu ubicación! Si no regresas ahora, ¡prepárate para las consecuencias! 😜</p>
+  <div class="devil-face">
+    😈
+  </div>
+  <button onclick="redirigir()">¿Entendiste?</button>
+
+  <script>
+    function redirigir() {
+      window.location.href = 'index.html';
+    }
+  </script>
+</body>
+</html>
