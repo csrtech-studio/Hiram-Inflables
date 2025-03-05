@@ -1,36 +1,37 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Configuración de Estilos</title>
   <link rel="stylesheet" href="css/config.css">
 </head>
+
 <body>
   <!-- Vista previa del encabezado con título y navegación -->
   <header id="previewHeader" class="header">
-    <h1 id="previewTitle">Título del Sitio</h1>
+    <h1 class="site-title m-0">Inflables Hiram</h1>
     <nav>
-      <a class="nav-link" href="#">Inicio</a>
-      <a class="nav-link" href="#">Acerca</a>
-      <a class="nav-link" href="#">Contacto</a>
+      <a class="nav-link" href="index.html">Inicio</a>
+      <a class="nav-link" href="productos.html">Productos</a>
+      <a class="nav-link" href="reservas.html">regresar</a>
     </nav>
   </header>
 
   <main class="container">
     <form id="stylesForm">
-      <h2>Configuración de Estilos</h2>
-
+      <div>
+      <h2>¡Diversión al Máximo con Inflables y Maquinitas!</h2>
+    <p>Ofrecemos inflables secos, acuáticos, cañón de espuma y máquinas arcade para hacer de tu evento algo inolvidable. ¡Ideal para todas las edades!</p>
+      </div>
       <!-- Encabezado -->
+       <h3>Encabezado</h3>
       <div class="form-group">
-        <label>Encabezado - Fondo:
+        <label>Fondo:
           <input type="color" id="headerBgColor" value="#222">
         </label>
-        <label>Encabezado - Texto:
-          <input type="color" id="headerTextColor" value="#fff">
-        </label>
       </div>
-
       <!-- Título -->
       <div class="form-group">
         <label>Título - Texto:
@@ -46,7 +47,7 @@
           </select>
         </label>
       </div>
-
+<h3> Botones de Navegacion</h3>
       <!-- Botones de navegación -->
       <div class="form-group">
         <label>Botones de Navegación - Texto:
@@ -59,31 +60,13 @@
           <input type="color" id="navBgEnd" value="#ffcc00">
         </label>
       </div>
-
-      <!-- Texto principal -->
-      <div class="form-group">
-        <label>Texto Principal - Color:
-          <input type="color" id="mainTextColor" value="#333">
-        </label>
-        <label>Texto Principal - Fuente:
-          <select id="mainFont">
-            <option value="'Dosis', sans-serif">Dosis</option>
-            <option value="Arial, sans-serif">Arial</option>
-            <option value="'Times New Roman', serif">Times New Roman</option>
-            <option value="'Roboto', sans-serif">Roboto</option>
-            <option value="Georgia, serif">Georgia</option>
-          </select>
-        </label>
-      </div>
-
-      <!-- Texto secundario -->
-      <div class="form-group">
+      <h3>Texto principal</h3>
         <label>Texto Secundario - Color:
           <input type="color" id="secondaryTextColor" value="#ff4081">
         </label>
         <label>Texto Secundario - Fuente:
           <select id="secondaryFont">
-            <option value="'Permanent Marker', cursive, sans-serif">Permanent Marker</option>
+            <option value="'Comic Sans MS', cursive, sans-serif">Comic Sans MS</option>
             <option value="Arial, sans-serif">Arial</option>
             <option value="'Times New Roman', serif">Times New Roman</option>
             <option value="'Roboto', sans-serif">Roboto</option>
@@ -91,22 +74,39 @@
           </select>
         </label>
       </div>
+      <h3>Texto Secundario</h3>
+      <!-- Texto principal -->
+      <div class="form-group">
+        <label>Color:
+          <input type="color" id="mainTextColor" value="#333">
+        </label>
+        <label>Texto- Fuente:
+          <select id="mainFont">
+            <option value="'Comic Sans MS', cursive, sans-serif">Comic Sans MS</option>
+            <option value="Arial, sans-serif">Arial</option>
+            <option value="'Times New Roman', serif">Times New Roman</option>
+            <option value="'Roboto', sans-serif">Roboto</option>
+            <option value="Georgia, serif">Georgia</option>
+          </select>
+        </label>
+      </div>
+      <div class="form-group">
+        <h3>Fondo de la pagina</h3>
+        <label for="bodyBgColor">Color de fondo:</label>
+      <input type="color" id="bodyBgColor" value="#ffffff">
+      
 
       <div class="buttons">
         <button type="button" id="previewButton">Vista Previa</button>
-        <button type="submit">Guardar</button>
-        <button id="resetButton">Restablecer</button>
+        <button type="submit">Guardar Configuración</button>
+        <button type="button" id="resetButton">Restablecer</button>
 
       </div>
-    </form>
 
-    <!-- Vista previa adicional para textos -->
-    <section class="preview-section">
-      <h2 id="previewSecondary">Texto Secundario</h2>
-      <p id="previewMain">Este es un párrafo de texto principal para ver la vista previa.</p>
-    </section>
+    </form>
   </main>
 
   <script type="module" src="js/config.js"></script>
 </body>
+
 </html>

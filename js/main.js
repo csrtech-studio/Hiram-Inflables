@@ -296,62 +296,56 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// Función para aplicar la configuración a los elementos del sitio
+// Configuración por defecto (opcional, si no existe configuración guardada)
+const defaultConfig = {
+  bodyBgColor: "#f9f9f9",       
+  headerBgColor: "#007bff",      
+  headerTextColor: "#ffffff",    
+  titleTextColor: "#ffffff",     
+  titleFont: "'Comic Sans MS', cursive, sans-serif",
+  navTextColor: "#ffffff",       
+  navBgStart: "#ff6b6b",
+  navBgEnd: "#ffcc00",
+  mainTextColor: "#333333",      
+  mainFont: "'Dosis', sans-serif",
+  secondaryTextColor: "#ff4081",
+  secondaryFont: "'Permanent Marker', cursive, sans-serif"
+};
+
+// Función que aplica los estilos utilizando variables CSS
 function applyStyles(config) {
-  // Encabezado: se asume que el header tiene la clase .header
-  const header = document.querySelector('.header');
-  if (header) {
-    header.style.backgroundColor = config.headerBgColor;
-    header.style.color = config.headerTextColor;
-  }
-  
-  // Título: se asume que el título tiene la clase .site-title
-  const title = document.querySelector('.site-title');
-  if (title) {
-    title.style.color = config.titleTextColor;
-    title.style.fontFamily = config.titleFont;
-  }
-  
-  // Botones de navegación: elementos con clase .nav-link
-  const navLinks = document.querySelectorAll('.nav-link');
-  navLinks.forEach(link => {
-    link.style.color = config.navTextColor;
-    link.style.background = `linear-gradient(135deg, ${config.navBgStart}, ${config.navBgEnd})`;
-  });
-  
-  // Texto principal y secundario en los contenedores (.container)
-  const containers = document.querySelectorAll('.container');
-  containers.forEach(container => {
-    // Texto secundario (por ejemplo, h2)
-    const secondary = container.querySelector('h2');
-    if (secondary) {
-      secondary.style.color = config.secondaryTextColor;
-      secondary.style.fontFamily = config.secondaryFont;
-    }
-    // Texto principal (por ejemplo, p)
-    const mainText = container.querySelector('p');
-    if (mainText) {
-      mainText.style.color = config.mainTextColor;
-      mainText.style.fontFamily = config.mainFont;
-    }
-  });
+  const root = document.documentElement;
+  root.style.setProperty('--body-bg-color', config.bodyBgColor);
+  root.style.setProperty('--header-bg-color', config.headerBgColor);
+  root.style.setProperty('--header-text-color', config.headerTextColor);
+  root.style.setProperty('--title-text-color', config.titleTextColor);
+  root.style.setProperty('--title-font', config.titleFont);
+  root.style.setProperty('--nav-text-color', config.navTextColor);
+  root.style.setProperty('--nav-bg-start', config.navBgStart);
+  root.style.setProperty('--nav-bg-end', config.navBgEnd);
+  root.style.setProperty('--main-text-color', config.mainTextColor);
+  root.style.setProperty('--main-font', config.mainFont);
+  root.style.setProperty('--secondary-text-color', config.secondaryTextColor);
+  root.style.setProperty('--secondary-font', config.secondaryFont);
 }
 
-// Al cargar la página se recupera la configuración desde Firebase y se aplica
-window.addEventListener('load', async () => {
+// Función para cargar la configuración desde Firebase
+async function loadConfig() {
   try {
-    const configRef = doc(db, "styles", "config");
-    const configDoc = await getDoc(configRef);
+    const configDoc = await getDoc(doc(db, "styles", "config"));
     if (configDoc.exists()) {
       const config = configDoc.data();
       applyStyles(config);
     } else {
-      // Si no hay configuración guardada, se aplican los valores por defecto
+      // Si no hay configuración guardada, aplica la configuración por defecto
+      console.log("No se encontró configuración guardada, se aplicarán los estilos por defecto.");
       applyStyles(defaultConfig);
     }
   } catch (error) {
-    console.error("Error al cargar la configuración:", error);
-    // En caso de error, se aplica la configuración por defecto
+    console.error("Error al obtener la configuración:", error);
     applyStyles(defaultConfig);
   }
-});
+}
+
+// Ejecuta la carga de la configuración cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', loadConfig);

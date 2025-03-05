@@ -1,499 +1,520 @@
-/* ======== Estilo General ======== */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f9f9f9;
-    color: #333;
-}
-
-/* ======== Header ======== */
-/* Elementos dentro del header */
-.header .logo {
-    margin-left: 10px;
-    width: 120px;
-    height: 100px;
-    border-radius: 40px;
-    object-fit: cover;
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-    transition: all 0.3s ease;
-}
-
-.header .site-title {
-    font-size: 2.8rem;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-    font-weight: bold;
-    color: #fff;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    transition: all 0.3s ease;
-}
-
-.logo:hover {
-    transform: rotate(360deg) scale(1.1);
-}
-
-@keyframes bounce {
-    0%, 100% { 
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
-}
-
-.site-title {
-    font-size: 2.1rem;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
-    font-weight: bold;
-    color: #fff;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-    animation: bounce 1s ease-in-out infinite;
-    animation-delay: 0s;
-}
-
-.site-title:hover {
-    animation-play-state: paused;
-}
-
-.highlight {
-    color: #ffcc00;
-    text-shadow: 2px 2px 10px rgba(255, 204, 0, 0.8);
-    font-style: italic;
-}
-
-/* Menú de navegación */
-.nav {
-    margin-left: 10px;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 5px;
-}
-
-.nav-item {
-    list-style: none;
-}
-
-.nav-link {
-    color: #fff !important;
-    font-size: 1.9rem;
-    font-weight: 400;
-    padding: 5px 12px;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 25px;
-    background: linear-gradient(135deg, #ff6b6b, #ffcc00);
-    transition: all 0.3s ease;
-}
-
-.nav-link:hover {
-    background: linear-gradient(135deg, #ffcc00, #ff6b6b);
-    color: #000;
-    transform: scale(1.1);
-}
-
-/* Contenedor principal */
-.container {
-    background-color: transparent;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    animation: slideIn 1s ease-out;
-    margin-bottom: 20px;
-}
-
-.container h2 {
-    font-family: 'Permanent Marker', cursive, sans-serif;
-    color: #ff4081;
-    font-size: 2.2rem;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.6);
-    animation: zoomIn 1s ease-out;
-}
-
-.container p {
-    font-family: 'Dosis', sans-serif;
-    color: #333;
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin: 10px 0;
-    font-weight: 600;
-    transition: color 0.3s ease;
-}
-
-.container p:hover {
-    color: #ff4081;
-    cursor: pointer;
-}
-
-.container p strong {
-    background: #ff4081;
-    padding: 8px 18px;
-    border-radius: 30px;
-    color: #fff;
-    font-weight: bold;
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-}
-
-.container p strong:hover {
-    background-color: #ff5722;
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-}
-
-@keyframes slideIn {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(0); }
-}
-
-@keyframes zoomIn {
-    0% { transform: scale(0.8); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
-}
-
-/* ======== Botones Generales ======== */
-.btn {
-    align-items: center;
-    font-size: 1rem;
-    padding: 10px 20px;
-    border-radius: 30px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-/* Botón flotante de WhatsApp */
-.whatsapp-btn {
-    position: fixed;
-    bottom: 20px;
-    right: 3px;
-    margin-bottom: 30px;
-    background-color: #25d366;
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    text-decoration: none;
-    z-index: 9999;
-    transition: all 0.3s ease;
-}
-
-.whatsapp-btn:hover {
-    background-color: #128c7e;
-    transform: scale(1.1);
-}
-
-.whatsapp-btn i {
-    margin-right: 10px;
-}
-
-/* Botón Facebook */
-.btn-primary {
-    background-color: #3b5998;
-    border: none;
-    color: #fff;
-    font-weight: bold;
-    border-radius: 50px;
-    box-shadow: 0 4px 10px rgba(59, 89, 152, 0.4);
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.btn-primary i {
-    font-size: 1.1rem;
-}
-
-.btn-primary:hover {
-    background-color: #2d4373;
-    box-shadow: 0 6px 15px rgba(45, 67, 115, 0.6);
-    transform: scale(1.05);
-}
-
-/* ======== Carrusel ======== */
-.carousel-container {
-    width: 100%;
-    max-width: 600px; /* Limita el ancho del carrusel en desktop */
-    margin: 0 auto;
-    overflow: hidden;
-}
-
-.carousel-inner {
-    position: relative;
-    overflow: hidden;
-}
-
-.carousel-item img {
-    width: 100%;
-    height: 400px; /* Altura fija para que todas las imágenes tengan el mismo tamaño */
-    object-fit: cover;
-    border-radius: 10px;
-    transition: transform 0.5s ease, box-shadow 0.3s ease;
-}
-
-.carousel-item img:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-}
-
-.carousel-control-prev,
-.carousel-control-next {
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 50%;
-    padding: 8px;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5rem;
-    color: #fff;
-    transition: background-color 0.3s ease;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.carousel-control-prev {
-    left: 15px;
-}
-
-.carousel-control-next {
-    right: 15px;
-}
-
-.carousel-control-prev:hover,
-.carousel-control-next:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
-.carousel-item-next,
-.carousel-item-prev,
-.carousel-item.active {
-    transition: transform 0.5s ease-in-out;
-}
-
-/* ======== Sección de Contacto ======== */
-.contact-section {
-    background-color: #f1f1f1;
-    padding: 30px 0;
-    text-align: center;
-}
-
-.contact-section a {
-    text-decoration: none;
-    color: #fff;
-}
-
-.contact-section a:hover {
-    color: #fff;
-    transform: scale(1.1);
-    transition: all 0.3s ease;
-}
-
-.contact-section a:active {
-    transform: scale(0.95);
-}
-
-/* ======== Formularios, Modal y Botones Adicionales ======== */
-#addOption {
-    background-color: #ff9800;
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    font-size: 18px;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-}
-
-#addOption:hover {
-    background-color: #f57c00;
-    transform: scale(1.1);
-}
-
-@keyframes saltar {
-    0% { transform: translateY(0); }
-    25% { transform: translateY(-10px); }
-    50% { transform: translateY(0); }
-    75% { transform: translateY(-5px); }
-    100% { transform: translateY(0); }
-}
-
-#addOption:active {
-    animation: saltar 0.5s ease;
-}
-
-#addOption:focus {
-    outline: none;
-    box-shadow: 0 0 10px #ff9800;
-}
-
-#contact-form {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.form-label {
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-}
-
-.form-control {
-    padding: 10px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 100%;
-    margin: 5px 0 15px 0;
-}
-
-#direccion {
-    margin: 5px 0 15px 0;
-    padding: 10px;
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 100%;
-    display: block;
-}
-
-/* Modal de confirmación */
-.modal-confirm {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-}
-
-.modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-}
-
-.modal-content p {
-    margin-bottom: 15px;
-    font-size: 18px;
-}
-
-.modal-content button {
-    margin: 5px;
-    padding: 10px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.btn-success {
-    background-color: #28a745;
-    color: white;
-}
-
-.btn-danger {
-    background-color: #dc3545;
-    color: white;
-}
-
-/* ======== Media Queries ======== */
-
-/* Para dispositivos de escritorio (min-width: 769px) */
-@media (min-width: 769px) {
-    .header {
-        height: 188px;
-        padding: 10px 30px;
-    }
-    
-    .logo {
-        width: 120px;
-        height: 80px;
-        border-radius: 8px;
-        margin-left: auto;
-        display: block;
-    }
-    
-    .site-title {
-        font-size: 2.5rem;
-    }
-    
-    .nav {
-        gap: 15px;
-    }
-    
-    .container {
-        padding: 40px;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-}
-
-/* Para dispositivos móviles (max-width: 768px) */
-@media screen and (max-width: 768px) {
-    .header .logo {
-        width: 70px;
-        height: 70px;
-    }
-    
-    .header .site-title {
-        font-size: 6vw;
-    }
-    
-    .nav {
-        flex-direction: column;
-        gap: 5px;
-    }
-    
-    .nav-link {
-        font-size: 1.2rem;
-        padding: 6px 10px;
-    }
-    
-    .container {
-        padding: 15px;
-    }
-    
-    .container h2 {
-        font-size: 5vw;
-    }
-    
-    .container p {
-        font-size: 3.5vw;
-    }
-    
-    .whatsapp-btn {
-        font-size: 1.5rem;
-        padding: 10px;
-        bottom: 10px;
-        right: 10px;
-    }
-}
+/* ======== Variables Dinámicas ======== */
+:root {
+    --body-bg-color: #ffffff;       /* Valor por defecto: se actualizará dinámicamente */
+    --header-bg-color: #007bff;
+    --header-text-color: #ffffff;
+    --title-text-color: #ffffff;
+    --title-font: 'Comic Sans MS', cursive, sans-serif;
+    --nav-text-color: #ffffff;
+    --nav-bg-start: #ff6b6b;
+    --nav-bg-end: #ffcc00;
+    --main-text-color: #333333;
+    --main-font: 'Dosis', sans-serif;
+    --secondary-text-color: #ff4081;
+    --secondary-font: 'Permanent Marker', cursive, sans-serif;
+  }
+  
+  /* ======== Estilo General ======== */
+  body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--body-bg-color) !important;
+      color: #333;
+  }
+  
+  /* ======== Header ======== */
+  .header {
+      background-color: var(--header-bg-color) !important;
+      color: var(--header-text-color) !important;
+  }
+  
+  .header .logo {
+      margin-left: 10px;
+      width: 120px;
+      height: 100px;
+      border-radius: 40px;
+      object-fit: cover;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+      transition: all 0.3s ease;
+  }
+  
+  .header .site-title {
+      font-size: 2.8rem;
+      font-family: var(--title-font) !important;
+      font-weight: bold;
+      color: var(--title-text-color) !important;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+  }
+  
+  .logo:hover {
+      transform: rotate(360deg) scale(1.1);
+  }
+  
+  @keyframes bounce {
+      0%, 100% { 
+          transform: translateY(0);
+      }
+      50% {
+          transform: translateY(-10px);
+      }
+  }
+  
+  .site-title {
+      font-size: 2.1rem;
+      font-family: var(--title-font) !important;
+      font-weight: bold;
+      color: var(--title-text-color) !important;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+      animation: bounce 1s ease-in-out infinite;
+      animation-delay: 0s;
+  }
+  
+  .site-title:hover {
+      animation-play-state: paused;
+  }
+  
+  .highlight {
+      color: #ffcc00;
+      text-shadow: 2px 2px 10px rgba(255, 204, 0, 0.8);
+      font-style: italic;
+  }
+  
+  /* Menú de navegación */
+  .nav {
+      margin-left: 10px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 5px;
+  }
+  
+  .nav-item {
+      list-style: none;
+  }
+  
+  .nav-link {
+      color: var(--nav-text-color) !important;
+      font-size: 1.9rem;
+      font-weight: 400;
+      padding: 5px 12px;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 25px;
+      background: linear-gradient(135deg, var(--nav-bg-start), var(--nav-bg-end)) !important;
+      transition: all 0.3s ease;
+  }
+  
+  .nav-link:hover {
+      background: linear-gradient(135deg, var(--nav-bg-end), var(--nav-bg-start)) !important;
+      color: #000;
+      transform: scale(1.1);
+  }
+  
+  /* Contenedor principal */
+  .container {
+      background-color: transparent;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      animation: slideIn 1s ease-out;
+      margin-bottom: 20px;
+  }
+  
+  .container h2 {
+      font-family: var(--secondary-font) !important;
+      color: var(--secondary-text-color) !important;
+      font-size: 2.2rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.6);
+      animation: zoomIn 1s ease-out;
+  }
+  
+  .container p {
+      font-family: var(--main-font) !important;
+      color: var(--main-text-color) !important;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin: 10px 0;
+      font-weight: 600;
+      transition: color 0.3s ease;
+  }
+  
+  .container p:hover {
+      color: #ff4081;
+      cursor: pointer;
+  }
+  
+  .container p strong {
+      background: #ff4081;
+      padding: 8px 18px;
+      border-radius: 30px;
+      color: #fff;
+      font-weight: bold;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+  }
+  
+  .container p strong:hover {
+      background-color: #ff5722;
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  @keyframes slideIn {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(0); }
+  }
+  
+  @keyframes zoomIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+  }
+  
+  /* ======== Botones Generales ======== */
+  .btn {
+      align-items: center;
+      font-size: 1rem;
+      padding: 10px 20px;
+      border-radius: 30px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Botón flotante de WhatsApp */
+  .whatsapp-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 3px;
+      margin-bottom: 30px;
+      background-color: #25d366;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      text-decoration: none;
+      z-index: 9999;
+      transition: all 0.3s ease;
+  }
+  
+  .whatsapp-btn:hover {
+      background-color: #128c7e;
+      transform: scale(1.1);
+  }
+  
+  .whatsapp-btn i {
+      margin-right: 10px;
+  }
+  
+  /* Botón Facebook */
+  .btn-primary {
+      background-color: #3b5998;
+      border: none;
+      color: #fff;
+      font-weight: bold;
+      border-radius: 50px;
+      box-shadow: 0 4px 10px rgba(59, 89, 152, 0.4);
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+  }
+  
+  .btn-primary i {
+      font-size: 1.1rem;
+  }
+  
+  .btn-primary:hover {
+      background-color: #2d4373;
+      box-shadow: 0 6px 15px rgba(45, 67, 115, 0.6);
+      transform: scale(1.05);
+  }
+  
+  /* ======== Carrusel ======== */
+  .carousel-container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      overflow: hidden;
+  }
+  
+  .carousel-inner {
+      position: relative;
+      overflow: hidden;
+  }
+  
+  .carousel-item img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: transform 0.5s ease, box-shadow 0.3s ease;
+  }
+  
+  .carousel-item img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .carousel-control-prev,
+  .carousel-control-next {
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 50%;
+      padding: 8px;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      color: #fff;
+      transition: background-color 0.3s ease;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+  }
+  
+  .carousel-control-prev {
+      left: 15px;
+  }
+  
+  .carousel-control-next {
+      right: 15px;
+  }
+  
+  .carousel-control-prev:hover,
+  .carousel-control-next:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+  }
+  
+  .carousel-item-next,
+  .carousel-item-prev,
+  .carousel-item.active {
+      transition: transform 0.5s ease-in-out;
+  }
+  
+  /* ======== Sección de Contacto ======== */
+  .contact-section {
+      background-color: #f1f1f1;
+      padding: 30px 0;
+      text-align: center;
+  }
+  
+  .contact-section a {
+      text-decoration: none;
+      color: #fff;
+  }
+  
+  .contact-section a:hover {
+      color: #fff;
+      transform: scale(1.1);
+      transition: all 0.3s ease;
+  }
+  
+  .contact-section a:active {
+      transform: scale(0.95);
+  }
+  
+  /* ======== Formularios, Modal y Botones Adicionales ======== */
+  #addOption {
+      background-color: #ff9800;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 18px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  #addOption:hover {
+      background-color: #f57c00;
+      transform: scale(1.1);
+  }
+  
+  @keyframes saltar {
+      0% { transform: translateY(0); }
+      25% { transform: translateY(-10px); }
+      50% { transform: translateY(0); }
+      75% { transform: translateY(-5px); }
+      100% { transform: translateY(0); }
+  }
+  
+  #addOption:active {
+      animation: saltar 0.5s ease;
+  }
+  
+  #addOption:focus {
+      outline: none;
+      box-shadow: 0 0 10px #ff9800;
+  }
+  
+  #contact-form {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-label {
+      font-size: 16px;
+      font-weight: bold;
+      color: #333;
+  }
+  
+  .form-control {
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      width: 100%;
+      margin: 5px 0 15px 0;
+  }
+  
+  #direccion {
+      margin: 5px 0 15px 0;
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      width: 100%;
+      display: block;
+  }
+  
+  /* Modal de confirmación */
+  .modal-confirm {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      justify-content: center;
+      align-items: center;
+  }
+  
+  .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+  }
+  
+  .modal-content p {
+      margin-bottom: 15px;
+      font-size: 18px;
+  }
+  
+  .modal-content button {
+      margin: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+  }
+  
+  .btn-success {
+      background-color: #28a745;
+      color: white;
+  }
+  
+  .btn-danger {
+      background-color: #dc3545;
+      color: white;
+  }
+  
+  /* ======== Media Queries ======== */
+  
+  /* Para dispositivos de escritorio (min-width: 769px) */
+  @media (min-width: 769px) {
+      .header {
+          height: 188px;
+          padding: 10px 30px;
+      }
+      
+      .logo {
+          width: 120px;
+          height: 80px;
+          border-radius: 8px;
+          margin-left: auto;
+          display: block;
+      }
+      
+      .site-title {
+          font-size: 2.5rem;
+      }
+      
+      .nav {
+          gap: 15px;
+      }
+      
+      .container {
+          padding: 40px;
+          max-width: 1200px;
+          margin: 0 auto;
+      }
+  }
+  
+  /* Para dispositivos móviles (max-width: 768px) */
+  @media screen and (max-width: 768px) {
+      .header .logo {
+          width: 70px;
+          height: 70px;
+      }
+      
+      .header .site-title {
+          font-size: 6vw;
+      }
+      
+      .nav {
+          flex-direction: column;
+          gap: 5px;
+      }
+      
+      .nav-link {
+          font-size: 1.2rem;
+          padding: 6px 10px;
+      }
+      
+      .container {
+          padding: 15px;
+      }
+      
+      .container h2 {
+          font-size: 5vw;
+      }
+      
+      .container p {
+          font-size: 3.5vw;
+      }
+      
+      .whatsapp-btn {
+          font-size: 1.5rem;
+          padding: 10px;
+          bottom: 10px;
+          right: 10px;
+      }
+  }
+  

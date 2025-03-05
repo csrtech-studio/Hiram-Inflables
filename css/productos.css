@@ -1,23 +1,38 @@
 
 /* ======== Header ======== */
-/* Estilo base del header */
+
+/* ======== Variables Dinámicas ======== */
+:root {
+  --body-bg-color: #ffffff;       /* Valor por defecto: se actualizará dinámicamente */
+  --header-bg-color: #007bff;
+  --header-text-color: #ffffff;
+  --title-text-color: #ffffff;
+  --title-font: 'Comic Sans MS', cursive, sans-serif;
+  --nav-text-color: #ffffff;
+  --nav-bg-start: #ff6b6b;
+  --nav-bg-end: #ffcc00;
+  --main-text-color: #333333;
+  --main-font: 'Dosis', sans-serif;
+  --secondary-text-color: #ff4081;
+  --secondary-font: 'Permanent Marker', cursive, sans-serif;
+}
+
+/* ======== Estilo General ======== */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--body-bg-color) !important;
+    color: #333;
+}
+
+/* ======== Header ======== */
 .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 130px; /* Altura original */
-    padding: 5px 0;
-    background: linear-gradient(135deg, #007bff, #00c6ff);
-    color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-    z-index: 1000;
-    transition: all 0.3s ease;
-    border-radius: 5px;
-  }
-  
-  /* Elementos dentro del header */
-  .header .logo {
+    background-color: var(--header-bg-color) !important;
+    color: var(--header-text-color) !important;
+}
+
+.header .logo {
     margin-left: 10px;
     width: 120px;
     height: 100px;
@@ -25,124 +40,81 @@
     object-fit: cover;
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
     transition: all 0.3s ease;
-  }
-  
-  .header .site-title {
-    font-size: 1.8rem;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+.header .site-title {
+    font-size: 2.8rem;
+    font-family: var(--title-font) !important;
     font-weight: bold;
-    color: #fff;
+    color: var(--title-text-color) !important;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
-  }
-  
-  /* Clase que se aplicará al hacer scroll */
-  .header.small-header {
-    height: 80px;  /* Altura reducida */
-    background: linear-gradient(135deg, #0056b3, #00aaff);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Ajustes para los elementos dentro del header al reducirlo */
-  .header.small-header .logo {
-    width: 50px;
-    height: 50px;
-  }
-  
-  .header.small-header .site-title {
-    font-size: 1.4rem;
-  }
-  
-  /* --- Estilos generales para el cuerpo --- */
-  /* Inicialmente, reservamos espacio igual a la altura del header */
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f9f9f9;
-    color: #333;
-    padding-top: 160px; /* Este valor se actualizará dinámicamente */
-  }
-  
-  /* Puedes definir estilos para el main o contenedores de contenido */
-  main {
-    padding: 20px;
-  }
-  
-/* Estilos base */
-.logo {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
-    transition: transform 0.3s ease;
-  }
-  
-  .logo:hover {
+}
+
+.logo:hover {
     transform: rotate(360deg) scale(1.1);
-  }
-  
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-  }
-  
-  .site-title {
-    font-size: 1.8rem;
-    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+@keyframes bounce {
+    0%, 100% { 
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.site-title {
+    font-size: 2.1rem;
+    font-family: var(--title-font) !important;
     font-weight: bold;
-    color: #fff;
+    color: var(--title-text-color) !important;
     text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     animation: bounce 1s ease-in-out infinite;
-  }
-  
-  .site-title:hover {
+    animation-delay: 0s;
+}
+
+.site-title:hover {
     animation-play-state: paused;
-  }
-  
-  .highlight {
+}
+
+.highlight {
     color: #ffcc00;
     text-shadow: 2px 2px 10px rgba(255, 204, 0, 0.8);
     font-style: italic;
-  }
-  
-  /* Menú de navegación */
+}
+
+/* Menú de navegación */
 .nav {
-  margin-left: 10px;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  justify-content: center;
-  margin-top: 5px;
+    margin-left: 10px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 5px;
 }
 
 .nav-item {
-  list-style: none;
+    list-style: none;
 }
 
 .nav-link {
-  color: #fff !important;
-  font-size: 1.9rem;
-  font-weight: 400;
-  padding: 5px 12px;
-  text-align: center;
-  text-decoration: none;
-  border-radius: 25px;
-  background: linear-gradient(135deg, #ff6b6b, #ffcc00);
-  transition: all 0.3s ease;
+    color: var(--nav-text-color) !important;
+    font-size: 1.9rem;
+    font-weight: 400;
+    padding: 5px 12px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 25px;
+    background: linear-gradient(135deg, var(--nav-bg-start), var(--nav-bg-end)) !important;
+    transition: all 0.3s ease;
 }
 
 .nav-link:hover {
-  background: linear-gradient(135deg, #ffcc00, #ff6b6b);
-  color: #000;
-  transform: scale(1.1);
+    background: linear-gradient(135deg, var(--nav-bg-end), var(--nav-bg-start)) !important;
+    color: #000;
+    transform: scale(1.1);
 }
-
-  /* Cuando el header es pequeño, ocultamos solo el menú de navegación */
-  .header.small-header .nav {
-    display: none;
-  }
     
 
 /* Contenedor principal */
@@ -156,28 +128,6 @@
     overflow: hidden;
     animation: slideIn 1s ease-out;
     margin-bottom: 15px;
-}
-
-.container h2 {
-    font-family: 'Permanent Marker', cursive, sans-serif;
-    color: #ff4081;
-    font-size: 2rem;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    font-weight: bold;
-    margin-bottom: 5px;
-    text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.6);
-    animation: zoomIn 1s ease-out;
-}
-
-.container p {
-    font-family: 'Dosis', sans-serif;
-    color: #333;
-    font-size: 1rem;
-    line-height: 1.6;
-    margin: 5px 0;
-    font-weight: 600;
-    transition: color 0.3s ease;
 }
 
 /* Producto */
