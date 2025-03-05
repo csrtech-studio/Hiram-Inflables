@@ -112,7 +112,7 @@ function renderProductos() {
   productosContainer.innerHTML = "";
   Object.keys(productosPorCategoria).forEach(categoria => {
     if (productosPorCategoria[categoria].length > 0) {
-      let categoriaHTML = `<div class="categoria"><h2>${categoria}:</h2>`;
+      let categoriaHTML = `<div class="categoria"><h2><strong>${categoria}:</strong></h2>`;
       productosPorCategoria[categoria].forEach(producto => {
         categoriaHTML += `
           <div class="producto-container">

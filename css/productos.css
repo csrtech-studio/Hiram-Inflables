@@ -1,21 +1,29 @@
-
-/* ======== Header ======== */
-
-/* ======== Variables Dinámicas ======== */
 :root {
-  --body-bg-color: #ffffff;       /* Valor por defecto: se actualizará dinámicamente */
-  --header-bg-color: #007bff;
-  --header-text-color: #ffffff;
-  --title-text-color: #ffffff;
-  --title-font: 'Comic Sans MS', cursive, sans-serif;
-  --nav-text-color: #ffffff;
-  --nav-bg-start: #ff6b6b;
-  --nav-bg-end: #ffcc00;
-  --main-text-color: #333333;
-  --main-font: 'Dosis', sans-serif;
-  --secondary-text-color: #ff4081;
-  --secondary-font: 'Permanent Marker', cursive, sans-serif;
-}
+    --body-bg-color: #f9f9f9;
+    --header-bg-color: #007bff;
+    --header-text-color: #ffffff;
+    --title-text-color: #ffffff;
+    --title-font: 'Comic Sans MS', cursive, sans-serif;
+    --nav-text-color: #ffffff;
+    --nav-bg-start: #ff6b6b;
+    --nav-bg-end: #ffcc00;
+    --main-text-color: #333333;
+    --main-font: 'Dosis', sans-serif;
+    --secondary-text-color: #ff4081;
+    --secondary-font: 'Permanent Marker', cursive, sans-serif;
+  }
+  
+  /* Ejemplo para elementos que se crean dinámicamente */
+  .container h2 {
+    color: var(--secondary-text-color) !important;
+    font-family: var(--secondary-font) !important;
+  }
+  
+  .container p {
+    color: var(--main-text-color) !important;
+    font-family: var(--main-font) !important;
+  }
+  
 
 /* ======== Estilo General ======== */
 body {

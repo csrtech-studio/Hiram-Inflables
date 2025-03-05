@@ -56,11 +56,42 @@ async function resetConfig() {
 }
 
 // Aplica los estilos a la vista previa
+// Función que actualiza las variables CSS a partir de la configuración
 function applyStyles(config) {
-  // Establece el fondo del body
-  if (config.bodyBgColor) {
-    document.body.style.backgroundColor = config.bodyBgColor;
+  const root = document.documentElement;
+  root.style.setProperty('--body-bg-color', config.bodyBgColor);
+  root.style.setProperty('--header-bg-color', config.headerBgColor);
+  root.style.setProperty('--header-text-color', config.headerTextColor);
+  root.style.setProperty('--title-text-color', config.titleTextColor);
+  root.style.setProperty('--title-font', config.titleFont);
+  root.style.setProperty('--nav-text-color', config.navTextColor);
+  root.style.setProperty('--nav-bg-start', config.navBgStart);
+  root.style.setProperty('--nav-bg-end', config.navBgEnd);
+  root.style.setProperty('--main-text-color', config.mainTextColor);
+  root.style.setProperty('--main-font', config.mainFont);
+  root.style.setProperty('--secondary-text-color', config.secondaryTextColor);
+  root.style.setProperty('--secondary-font', config.secondaryFont);
+}
+
+// Función para cargar la configuración desde Firebase
+async function loadConfig() {
+  try {
+    const configDoc = await getDoc(doc(db, "styles", "config"));
+    if (configDoc.exists()) {
+      const config = configDoc.data();
+      applyStyles(config);
+    } else {
+      console.log("No se encontró configuración guardada, se aplicarán los estilos por defecto.");
+      applyStyles(defaultConfig);
+    }
+  } catch (error) {
+    console.error("Error al obtener la configuración:", error);
+    applyStyles(defaultConfig);
   }
+}
+
+document.addEventListener('DOMContentLoaded', loadConfig);
+
 
   // Aplica estilos al header
   const header = document.querySelector('.header');
@@ -97,7 +128,7 @@ function applyStyles(config) {
       mainText.style.fontFamily = config.mainFont;
     }
   });
-}
+
 
 // Función auxiliar para obtener el valor de un input por su id o usar el valor por defecto
 function getInputValue(id) {
