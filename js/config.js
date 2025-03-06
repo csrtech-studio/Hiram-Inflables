@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function () {
 const defaultConfig = {
   bodyBgColor: "#f9f9f9",
   headerBgColor: "#007bff",
-  headerTextColor: "#ffffff",
   titleTextColor: "#ffffff",
   titleFont: "'Comic Sans MS', cursive, sans-serif",
   navTextColor: "#ffffff",
@@ -63,7 +62,6 @@ function applyStyles(config) {
   const root = document.documentElement;
   root.style.setProperty('--body-bg-color', config.bodyBgColor);
   root.style.setProperty('--header-bg-color', config.headerBgColor);
-  root.style.setProperty('--header-text-color', config.headerTextColor);
   root.style.setProperty('--title-text-color', config.titleTextColor);
   root.style.setProperty('--title-font', config.titleFont);
   root.style.setProperty('--nav-text-color', config.navTextColor);
@@ -78,7 +76,7 @@ function applyStyles(config) {
   const header = document.querySelector('.header');
   if (header) {
     header.style.setProperty('background-color', config.headerBgColor, 'important');
-    header.style.setProperty('color', config.headerTextColor, 'important');
+
   }
 
   // Aplica estilos al título del sitio
@@ -149,7 +147,6 @@ function getConfigFromInputs() {
   return {
     bodyBgColor: getInputValue('bodyBgColor'),
     headerBgColor: getInputValue('headerBgColor'),
-    headerTextColor: getInputValue('headerTextColor'),
     titleTextColor: getInputValue('titleTextColor'),
     titleFont: getInputValue('titleFont'),
     navTextColor: getInputValue('navTextColor'),
@@ -175,7 +172,6 @@ function setInputs(config) {
 
   setVal('bodyBgColor', config.bodyBgColor);
   setVal('headerBgColor', config.headerBgColor);
-  setVal('headerTextColor', config.headerTextColor);
   setVal('titleTextColor', config.titleTextColor);
   setVal('titleFont', config.titleFont);
   setVal('navTextColor', config.navTextColor);
