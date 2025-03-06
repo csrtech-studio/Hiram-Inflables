@@ -3,8 +3,9 @@ import { db } from './firebaseConfig.js';
 import { doc, setDoc, getDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 import { auth } from './firebaseConfig.js';
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+
+// Verificar si el usuario está autenticado
 document.addEventListener('DOMContentLoaded', function () {
-  // Verificar si el usuario está autenticado
   onAuthStateChanged(auth, user => {
     if (!user) {
       // Si el usuario no está autenticado, redirigir a la página de inicio
@@ -13,25 +14,26 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 
-
-
 // Configuración por defecto (basada en style.css)
 const defaultConfig = {
-      bodyBgColor: "#f9f9f9",       
-      headerBgColor: "#007bff",      
-      headerTextColor: "#ffffff",    
-      titleTextColor: "#ffffff",     
-      titleFont: "'Comic Sans MS', cursive, sans-serif",
-      navTextColor: "#ffffff",       
-      navBgStart: "#ff6b6b",
-      navBgEnd: "#ffcc00",
-      mainTextColor: "#333333",      
-      mainFont: "'Dosis', sans-serif",
-      secondaryTextColor: "#ff4081",
-      secondaryFont: "'Permanent Marker', cursive, sans-serif"
+  bodyBgColor: "#f9f9f9",
+  headerBgColor: "#007bff",
+  headerTextColor: "#ffffff",
+  titleTextColor: "#ffffff",
+  titleFont: "'Comic Sans MS', cursive, sans-serif",
+  navTextColor: "#ffffff",
+  navBgStart: "#ff6b6b",
+  navBgEnd: "#ffcc00",
+  mainTextColor: "#333333",
+  mainFont: "'Dosis', sans-serif",
+  secondaryTextColor: "#ff4081",
+  secondaryFont: "'Permanent Marker', cursive, sans-serif"
 };
 
-// Guarda la configuración en Firebase
+// Declaramos la variable global config, iniciándola con defaultConfig
+let config = { ...defaultConfig };
+
+// Función para guardar la configuración en Firebase
 async function saveConfig(data) {
   try {
     await setDoc(doc(db, "styles", "config"), data);
@@ -42,21 +44,21 @@ async function saveConfig(data) {
   }
 }
 
-// Restablece la configuración eliminándola de Firebase y aplicando la configuración por defecto
+// Función para restablecer la configuración eliminándola de Firebase y aplicando la configuración por defecto
 async function resetConfig() {
   try {
     await deleteDoc(doc(db, "styles", "config"));
     alert("Configuración restablecida a los estilos originales.");
-    applyStyles(defaultConfig);
-    setInputs(defaultConfig);
+    config = { ...defaultConfig };
+    applyStyles(config);
+    setInputs(config);
   } catch (error) {
     console.error("Error al restablecer configuración:", error);
     alert("Error al restablecer configuración.");
   }
 }
 
-// Aplica los estilos a la vista previa
-// Función que actualiza las variables CSS a partir de la configuración
+// Función que actualiza las variables CSS y aplica estilos a elementos específicos
 function applyStyles(config) {
   const root = document.documentElement;
   root.style.setProperty('--body-bg-color', config.bodyBgColor);
@@ -71,27 +73,6 @@ function applyStyles(config) {
   root.style.setProperty('--main-font', config.mainFont);
   root.style.setProperty('--secondary-text-color', config.secondaryTextColor);
   root.style.setProperty('--secondary-font', config.secondaryFont);
-}
-
-// Función para cargar la configuración desde Firebase
-async function loadConfig() {
-  try {
-    const configDoc = await getDoc(doc(db, "styles", "config"));
-    if (configDoc.exists()) {
-      const config = configDoc.data();
-      applyStyles(config);
-    } else {
-      console.log("No se encontró configuración guardada, se aplicarán los estilos por defecto.");
-      applyStyles(defaultConfig);
-    }
-  } catch (error) {
-    console.error("Error al obtener la configuración:", error);
-    applyStyles(defaultConfig);
-  }
-}
-
-document.addEventListener('DOMContentLoaded', loadConfig);
-
 
   // Aplica estilos al header
   const header = document.querySelector('.header');
@@ -128,7 +109,29 @@ document.addEventListener('DOMContentLoaded', loadConfig);
       mainText.style.fontFamily = config.mainFont;
     }
   });
+}
 
+// Función para cargar la configuración desde Firebase
+async function loadConfig() {
+  try {
+    const configDoc = await getDoc(doc(db, "styles", "config"));
+    if (configDoc.exists()) {
+      config = configDoc.data();
+      applyStyles(config);
+      setInputs(config);
+    } else {
+      console.log("No se encontró configuración guardada, se aplicarán los estilos por defecto.");
+      config = { ...defaultConfig };
+      applyStyles(defaultConfig);
+      setInputs(defaultConfig);
+    }
+  } catch (error) {
+    console.error("Error al obtener la configuración:", error);
+    config = { ...defaultConfig };
+    applyStyles(defaultConfig);
+    setInputs(defaultConfig);
+  }
+}
 
 // Función auxiliar para obtener el valor de un input por su id o usar el valor por defecto
 function getInputValue(id) {
@@ -184,13 +187,13 @@ function setInputs(config) {
   setVal('secondaryFont', config.secondaryFont);
 }
 
-// Espera a que el DOM esté completamente cargado
+// Espera a que el DOM esté completamente cargado para asignar los eventos
 document.addEventListener('DOMContentLoaded', () => {
   // Evento para el botón de vista previa
   const previewButton = document.getElementById('previewButton');
   if (previewButton) {
     previewButton.addEventListener('click', () => {
-      const config = getConfigFromInputs();
+      config = getConfigFromInputs();
       applyStyles(config);
     });
   } else {
@@ -202,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (stylesForm) {
     stylesForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const config = getConfigFromInputs();
+      config = getConfigFromInputs();
       await saveConfig(config);
       applyStyles(config);
     });
@@ -218,22 +221,6 @@ document.addEventListener('DOMContentLoaded', () => {
     console.error("El elemento 'resetButton' no fue encontrado.");
   }
 
-  // Al cargar la página, se recupera la configuración guardada (si existe) o se aplica la configuración por defecto
-  window.addEventListener('load', async () => {
-    try {
-      const configDoc = await getDoc(doc(db, "styles", "config"));
-      if (configDoc.exists()) {
-        const config = configDoc.data();
-        applyStyles(config);
-        setInputs(config);
-      } else {
-        applyStyles(defaultConfig);
-        setInputs(defaultConfig);
-      }
-    } catch (error) {
-      console.error("Error al obtener la configuración:", error);
-      applyStyles(defaultConfig);
-      setInputs(defaultConfig);
-    }
-  });
+  // Al cargar la página, se recupera la configuración guardada o se aplica la configuración por defecto
+  loadConfig();
 });
