@@ -12,24 +12,21 @@ import { getDoc, doc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-
       });
   }
 
-// Mostrar el modal a los 3 segundos
+// Mostrar el modal flotante después de 3 segundos
 setTimeout(() => {
-  document.getElementById('pwaModal').style.display = 'block';
+  document.getElementById('pwaFloatingModal').style.display = 'block';
 }, 3000);
 
-// Botón "Sí, instalar"
-document.getElementById('installBtn').addEventListener('click', () => {
-  // Aquí puedes agregar la lógica para la instalación de la PWA
-  // Por ejemplo, disparar el evento "beforeinstallprompt" si está disponible.
+// Botón "Instalar"
+document.getElementById('floatingInstallBtn').addEventListener('click', () => {
   console.log("Iniciando instalación de la aplicación...");
-  // Ocultar el modal tras aceptar
-  document.getElementById('pwaModal').style.display = 'none';
+  // Aquí puedes agregar la lógica para disparar el evento 'beforeinstallprompt'
+  document.getElementById('pwaFloatingModal').style.display = 'none';
 });
 
 // Botón "No, gracias"
-document.getElementById('noBtn').addEventListener('click', () => {
-  // Ocultar el modal si el usuario decide no instalar
-  document.getElementById('pwaModal').style.display = 'none';
+document.getElementById('floatingDeclineBtn').addEventListener('click', () => {
+  document.getElementById('pwaFloatingModal').style.display = 'none';
 });
 
 
