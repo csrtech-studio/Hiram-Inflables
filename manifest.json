@@ -1,0 +1,23 @@
+{
+    "name": "Hiram Inflables",
+    "short_name": "Hiram",
+    "start_url": "/Hiram-Inflables/index.html", 
+    "scope": "/Hiram-Inflables/",
+    "display": "standalone",
+    "background_color": "#FFFFFF",
+    "theme_color": "#007bff",
+    "description": "Sitio web de Hiram Inflables, para reservas y más",
+    "icons": [
+      {
+        "src": "img/logo.png", 
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "img/logo.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  }
+  

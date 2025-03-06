@@ -2,6 +2,36 @@ import { db } from "./firebaseConfig.js";
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 import { getDoc, doc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./service-worker.js')
+      .then((registration) => {
+        console.log('Service Worker registrado correctamente:', registration);
+      })
+      .catch((error) => {
+        console.log('Fallo al registrar Service Worker:', error);
+      });
+  }
+
+// Mostrar el mensaje (por ejemplo, después de unos segundos o tras una acción)
+document.getElementById('pwaPrompt').style.display = 'block';
+
+// Botón "Sí, instalar"
+document.getElementById('installPWAButton').addEventListener('click', () => {
+  // Aquí iría tu lógica para iniciar la instalación de la PWA
+  // (Por ejemplo, mostrar el "beforeinstallprompt" en Chrome)
+  console.log("Instalación iniciada...");
+  // Ocultamos el mensaje
+  document.getElementById('pwaPrompt').style.display = 'none';
+});
+
+// Botón "No, gracias"
+document.getElementById('closePWAButton').addEventListener('click', () => {
+  // Ocultamos el mensaje y no volvemos a mostrarlo
+  document.getElementById('pwaPrompt').style.display = 'none';
+});
+
+
+
 /* ====================================================
    Selectores y elementos globales
 ==================================================== */
