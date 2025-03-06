@@ -12,22 +12,24 @@ import { getDoc, doc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-
       });
   }
 
-// Mostrar el mensaje (por ejemplo, después de unos segundos o tras una acción)
-document.getElementById('pwaPrompt').style.display = 'block';
+// Mostrar el modal a los 3 segundos
+setTimeout(() => {
+  document.getElementById('pwaModal').style.display = 'block';
+}, 3000);
 
 // Botón "Sí, instalar"
-document.getElementById('installPWAButton').addEventListener('click', () => {
-  // Aquí iría tu lógica para iniciar la instalación de la PWA
-  // (Por ejemplo, mostrar el "beforeinstallprompt" en Chrome)
-  console.log("Instalación iniciada...");
-  // Ocultamos el mensaje
-  document.getElementById('pwaPrompt').style.display = 'none';
+document.getElementById('installBtn').addEventListener('click', () => {
+  // Aquí puedes agregar la lógica para la instalación de la PWA
+  // Por ejemplo, disparar el evento "beforeinstallprompt" si está disponible.
+  console.log("Iniciando instalación de la aplicación...");
+  // Ocultar el modal tras aceptar
+  document.getElementById('pwaModal').style.display = 'none';
 });
 
 // Botón "No, gracias"
-document.getElementById('closePWAButton').addEventListener('click', () => {
-  // Ocultamos el mensaje y no volvemos a mostrarlo
-  document.getElementById('pwaPrompt').style.display = 'none';
+document.getElementById('noBtn').addEventListener('click', () => {
+  // Ocultar el modal si el usuario decide no instalar
+  document.getElementById('pwaModal').style.display = 'none';
 });
 
 

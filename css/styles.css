@@ -517,4 +517,51 @@
           right: 10px;
       }
   }
-  
+    /* Estilos básicos para el modal */
+    #pwaModal {
+        display: none; /* Oculto por defecto */
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+      #pwaModalContent {
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 90%;
+        max-width: 400px;
+        text-align: center;
+        border-radius: 8px;
+      }
+      #pwaModalContent img {
+        max-width: 100%;
+        height: auto;
+      }
+      #pwaModalContent h2 {
+        margin-top: 10px;
+        color: #007bff;
+      }
+      #pwaModalContent p {
+        font-size: 1rem;
+        margin: 15px 0;
+      }
+      #pwaModalContent button {
+        margin: 10px;
+        padding: 10px 20px;
+        border: none;
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 4px;
+        font-size: 1rem;
+      }
+      #pwaModalContent button.no {
+        background-color: #ccc;
+        color: #000;
+      }
