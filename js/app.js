@@ -12,23 +12,40 @@ import { getDoc, doc } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-
       });
   }
 
-// Mostrar el modal flotante después de 3 segundos
-setTimeout(() => {
-  document.getElementById('pwaFloatingModal').style.display = 'block';
-}, 3000);
+let deferredPrompt;
 
-// Botón "Instalar"
-document.getElementById('floatingInstallBtn').addEventListener('click', () => {
-  console.log("Iniciando instalación de la aplicación...");
-  // Aquí puedes agregar la lógica para disparar el evento 'beforeinstallprompt'
-  document.getElementById('pwaFloatingModal').style.display = 'none';
-});
+// Detectar si la PWA ya está instalada
+if (window.matchMedia('(display-mode: standalone)').matches) {
+    console.log("La PWA ya está instalada");
+} else {
+    window.addEventListener("beforeinstallprompt", (event) => {
+        event.preventDefault();
+        deferredPrompt = event;
 
-// Botón "No, gracias"
-document.getElementById('floatingDeclineBtn').addEventListener('click', () => {
-  document.getElementById('pwaFloatingModal').style.display = 'none';
-});
+        // Mostrar el mensaje después de 3 segundos
+        setTimeout(() => {
+            document.getElementById("installPrompt").style.display = "block";
+        }, 3000);
+    });
 
+    document.getElementById("installBtn").addEventListener("click", () => {
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === "accepted") {
+                    console.log("El usuario instaló la PWA");
+                } else {
+                    console.log("El usuario canceló la instalación");
+                }
+                document.getElementById("installPrompt").style.display = "none";
+            });
+        }
+    });
+
+    document.getElementById("closePrompt").addEventListener("click", () => {
+        document.getElementById("installPrompt").style.display = "none";
+    });
+}
 
 
 /* ====================================================

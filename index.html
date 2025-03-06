@@ -70,16 +70,23 @@
     <footer class="footer">
       <p>Desarrollado por <span>CSRTech Studio</span>. Todos los derechos reservados.</p>
   </footer>
-  <!-- Modal flotante para instalar la PWA -->
-  <div id="pwaFloatingModal">
-    <img src="img/logo.png" alt="Logo de Hiram Inflables">
-    <h3>Instala nuestra App</h3>
-    <p>Para una experiencia más rápida y cómoda, instala nuestra aplicación. Es segura y no requiere permisos especiales.</p>
-    <div>
-      <button class="install" id="floatingInstallBtn">Instalar</button>
-      <button class="decline" id="floatingDeclineBtn">No, gracias</button>
-    </div>
-  </div>
+  <div id="installPrompt" style="
+    display: none; 
+    position: fixed; 
+    bottom: 20px; 
+    right: 20px; 
+    background: white; 
+    padding: 15px; 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
+    border-radius: 10px;
+    text-align: center;
+    width: 250px;
+    z-index: 1000;
+">
+    <p>📲 Para una mejor experiencia, instala nuestra aplicación.</p>
+    <button id="installBtn">✅ Instalar</button>
+    <button id="closePrompt">❌ No, gracias</button>
+</div>
 
 </div>
 
