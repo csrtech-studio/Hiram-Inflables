@@ -22,63 +22,79 @@
       
        
       <form id="encuestaForm">
+
         <!-- Pregunta 1 -->
         <div class="pregunta">
-          <label>1. ¿Cómo calificaría la calidad de los inflables?</label><br>
-          <input type="radio" name="calidad" value="Excelente"> Excelente
-          <input type="radio" name="calidad" value="Bueno"> Bueno
-          <input type="radio" name="calidad" value="Regular"> Regular
-          <input type="radio" name="calidad" value="Malo"> Malo
+          <label>1. ¿Cómo calificaría la calidad de los inflables?</label>
+          <div class="opciones">
+            <label><input type="radio" name="calidad" value="Excelente"> Excelente</label>
+            <label><input type="radio" name="calidad" value="Bueno"> Bueno</label>
+            <label><input type="radio" name="calidad" value="Regular"> Regular</label>
+            <label><input type="radio" name="calidad" value="Malo"> Malo</label>
+          </div>
         </div>
-
+      
         <!-- Pregunta 2 -->
         <div class="pregunta">
-          <label>2. ¿El personal fue amable y profesional?</label><br>
-          <input type="radio" name="personal" value="Sí"> Sí
-          <input type="radio" name="personal" value="No"> No
+          <label>2. ¿El personal fue amable y profesional?</label>
+          <div class="opciones">
+            <label><input type="radio" name="personal" value="Sí"> Sí</label>
+            <label><input type="radio" name="personal" value="No"> No</label>
+          </div>
         </div>
-
+      
         <!-- Pregunta 3 -->
         <div class="pregunta">
-          <label>3. ¿Recomendaría nuestros inflables para futuros eventos?</label><br>
-          <input type="radio" name="recomendacion" value="Sí"> Sí
-          <input type="radio" name="recomendacion" value="No"> No
+          <label>3. ¿Recomendaría nuestros inflables para futuros eventos?</label>
+          <div class="opciones">
+            <label><input type="radio" name="recomendacion" value="Sí"> Sí</label>
+            <label><input type="radio" name="recomendacion" value="No"> No</label>
+          </div>
         </div>
-
+      
         <!-- Pregunta 4 -->
         <div class="pregunta">
-          <label>4. ¿Cómo calificaría la relación calidad-precio?</label><br>
-          <input type="radio" name="precio" value="Excelente"> Excelente
-          <input type="radio" name="precio" value="Bueno"> Bueno
-          <input type="radio" name="precio" value="Regular"> Regular
-          <input type="radio" name="precio" value="Malo"> Malo
+          <label>4. ¿Cómo calificaría la relación calidad-precio?</label>
+          <div class="opciones">
+            <label><input type="radio" name="precio" value="Excelente"> Excelente</label>
+            <label><input type="radio" name="precio" value="Bueno"> Bueno</label>
+            <label><input type="radio" name="precio" value="Regular"> Regular</label>
+            <label><input type="radio" name="precio" value="Malo"> Malo</label>
+          </div>
         </div>
-
+      
         <!-- Pregunta 5 -->
         <div class="pregunta">
-          <label>5. ¿Hubo alguna dificultad durante el evento?</label><br>
-          <input type="radio" name="dificultad" value="No"> No
-          <input type="radio" name="dificultad" value="Sí"> Sí  
+          <label>5. ¿Hubo alguna dificultad durante el evento?</label>
+          <div class="opciones">
+            <label><input type="radio" name="dificultad" value="No"> No</label>
+            <label><input type="radio" name="dificultad" value="Sí"> Sí</label>
+          </div>
         </div>
-
-        <!-- Nueva Pregunta sobre puntualidad -->
+      
+        <!-- Pregunta 6 -->
         <div class="pregunta">
-          <label>6. ¿El servicio llegó a tiempo según lo acordado?</label><br>
-          <input type="radio" name="puntualidad" value="Sí"> Sí
-          <input type="radio" name="puntualidad" value="No"> No
-          <input type="radio" name="puntualidad" value="Llegó tarde"> Llegó tarde
+          <label>6. ¿El servicio llegó a tiempo según lo acordado?</label>
+          <div class="opciones">
+            <label><input type="radio" name="puntualidad" value="Sí"> Sí</label>
+            <label><input type="radio" name="puntualidad" value="No"> No</label>
+            <label><input type="radio" name="puntualidad" value="Llegó tarde"> Llegó tarde</label>
+          </div>
         </div>
-
+      
         <!-- Pregunta abierta -->
         <div class="pregunta">
-          <label>Comentarios adicionales:</label><br>
+          <label>Comentarios adicionales:</label>
           <textarea name="comentarios" rows="4" placeholder="Escriba sus comentarios aquí..."></textarea>
         </div>
-
+      
+        <!-- Botón de enviar -->
         <div class="botones">
           <button type="submit">Enviar encuesta</button>
         </div>
+      
       </form>
+      
     </section>
   </div>
   <script type="module" src="js/encuesta.js"></script>
