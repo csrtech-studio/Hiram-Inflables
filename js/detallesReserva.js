@@ -35,6 +35,11 @@ async function obtenerDetallesReserva(id) {
     console.log('Reserva encontrada:', reservaData);
     const reservaDetalles = document.getElementById('reserva-detalles');
 
+    // Asignar valores predeterminados a flete, descuento y anticipo si no existen
+    const flete = reservaData.flete || 0;
+    const descuento = reservaData.descuento || 0;
+    const anticipo = reservaData.anticipo || 0;
+
     reservaDetalles.innerHTML = `
       <h2><strong>Cliente:</strong> ${reservaData.nombre}</h2>
       <p><strong>Teléfono:</strong> ${reservaData.telefono}</p>
@@ -43,9 +48,8 @@ async function obtenerDetallesReserva(id) {
       ${reservaData.municipio
         ? `<p><strong>Municipio:</strong> ${reservaData.municipio}
                ${reservaData.municipio !== "Santa Catarina"
-          ? `<p><strong>Costo Flete $ </strong><input type="number" id="fleteInput"  style="width:100px;" />`
-          : `<span style="color: green; font-weight: bold;"> Flete Gratis</span>`
-        }
+          ? `<p><strong>Costo Flete $ </strong><input type="number" id="fleteInput" value="${flete}" style="width:100px;" />`
+          : `<span style="color: green; font-weight: bold;"> Flete Gratis</span>`}
              </p>`
         : ''
       }
@@ -55,7 +59,10 @@ async function obtenerDetallesReserva(id) {
         ${reservaData.adicionales.map(adicional => `<li>${adicional.nombre} - $${adicional.precio}</li>`).join('')}
       </ul>
       <p>
-        <strong>Descuento (%):</strong> <input type="number" id="descuentoInput" placeholder="Descuento (%)" style="width:100px;" value="0"/>
+        <strong>Descuento (%):</strong> <input type="number" id="descuentoInput" placeholder="Descuento (%)" style="width:100px;" value="${descuento}"/>
+      </p>
+      <p>
+        <strong>Anticipo $:</strong> <input type="number" id="anticipoInput" placeholder="Anticipo $" style="width:100px;" value="${anticipo}"/>
       </p>
       <p style="font-size: 1.5em; font-weight: bold;">
         <strong>Total:</strong> $<span id="totalValue">${reservaData.total}</span>
@@ -68,15 +75,19 @@ async function obtenerDetallesReserva(id) {
     // Lógica para actualizar el total en tiempo real
     const descuentoInput = document.getElementById("descuentoInput");
     const fleteInput = document.getElementById("fleteInput");
+    const anticipoInput = document.getElementById("anticipoInput");
     const totalSpan = document.getElementById("totalValue");
     let baseTotal = parseFloat(reservaData.total);
 
     function actualizarTotal() {
       let flete = fleteInput ? parseFloat(fleteInput.value) || 0 : 0;
       let descuento = parseFloat(descuentoInput.value) || 0;
+      let anticipo = parseFloat(anticipoInput.value) || 0;
+
       let subtotal = baseTotal + flete;
       let discountAmount = subtotal * (descuento / 100);
-      let newTotal = subtotal - discountAmount;
+      let newTotal = subtotal - discountAmount - anticipo;
+
       totalSpan.textContent = newTotal.toFixed(2);
     }
 
@@ -86,6 +97,9 @@ async function obtenerDetallesReserva(id) {
     if (fleteInput) {
       fleteInput.addEventListener("input", actualizarTotal);
     }
+    if (anticipoInput) {
+      anticipoInput.addEventListener("input", actualizarTotal);
+    }
 
     actualizarUI(id, reservaData, baseTotal);
 
@@ -94,6 +108,7 @@ async function obtenerDetallesReserva(id) {
     alert("No se encontró la reserva.");
   }
 }
+
 
 async function actualizarUI(reservaId, reservaData, baseTotal) {
   console.log('Actualizando UI para reservaId:', reservaId, 'con estado:', reservaData.estado);
@@ -187,6 +202,33 @@ async function actualizarUI(reservaId, reservaData, baseTotal) {
     if (reenviarBtn) {
       reenviarBtn.remove();
     }
+    // Agrega el nuevo botón "Enviar Encuesta"
+    if (buttonsContainer) {
+      const enviarEncuestaBtn = document.createElement("button");
+      enviarEncuestaBtn.textContent = "Enviar Encuesta";
+      enviarEncuestaBtn.style.marginLeft = "10px";
+      buttonsContainer.appendChild(enviarEncuestaBtn);
+
+      enviarEncuestaBtn.addEventListener("click", async () => {
+        await enviarEncuesta(reservaData.telefono); // Se pasa el teléfono para enviar el mensaje
+      });
+    }
+
+    async function enviarEncuesta(telefono) {
+      const mensaje = `¡Hola ${reservaData.nombre}!
+
+Inflables Hiram agradece profundamente su confianza y el habernos permitido ser parte de su evento. Nos gustaría que, si es posible, nos dedicara un momento de su tiempo para responder nuestra breve encuesta, la cual nos ayudará a seguir mejorando nuestros servicios para usted y futuros eventos.
+
+Puede acceder a la encuesta en el siguiente enlace: https://csrtech-studio.github.io/Hiram-Inflables/encuesta.html?id=${reservaId}
+
+Gracias nuevamente por su colaboración. Esperamos contar con su presencia en futuros eventos.`;
+
+      const encodedMensaje = encodeURIComponent(mensaje);
+      const whatsappUrl = `https://wa.me/${telefono}?text=${encodedMensaje}`;
+      window.open(whatsappUrl, '_blank');
+    }
+
+
     // Agrega el nuevo botón "Guardar Reserva" junto al botón "Regresar"
     if (buttonsContainer) {
       const guardarBtn = document.createElement("button");
@@ -215,7 +257,7 @@ async function actualizarUI(reservaId, reservaData, baseTotal) {
       window.location.href = 'reservas.html';
     });
 
-    // Agrega botón "Actualizar cambios" para modificar flete, descuento y total en Firebase
+    // Agrega botón "Actualizar cambios" para modificar flete, descuento, anticipo y total en Firebase
     let actualizarBtn = document.createElement("button");
     actualizarBtn.id = "actualizarCambiosBtn";
     actualizarBtn.textContent = "Actualizar cambios";
@@ -223,6 +265,7 @@ async function actualizarUI(reservaId, reservaData, baseTotal) {
     actualizarBtn.style.marginTop = "10px";
     actualizarBtn.classList.add("actualizarBtn");
     buttonsContainer.appendChild(actualizarBtn);
+
     const aceptarBtn = document.getElementById("aceptarBtn");
 
     if (aceptarBtn) {
@@ -233,21 +276,32 @@ async function actualizarUI(reservaId, reservaData, baseTotal) {
       buttonsContainer.appendChild(actualizarBtn);
     }
 
-
     actualizarBtn.addEventListener("click", async () => {
+      // Obtener los valores de los campos de entrada
       let flete = document.getElementById("fleteInput") ? parseFloat(document.getElementById("fleteInput").value) || 0 : 0;
       let descuento = parseFloat(document.getElementById("descuentoInput").value) || 0;
+      let anticipo = parseFloat(document.getElementById("anticipoInput").value) || 0;  // Campo de anticipo
+
+      // Calcular el subtotal, descuento y total
       let subtotal = baseTotal + flete;
       let discountAmount = subtotal * (descuento / 100);
-      let newTotal = subtotal - discountAmount;
+      let newTotal = subtotal - discountAmount - anticipo; // Incluir anticipo en el total final
+
+      // Referencia a la reserva en Firebase
       const reservaRef = doc(db, 'reservas', reservaId);
+
+      // Actualizar los campos en Firebase
       await updateDoc(reservaRef, {
         flete: flete,
         descuento: descuento,
-        total: newTotal
+        anticipo: anticipo,  // Actualización del anticipo
+        total: newTotal // Actualización del total
       });
-      alert("Cambios actualizados Correctamente.");
+
+      alert("Cambios actualizados correctamente.");
     });
+
+
   } else {
     console.warn('Estado de reserva no reconocido:', reservaData.estado);
   }
@@ -333,23 +387,23 @@ async function guardarReservaTerminada(reservaId) {
     // Obtén la reserva desde la colección "reservas"
     const reservaRef = doc(db, 'reservas', reservaId);
     const reservaDoc = await getDoc(reservaRef);
-    
+
     if (reservaDoc.exists()) {
       const reservaData = reservaDoc.data();
-      
+
       // Prepara la data para guardar en "reservasTerminadas"
       const terminadoData = {
         ...reservaData,
         fechaGuardado: new Date().toISOString(), // Marca de tiempo
         estado: 'Terminada'
       };
-      
+
       // Guarda en la colección "reservasTerminadas"
       await addDoc(collection(db, 'reservasTerminadas'), terminadoData);
-      
+
       // Elimina la reserva original de la colección "reservas"
       await deleteDoc(reservaRef);
-      
+
       alert("Reserva guardada en Reservas Terminadas.");
       window.location.href = 'reservas.html';
     } else {
