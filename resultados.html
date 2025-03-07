@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resultados de Encuestas</title>
+  <link rel="stylesheet" href="css/resultados.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Resultados de Encuestas</h1>
+      <nav>
+        <ul class="nav">
+          <li><a class="btn-custom" href="index.html">Inicio</a></li>
+          <li><a class="btn-custom" href="productos.html">Productos</a></li>
+          <li><a class="btn-custom" href="reservas.html">Administrador</a></li>
+        </ul>
+      </nav>
+    </header>
+    
+    <section class="tabla">
+      <h2>Respuestas Recibidas</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Calidad</th>
+            <th>Personal</th>
+            <th>Precio</th>
+            <th>Puntualidad</th>
+            <th>Recomendación</th>
+            <th>Dificultad</th>
+            <th>Comentarios</th>
+          </tr>
+        </thead>
+        <tbody id="encuestasTabla"></tbody>
+      </table>
+    </section>
+
+    <section class="graficos">
+      <h2>Estadísticas</h2>
+      <div class="graficos-container">
+        <canvas id="graficoCalidad" class="grafico"></canvas>
+        <canvas id="graficoPersonal" class="grafico"></canvas>
+        <canvas id="graficoRecomendacion" class="grafico"></canvas>
+        <canvas id="graficoPrecio" class="grafico"></canvas>
+        <canvas id="graficoDificultad" class="grafico"></canvas>
+        <canvas id="graficoPuntualidad" class="grafico"></canvas>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="js/resultados.js"></script>
+</body>
+</html>
