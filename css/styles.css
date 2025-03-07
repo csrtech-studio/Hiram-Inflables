@@ -517,4 +517,76 @@
           right: 10px;
       }
   }
-      
+      /* Estilos para el prompt de instalación */
+#installPrompt {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #ffffff;
+    padding: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    text-align: center;
+    width: 280px;
+    z-index: 1000;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  /* Contenedor del contenido */
+  .install-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Estilo para el logo */
+  .install-logo {
+    max-width: 80px;
+    margin-bottom: 15px;
+  }
+  
+  /* Estilo para el mensaje */
+  .install-message {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  /* Contenedor de los botones */
+  .install-buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  /* Estilos comunes para los botones */
+  .btn-install,
+  .btn-close {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+  }
+  
+  /* Botón de instalar */
+  .btn-install {
+    background-color: #28a745;
+    color: #fff;
+  }
+  
+  .btn-install:hover {
+    background-color: #218838;
+  }
+  
+  /* Botón de cerrar */
+  .btn-close {
+    background-color: #dc3545;
+    color: #fff;
+  }
+  
+  .btn-close:hover {
+    background-color: #c82333;
+  }
+  

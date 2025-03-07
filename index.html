@@ -70,23 +70,17 @@
     <footer class="footer">
       <p>Desarrollado por <span>CSRTech Studio</span>. Todos los derechos reservados.</p>
   </footer>
-  <div id="installPrompt" style="
-    display: none; 
-    position: fixed; 
-    bottom: 20px; 
-    right: 20px; 
-    background: white; 
-    padding: 15px; 
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); 
-    border-radius: 10px;
-    text-align: center;
-    width: 250px;
-    z-index: 1000;
-">
-    <p>📲 Para una mejor experiencia, instala nuestra aplicación.</p>
-    <button id="installBtn">✅ Instalar</button>
-    <button id="closePrompt">❌ No, gracias</button>
-</div>
+  <div id="installPrompt">
+    <div class="install-content">
+      <img src="img/favicon.ico" alt="Logo de la App" class="install-logo">
+      <p class="install-message">¡Descarga nuestra aplicación y disfruta de una experiencia más rápida y segura!</p>
+      <div class="install-buttons">
+        <button id="installBtn" class="btn-install">✅ Instalar</button>
+        <button id="closePrompt" class="btn-close">❌ No, gracias</button>
+      </div>
+    </div>
+  </div>
+  
 
 </div>
 

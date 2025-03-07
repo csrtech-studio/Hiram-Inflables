@@ -192,6 +192,21 @@ async function actualizarUI(reservaId, reservaData, baseTotal) {
     if (reenviarBtn) {
       reenviarBtn.remove();
     }
+
+    // AGREGAR: Botón "Cancelar Reserva" para estado Autorizado
+    if (!document.getElementById("cancelarReservaBtn")) {
+      const cancelarBtn = document.createElement("button");
+      cancelarBtn.id = "cancelarReservaBtn";
+      cancelarBtn.textContent = "Cancelar Reserva";
+      cancelarBtn.style.marginLeft = "10px";
+      cancelarBtn.style.backgroundColor = "red";
+      cancelarBtn.style.color = "white";
+      buttonsContainer.appendChild(cancelarBtn);
+
+      cancelarBtn.addEventListener("click", () => {
+        showCancellationModal(reservaId);
+      });
+    }
   } else if (reservaData.estado === 'Concluido') {
     nuevoAceptarBtn.textContent = "Regresar";
     nuevoAceptarBtn.addEventListener("click", () => {
@@ -202,17 +217,36 @@ async function actualizarUI(reservaId, reservaData, baseTotal) {
     if (reenviarBtn) {
       reenviarBtn.remove();
     }
-    // Agrega el nuevo botón "Enviar Encuesta"
-    if (buttonsContainer) {
-      const enviarEncuestaBtn = document.createElement("button");
-      enviarEncuestaBtn.textContent = "Enviar Encuesta";
-      enviarEncuestaBtn.style.marginLeft = "10px";
-      buttonsContainer.appendChild(enviarEncuestaBtn);
+  // Agrega el nuevo botón "Enviar Encuesta"
+if (buttonsContainer) {
+  const enviarEncuestaBtn = document.createElement("button");
+  enviarEncuestaBtn.textContent = "Enviar Encuesta";
+  enviarEncuestaBtn.style.marginLeft = "10px";
+  enviarEncuestaBtn.style.padding = "10px 15px";
+  enviarEncuestaBtn.style.backgroundColor = "#007bff"; // Azul
+  enviarEncuestaBtn.style.color = "white";
+  enviarEncuestaBtn.style.border = "none";
+  enviarEncuestaBtn.style.borderRadius = "5px";
+  enviarEncuestaBtn.style.cursor = "pointer";
+  enviarEncuestaBtn.style.fontSize = "14px";
+  enviarEncuestaBtn.style.transition = "background-color 0.3s";
 
-      enviarEncuestaBtn.addEventListener("click", async () => {
-        await enviarEncuesta(reservaData.telefono); // Se pasa el teléfono para enviar el mensaje
-      });
-    }
+  // Estilo al pasar el mouse
+  enviarEncuestaBtn.addEventListener("mouseover", () => {
+    enviarEncuestaBtn.style.backgroundColor = "#0056b3";
+  });
+
+  enviarEncuestaBtn.addEventListener("mouseout", () => {
+    enviarEncuestaBtn.style.backgroundColor = "#007bff";
+  });
+
+  buttonsContainer.appendChild(enviarEncuestaBtn);
+
+  enviarEncuestaBtn.addEventListener("click", async () => {
+    await enviarEncuesta(reservaData.telefono); // Se pasa el teléfono para enviar el mensaje
+  });
+}
+
 
     async function enviarEncuesta(telefono) {
       const mensaje = `¡Hola ${reservaData.nombre}!
@@ -224,10 +258,9 @@ Puede acceder a la encuesta en el siguiente enlace: https://csrtech-studio.githu
 Gracias nuevamente por su colaboración. Esperamos contar con su presencia en futuros eventos.`;
 
       const encodedMensaje = encodeURIComponent(mensaje);
-      const whatsappUrl = `https://wa.me/${telefono}?text=${encodedMensaje}`;
+      const whatsappUrl = `https://wa.me/${reservaData.telefono}?text=${encodedMensaje}`;
       window.open(whatsappUrl, '_blank');
     }
-
 
     // Agrega el nuevo botón "Guardar Reserva" junto al botón "Regresar"
     if (buttonsContainer) {
@@ -237,12 +270,10 @@ Gracias nuevamente por su colaboración. Esperamos contar con su presencia en fu
       guardarBtn.style.marginLeft = "10px";
       buttonsContainer.appendChild(guardarBtn);
 
-
       guardarBtn.addEventListener("click", async () => {
         await guardarReservaTerminada(reservaId);
       });
     }
-
   } else if (reservaData.estado === 'Pendiente') {
     nuevoAceptarBtn.textContent = "Aceptar Reserva";
     nuevoAceptarBtn.style.display = "inline-block";
@@ -300,12 +331,11 @@ Gracias nuevamente por su colaboración. Esperamos contar con su presencia en fu
 
       alert("Cambios actualizados correctamente.");
     });
-
-
   } else {
     console.warn('Estado de reserva no reconocido:', reservaData.estado);
   }
 }
+
 
 // Modal para cancelar reserva de forma profesional
 function showCancellationModal(reservaId) {
