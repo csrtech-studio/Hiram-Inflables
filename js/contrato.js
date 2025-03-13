@@ -186,7 +186,9 @@ function generarPDF(datos, horaTermino, fechaFormateada) {
   doc.setFont('helvetica', 'bold');
   doc.text('Dirección:', 20, 60);
   doc.setFont('helvetica', 'normal');
-  doc.text(`${direccion}`, 45, 60);
+  const anchoMaximo = 80; // Ajusta el ancho máximo según tus necesidades
+  const direccionLineas = doc.splitTextToSize(direccion, anchoMaximo);
+  doc.text(direccionLineas, 45, 60);
 
   // Municipio
   doc.setFont('helvetica', 'bold');
@@ -198,19 +200,19 @@ function generarPDF(datos, horaTermino, fechaFormateada) {
   doc.setFont('helvetica', 'bold');
   doc.text('Flete:', 20, 90);
   doc.setFont('helvetica', 'norm1al');
-  doc.text(`$${flete}`, 45, 90);
+  doc.text(`$${flete|| "No Aplica"}`, 45, 90);
 
   // Descuento
   doc.setFont('helvetica', 'bold');
   doc.text('Descuento:', 130, 80);
   doc.setFont('helvetica', 'normal');
-  doc.text(`${descuento}%`, 170, 80);
+  doc.text(`${descuento|| "No Aplica"}%`, 170, 80);
 
   // Anticipo
   doc.setFont('helvetica', 'bold');
   doc.text('Anticipo:', 130, 90);
   doc.setFont('helvetica', 'normal');
-  doc.text(`${anticipo}`, 170, 90);
+  doc.text(`$${anticipo|| "No Aplica"}`, 170, 90);
 
   // Costo total
   doc.setFont('helvetica', 'bold');
@@ -219,79 +221,82 @@ function generarPDF(datos, horaTermino, fechaFormateada) {
   doc.text(`$${total}`, 170, 100);
 
   // Servicios adicionales en columnas
-  if (adicionales && adicionales.length > 0) {
-    doc.setFont('helvetica', 'bold');
-    doc.text('Servicios solicitados:', 20, 100);
-    doc.setFont('helvetica', 'normal');
-
-    let xPosition = 20; // Posición horizontal inicial
-    let yPosition = 110; // Posición vertical inicial
-    const columnWidth = 50; // Ancho de cada columna
-    const rowHeight = 10;   // Espacio entre filas
-    let columnaIndex = 0;
-    adicionales.forEach((servicio) => {
-      if (columnaIndex === 3) {
-        columnaIndex = 0;
-        yPosition += rowHeight;
-        xPosition = 20;
-      }
-      doc.text(`${servicio.nombre}: $${servicio.precio}`, xPosition, yPosition);
-      columnaIndex++;
-      xPosition += columnWidth;
-    });
-  }
-
-  // Cláusulas
+if (adicionales && adicionales.length > 0) {
   doc.setFont('helvetica', 'bold');
-  doc.text('Cláusulas:', 20, 125);
+  doc.text('Servicios solicitados:', 20, 100);
   doc.setFont('helvetica', 'normal');
 
-  const clausulas = [
-    '1. Objeto del contrato: La empresa Inflables Hiram se compromete a proporcionar los inflables y servicios adicionales acordados, encargándose del transporte, montaje y desmontaje al finalizar el evento.',
-    '2. Responsabilidad del cliente: El cliente se compromete a mantener el inflable en condiciones óptimas durante el evento y se responsabiliza de cualquier daño o pérdida ocasionada al equipo.',
-    '3. Horas extra: En caso de requerir tiempo adicional al establecido en el contrato, el cliente acepta pagar $80 MXN por cada hora extra de servicio.',
-    '4. Cancelaciones: La cancelación de la reserva debe realizarse con al menos 48 horas de anticipación. En caso contrario, el cliente acepta la pérdida del anticipo pagado.',
-    '5. Cláusula de daños: Cualquier daño al equipo será evaluado por Inflables Hiram y el cliente deberá cubrir los costos de reparación o reposición dentro de los cinco días hábiles posteriores al evento.',
-    '6. Fuerza mayor: Ambas partes acuerdan que eventos fuera de su control (como fenómenos naturales) eximirán a las partes de sus obligaciones, sin penalización alguna por ambas partes.'
-  ];
+  const xInicial = 20;          // Posición horizontal inicial
+  let yPosition = 114;          // Posición vertical inicial
+  const columnWidth = 60;       // Ancho de cada columna
+  const rowHeight = 10;         // Espacio entre filas (se aumentó para evitar empalmes)
+  let currentColumn = 0;        // Índice de columna actual
 
-  let yPos = 130;
-  const lineHeight = 6;
-  const maxHeight = 270;
-
-  clausulas.forEach(clausula => {
-    const lines = doc.splitTextToSize(clausula, 180);
-    lines.forEach(line => {
-      if (yPos + lineHeight > maxHeight) {
-        doc.addPage();
-        yPos = 20;
-      }
-      doc.text(line, 20, yPos);
-      yPos += lineHeight;
-    });
+  adicionales.forEach((servicio) => {
+    // Si se han llenado 3 columnas, se pasa a la siguiente fila
+    if (currentColumn === 3) {
+      currentColumn = 0;
+      yPosition += rowHeight;
+    }
+    const textoServicio = `${servicio.nombre}: $${servicio.precio}`;
+    // Se utiliza splitTextToSize para dividir el texto si excede el ancho de la columna
+    const lineasTexto = doc.splitTextToSize(textoServicio, columnWidth);
+    doc.text(lineasTexto, xInicial + (currentColumn * columnWidth), yPosition);
+    currentColumn++;
   });
-
-  // Firma
-  doc.setFont('helvetica', 'bold');
-  doc.text('Firma de la empresa:', 20, yPos + 10);
-  doc.setFont('helvetica', 'normal');
-  doc.addImage('img/firma.png', 'PNG', 20, yPos + 15, 50, 15);
-  doc.text('_________________________________', 20, yPos + 30);
-  doc.text('Representante Legal', 20, yPos + 40);
-  doc.text('Inflables Hiram', 20, yPos + 50);
-
-  // Firma del cliente (a la derecha)
-  const firmaClienteYPos = yPos + 30; // Mismo nivel que la línea de la firma de la empresa
-  const firmaClienteXPos = doc.internal.pageSize.getWidth() - 60; // Ajuste para que esté a la derecha
-
-  doc.setFont('helvetica', 'bold');
-  doc.text('Firma del Cliente:', 120, yPos + 10); // Mismo nivel que la línea de la firma
-  doc.setFont('helvetica', 'normal');
-  doc.text('_________________________________', 120, yPos + 30); // Línea de firma
-  doc.text(nombre, 127, yPos + 30); // Nombre del cliente justo sobre la línea
-  doc.text('Arrendatario', 120, yPos + 40);
-
-
-  // Guardar PDF
-  doc.save(`Contrato_${nombre}.pdf`);
 }
+
+// Cláusulas
+doc.setFont('helvetica', 'bold');
+doc.text('Cláusulas:', 20, 125 + 12);  // Se suma 12 para bajar dos líneas
+doc.setFont('helvetica', 'normal');
+
+const clausulas = [
+  '1. Objeto del contrato: La empresa Inflables Hiram se compromete a proporcionar los inflables y servicios adicionales acordados, encargándose del transporte, montaje y desmontaje al finalizar el evento.',
+  '2. Responsabilidad del cliente: El cliente se compromete a mantener el inflable en condiciones óptimas durante el evento y se responsabiliza de cualquier daño o pérdida ocasionada al equipo.',
+  '3. Horas extra: En caso de requerir tiempo adicional al establecido en el contrato, el cliente acepta pagar $80 MXN por cada hora extra de servicio.',
+  '4. Cancelaciones: La cancelación de la reserva debe realizarse con al menos 48 horas de anticipación. En caso contrario, el cliente acepta la pérdida del anticipo pagado.',
+  '5. Cláusula de daños: Cualquier daño al equipo será evaluado por Inflables Hiram y el cliente deberá cubrir los costos de reparación o reposición dentro de los cinco días hábiles posteriores al evento.',
+  '6. Fuerza mayor: Ambas partes acuerdan que eventos fuera de su control (como fenómenos naturales) eximirán a las partes de sus obligaciones, sin penalización alguna por ambas partes.'
+];
+
+let yPos = 130 + 12; // Se aumenta en 12 para comenzar dos líneas más abajo
+const lineHeight = 6;
+const maxHeight = 270;
+
+clausulas.forEach(clausula => {
+  const lines = doc.splitTextToSize(clausula, 180);
+  lines.forEach(line => {
+    if (yPos + lineHeight > maxHeight) {
+      doc.addPage();
+      yPos = 20;
+    }
+    doc.text(line, 20, yPos);
+    yPos += lineHeight;
+  });
+});
+
+// Firma
+doc.setFont('helvetica', 'bold');
+doc.text('Firma de la empresa:', 20, yPos + 10);
+doc.setFont('helvetica', 'normal');
+doc.addImage('img/firma.png', 'PNG', 20, yPos + 15, 50, 15);
+doc.text('_________________________________', 20, yPos + 30);
+doc.text('Representante Legal', 20, yPos + 40);
+doc.text('Inflables Hiram', 20, yPos + 50);
+
+// Firma del cliente (a la derecha)
+const firmaClienteYPos = yPos + 30; // Mismo nivel que la línea de la firma de la empresa
+const firmaClienteXPos = doc.internal.pageSize.getWidth() - 60; // Ajuste para que esté a la derecha
+
+doc.setFont('helvetica', 'bold');
+doc.text('Firma del Cliente:', 120, yPos + 10); // Mismo nivel que la línea de la firma
+doc.setFont('helvetica', 'normal');
+doc.text('_________________________________', 120, yPos + 30); // Línea de firma
+doc.text(nombre, 127, yPos + 30); // Nombre del cliente justo sobre la línea
+doc.text('Arrendatario', 120, yPos + 40);
+
+// Guardar PDF
+doc.save(`Contrato_${nombre}.pdf`);
+}
+
