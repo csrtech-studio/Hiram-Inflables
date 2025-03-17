@@ -1,6 +1,35 @@
-import { db } from './firebaseConfig.js';
+import { auth, db } from "./firebaseConfig.js";
+import { signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
+import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 import { doc, getDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+// Inicia sesión de forma anónima
+signInAnonymously(auth)
+  .then(() => {
+    console.log("Autenticación anónima exitosa");
+    // Una vez autenticado, espera a que se detecte el cambio de estado
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Ahora se puede realizar la lectura de "reservas"
+        leerReservas();
+      }
+    });
+  })
+  .catch((error) => {
+    console.error("Error en la autenticación anónima:", error);
+  });
 
+function leerReservas() {
+  const reservasRef = collection(db, "reservas");
+  getDocs(reservasRef)
+    .then((querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+      });
+    })
+    .catch((error) => {
+      console.error("Error al leer reservas:", error);
+    });
+}
 
 
 
@@ -69,7 +98,7 @@ async function cargarContrato(id) {
     document.getElementById('costo-total').innerText = `$${reservaData.total}`;
 
     // Verificar el estado de la reserva
-    if (reservaData.estado === 'Autorizado'||'Concluido') {
+    if (reservaData.estado === 'Autorizado') {
       // Ocultar los botones de "Aceptar" y "Rechazar"
       document.getElementById('aceptar').style.display = 'none';
       document.getElementById('rechazar').style.display = 'none';
