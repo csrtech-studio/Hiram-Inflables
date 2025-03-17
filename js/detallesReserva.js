@@ -475,7 +475,7 @@ async function procesarCancelacion(reservaId, motivo) {
 }
 
 function reenviarContrato(reservaId, reservaData) {
-  const mensaje = `¡Hola ${reservaData.nombre}! Su reserva ha sido confirmada. Revise el contrato en: https://csrtech-studio.github.io/Hiram-Inflables/contrato.html?id=${reservaId}`;
+  const mensaje = `¡Hola ${reservaData.nombre}! Hiram Inflables le informa que reserva ha sido confirmada. Revise el contrato en: https://csrtech-studio.github.io/Hiram-Inflables/contrato.html?id=${reservaId} para su autorizacion`;
   const urlWhatsApp = `https://wa.me/${reservaData.telefono}?text=${encodeURIComponent(mensaje)}`;
   window.open(urlWhatsApp, '_blank');
   alert("Contrato reenviado.");
