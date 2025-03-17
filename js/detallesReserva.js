@@ -475,7 +475,19 @@ async function procesarCancelacion(reservaId, motivo) {
 }
 
 function reenviarContrato(reservaId, reservaData) {
-  const mensaje = `¡Hola ${reservaData.nombre}! Hiram Inflables le informa que reserva ha sido confirmada. Revise el contrato en: https://csrtech-studio.github.io/Hiram-Inflables/contrato.html?id=${reservaId} para su autorizacion`;
+  const mensaje = `¡Hola ${reservaData.nombre}! 🎉  
+
+  Gracias por elegir *Hiram Inflables* para su evento. Nos complace informarle que su reserva ha sido registrada con éxito.  
+  
+  Para confirmar y autorizar su servicio, por favor revise y acepte el contrato en el siguiente enlace:  
+  👉https://csrtech-studio.github.io/Hiram-Inflables/contrato.html?id=${reservaId}  
+  
+  Es importante completar este paso para garantizar la disponibilidad del equipo en la fecha acordada.  
+  
+  Si tiene alguna pregunta o requiere asistencia, no dude en contactarnos. ¡Será un placer atenderle!  
+  
+  📅 *Nos vemos pronto en su evento.*  
+  🎈 ¡Gracias por confiar en nosotros! 🎈`;
   const urlWhatsApp = `https://wa.me/${reservaData.telefono}?text=${encodeURIComponent(mensaje)}`;
   window.open(urlWhatsApp, '_blank');
   alert("Contrato reenviado.");
@@ -496,7 +508,20 @@ async function cambiarEstadoReserva(reservaId, nuevoEstado, tipoMensaje) {
   let mensaje = '';
 
   if (tipoMensaje === 'aceptado') {
-    mensaje = `¡Hola ${reservaData.nombre}! Inflables Hiram le informa que su reserva ha sido confirmada. Por favor, revisa y acepta el contrato en el siguiente enlace: https://csrtech-studio.github.io/Hiram-Inflables/contrato.html?id=${reservaId}`;
+    mensaje = `¡Hola ${reservaData.nombre}! 🎉  
+
+Gracias por elegir *Hiram Inflables* para su evento. Nos complace informarle que su reserva ha sido registrada con éxito.  
+
+Para confirmar y autorizar su servicio, por favor revise y acepte el contrato en el siguiente enlace:  
+👉https://csrtech-studio.github.io/Hiram-Inflables/contrato.html?id=${reservaId} 
+
+Es importante completar este paso para garantizar la disponibilidad del equipo en la fecha acordada.  
+
+Si tiene alguna pregunta o requiere asistencia, no dude en contactarnos. ¡Será un placer atenderle!  
+
+📅 *Nos vemos pronto en su evento.*  
+🎈 ¡Gracias por confiar en nosotros! 🎈`;
+
   } else if (tipoMensaje === 'rechazado') {
     mensaje = `Estimado/a ${reservaData.nombre},\n\nInflables Hiram lamenta informarle que por el momento no podemos ofrecerle el servicio solicitado.\n\nAtentamente,\nInflables Hiram`;
   }

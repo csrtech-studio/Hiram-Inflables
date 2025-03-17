@@ -1,7 +1,8 @@
-import { auth, db } from "./firebaseConfig.js";
+import { auth,db } from "./firebaseConfig.js";
 import { signInAnonymously, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js";
 import { doc, getDoc, updateDoc } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-firestore.js';
+import { signOut } from "https://www.gstatic.com/firebasejs/9.15.0/firebase-auth.js";
 // Inicia sesión de forma anónima
 signInAnonymously(auth)
   .then(() => {
@@ -30,7 +31,6 @@ function leerReservas() {
       console.error("Error al leer reservas:", error);
     });
 }
-
 
 
 // Obtener el ID de la reserva desde la URL
@@ -64,11 +64,22 @@ function formatearFecha(fechaStr) {
 async function cargarContrato(id) {
   const reservaRef = doc(db, 'reservas', id);
   const reservaDoc = await getDoc(reservaRef);
-
   if (reservaDoc.exists()) {
     const reservaData = reservaDoc.data();
     const horaTermino = calcularFechaTermino(reservaData.hora); // Calcular la hora de término
     const fechaFormateada = formatearFecha(reservaData.fecha);
+
+    // Verificar si la reserva está cancelada
+if (reservaData.estado === 'Cancelado') {
+  alert('❌ No hay un contrato disponible para aceptar. La reserva fue cancelada anteriormente.');
+
+  // Redirigir al index.html después de 3 segundos
+  setTimeout(() => {
+    window.location.href = 'index.html';
+  }, 3000);
+
+  return; // Salir de la función para que no siga ejecutando el código
+}
 
     // Mostrar detalles en el HTML
     document.getElementById('cliente-info').innerHTML = `
@@ -102,41 +113,62 @@ async function cargarContrato(id) {
       // Ocultar los botones de "Aceptar" y "Rechazar"
       document.getElementById('aceptar').style.display = 'none';
       document.getElementById('rechazar').style.display = 'none';
-
+    
       // Mostrar solo el botón de "Descargar PDF"
       document.getElementById('descargar-pdf').style.display = 'block';
     } else {
       // Mostrar los botones de "Aceptar" y "Rechazar"
       document.getElementById('aceptar').style.display = 'block';
       document.getElementById('rechazar').style.display = 'block';
-
+    
       // Ocultar el botón de "Descargar PDF"
       document.getElementById('descargar-pdf').style.display = 'none';
-
+    
       // Aceptar el contrato
       document.getElementById('aceptar').addEventListener('click', async () => {
         try {
           await updateDoc(reservaRef, { estado: 'Autorizado' });
-
+    
           // Esperar a que se genere el PDF
           await generarPDF(reservaData, horaTermino, fechaFormateada);
-
+    
           // Esperar a que se envíe el correo
           await enviarCorreo(reservaData, fechaFormateada, horaTermino);
-
-          alert('Contrato Aceptado. ¡Muchas Gracias! Nos vemos en el evento. Inflables Hiram te desea un Bonito Día');
-
-          // Esperar 3 segundos (3000 milisegundos) antes de recargar la página
+    
+          alert('✅ Contrato Aceptado. ¡Muchas Gracias! Nos vemos en el evento. Inflables Hiram te desea un Bonito Día 🎈');
+    
+          // Esperar 3 segundos antes de recargar la página
           setTimeout(() => {
             location.reload();
-          }, 3000); // Cambia 3000 por el tiempo que desees en milisegundos
+          }, 3000);
         } catch (error) {
           console.error('Error en el proceso:', error);
-          alert('Hubo un problema al procesar la solicitud. Inténtalo de nuevo.');
+          alert('❌ Hubo un problema al procesar la solicitud. Inténtalo de nuevo.');
         }
       });
-
+    
+      // Rechazar el contrato
+      document.getElementById('rechazar').addEventListener('click', async () => {
+        try {
+          await updateDoc(reservaRef, { estado: 'Cancelado' });
+    
+          alert('⚠️ ¡Lamentamos que hayas cancelado tu reserva! 😔\n\nSi en el futuro decides realizar tu evento con nosotros, estaremos encantados de atenderte. No dudes en contactarnos cuando lo necesites. 🎈🎊');
+    
+          // Cerrar sesión anónima en Firebase
+          await signOut(auth);
+    
+          // Ocultar todos los botones para evitar más acciones
+          document.getElementById('aceptar').style.display = 'none';
+          document.getElementById('rechazar').style.display = 'none';
+          document.getElementById('descargar-pdf').style.display = 'none';
+    
+        } catch (error) {
+          console.error('Error al cancelar la reserva:', error);
+          alert('❌ Hubo un problema al cancelar la reserva. Inténtalo de nuevo.');
+        }
+      });
     }
+    
 
     // Descargar el PDF cuando se haga clic en el botón
     document.getElementById('descargar-pdf').addEventListener('click', () => {

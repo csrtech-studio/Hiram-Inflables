@@ -78,13 +78,19 @@ function setupFormularioHandler() {
   });
 }
 
-// Obtiene los datos del formulario (actualizado para incluir municipio)
+// Obtiene los datos del formulario (actualizado para incluir municipio y validar teléfono)
 function obtenerDatosFormulario() {
   const nombre = document.getElementById('nombre').value.trim();
-  const telefono = document.getElementById('telefono').value.trim();
+  let telefono = document.getElementById('telefono').value.replace(/\D/g, ""); // Elimina espacios y caracteres no numéricos
   const fecha = document.getElementById('fecha').value;
   const hora = document.getElementById('hora').value;
-  
+
+  // Validar teléfono (debe ser exactamente 10 dígitos)
+  if (telefono.length !== 10) {
+    alert('El número de teléfono debe tener exactamente 10 dígitos.');
+    return null;
+  }
+
   // Recoger municipio
   const municipioSelect = document.getElementById('municipio').value;
   let municipio = municipioSelect;
@@ -96,7 +102,7 @@ function obtenerDatosFormulario() {
     }
     municipio = municipioPersonalizado;
   }
-  
+
   const direccion = document.getElementById('direccion').value.trim();
 
   if (!nombre || !telefono || !fecha || !hora || !direccion) {
@@ -112,7 +118,7 @@ function enviarMensajeWhatsApp({ nombre, telefono, fecha, hora, municipio, direc
   let mensaje = `*Hola Hiram Inflables, soy ${nombre}.*\n\n`;
   mensaje += `Me gustaría reservar el servicio de renta de inflables para el evento el *${fecha}* a las *${hora}*.\n\n`;
   mensaje += `*Mis datos son los siguientes:*\n`;
-  mensaje += `- *Teléfono:* ${telefono}\n`;
+  mensaje += `- *Teléfono:* ${telefono}\n`; // Ahora está limpio y con 10 dígitos
   mensaje += `- *Municipio:* ${municipio}\n`;
   mensaje += `- *Dirección del evento:* ${direccion}\n`;
 
@@ -129,6 +135,7 @@ function enviarMensajeWhatsApp({ nombre, telefono, fecha, hora, municipio, direc
   const urlWhatsApp = `https://wa.me/+5218117604609?text=${encodeURIComponent(mensaje)}`;
   window.location.href = urlWhatsApp;
 }
+
 
 // Muestra un mensaje emergente en el centro de la pantalla
 function mostrarMensajeEmergente(texto) {
